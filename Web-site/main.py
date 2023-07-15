@@ -1,0 +1,43 @@
+from flask import Flask, request, render_template, make_response
+import json
+
+app = Flask(__name__)
+
+
+coin_and_pay = {"BTC" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"}, 
+                         {"key" : "Alfabank", "name" : "Альфабанк RUB"}, 
+                         {"key" :"Tinkoff", "name" : "Тинькофф RUB"}],
+
+                "ETH" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"}, 
+                         {"key" : "Alfabank", "name" : "Альфабанк RUB"}, 
+                         {"key" :"Uralsib", "name" : "Уралсиб RUB"}]
+                }
+
+json_export_course = {"BTC" : {"Sberbank" : "2950000", "Alfabank" : "3000000", "Tinkoff" : "2900000"}}
+
+@app.route('/', methods = ['GET'])
+def main_page():
+    return make_response(render_template("main.html", seter = coin_and_pay))
+
+@app.route("/contact", methods = ["GET"])
+def contact():
+    return "Hello world!"
+
+@app.route("/reviews", methods = ["GET"])
+def reviews():
+    return "Hello world!"
+
+@app.route("/course", methods = ["GET"])
+def course():
+    return json.dumps(json_export_course)
+
+@app.route("/data", methods = ["GET"])
+def data():
+    return ""
+
+@app.route("/offers", methods = ["GET"])
+def offers():
+    return json.dumps(coin_and_pay)
+
+if __name__ == "__main__":
+    app.run("127.0.0.1", 5010)

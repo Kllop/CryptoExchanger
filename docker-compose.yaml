@@ -1,0 +1,151 @@
+services:
+
+  web-server:
+    image: web-server
+    build:
+      context: ./CryptoWebServer
+      dockerfile: CryptoWeb.dockerfile
+    ports:
+      - "5010:5010"
+    networks:
+      - auto-dr
+    depends_on:
+      - crypto-db
+    restart: always
+
+  market-data:
+    image: web-market-data
+    build:
+      context: ./WebSokectMarketData
+      dockerfile: MarketData.dockerfile
+    ports:
+      - "9000:9000"
+    healthcheck:
+      test: CMD curl --fail http://127.0.0.1:9000/status || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 3
+    networks:
+      - postgres-db
+      - auto-dr
+    depends_on:
+      - crypto-db
+    restart: always
+
+  autorization:
+    image: autorization
+    build:
+      context: ./Authorization
+      dockerfile: Authorization.dockerfile
+    networks:
+      - auto-dr
+      - postgres-db
+    depends_on:
+      - crypto-db 
+    restart: always
+  
+  parser-buy:
+    image: parser
+    build:
+      context: ./CryptoParser
+      dockerfile: Parser.dockerfile
+    ports:
+      - "5001:5001"
+    networks:
+      - postgres-db
+    command: python3 buyMain.py
+    depends_on:
+      - crypto-db
+    restart: always
+
+  parser-sell:
+    image: parser
+    ports:
+      - "5002:5002"
+    networks:
+      - postgres-db
+    command: python3 sellMain.py
+    depends_on:
+      - crypto-db
+    restart: always
+
+  parser-spot:
+    image: parser
+    ports:
+      - "5003:5003"
+    networks:
+      - postgres-db
+    command: python3 spotMain.py
+    depends_on:
+      - crypto-db
+    restart: always
+
+  crypto-db:
+    container_name: postgres_container
+    image: postgresql
+    build:
+      context: ./postgresql
+      dockerfile: db.dockerfile
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=50"
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "effective_cache_size=4GB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=512MB"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "temp_file_limit=10GB"
+      - "-c"
+      - "log_min_duration_statement=200ms"
+      - "-c"
+      - "idle_in_transaction_session_timeout=10s"
+      - "-c"
+      - "lock_timeout=5s"
+      - "-c"
+      - "statement_timeout=60s"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+      - "-c"
+      - "pg_stat_statements.max=10000"
+      - "-c"
+      - "pg_stat_statements.track=all"
+    volumes:
+      - postgres:/opt/foo
+    environment:
+      POSTGRES_DB: crypto
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      PGDATA: /data/postgres
+    ports:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docker -d crypto"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+    networks:
+      - postgres-db
+    restart: unless-stopped
+
+networks:
+  postgres-db:
+    driver: bridge
+  auto-dr:
+    driver: bridge
+
+volumes:
+    postgres:
+
