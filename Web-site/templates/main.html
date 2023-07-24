@@ -9,32 +9,30 @@
             <span style="padding-left: 80px;">Получаете</span>
         </div>
         <div style="padding-top: 20px;">
-            <span style="padding-left: 30px;"><input value = "10000" type="number" step = "any" style="width: 200px; height: 30px; text-align: left;"></span>
-            <span style="padding-left: 105px;"><input type="number" step = "any" style="width: 200px; height: 30px; text-align: left;"></span>
+            <span style="padding-left: 30px;"><input value = "10000" id = "setter_value" type="number" step = "any" style="width: 200px; height: 30px; text-align: left;"></span>
+            <span style="padding-left: 105px;"><input type="number" id = "getter_value" step = "any" style="width: 200px; height: 30px; text-align: left;"></span>
         </div>
         <div style="padding-top: 20px;">
             <sapn style="padding-left: 30px;">
-                <select class="select_bank", id = "setter" style="width: 200px; height: 30px; text-align: center;">
-                </select>
+                <select class="select_bank", id = "setter" style="width: 200px; height: 30px; text-align: center;"></select>
             </sapn>
             <sapn style="padding-left: 105px;">
-                <select class="select_bank", id = "getter" style="width: 200px; height: 30px; text-align: center;">
-                </select>
+                <select class="select_bank", id = "getter" style="width: 200px; height: 30px; text-align: center;"></select>
             </sapn>
         </div>
         <div style="padding-top: 20px;">    
             <span>
-                <div style="padding-left: 30px;"><input type="number" style="width: 200px; height: 30px; text-align: left;"></div>
-                <div style="padding-left: 30px; padding-top: 20px;"><input type="number" style="width: 200px; height: 30px; text-align: left;"></div>
+                <div style="padding-left: 30px;"><input type="text" placeholder="Номер карты отправителя" id= "setter_number" style="width: 200px; height: 30px; text-align: left;"></div>
+                <div style="padding-left: 30px; padding-top: 20px;"><input id = "setter_full_name" type="text" placeholder="ФИО отправителя" style="width: 200px; height: 30px; text-align: left;"></div>
             </span>
         </div>
         <div style="padding-top: 20px;">
-            <span style="padding-left: 30px;"><input type="number" style="width: 200px; height: 30px; text-align: left;"></span>
-            <span style="padding-left: 110px;"><input type="number" style="width: 200px; height: 30px; text-align: left;"></span>
+            <span style="padding-left: 30px;"><input type="email" placeholder="Email" id = "setter_email" style="width: 200px; height: 30px; text-align: left;"></span>
+            <span style="padding-left: 110px;"><input type="text" placeholder="Bitcoin кошелёк" id = "getter_number" style="width: 200px; height: 30px; text-align: left;"></span>
         </div>
-        <div style="padding-top: 20px; padding-left: 190px;"><input type="checkbox">Согласен с политикой AML</div>
+        <div style="padding-top: 20px; padding-left: 190px;"><input type="checkbox" id = "AML_checkbox">Согласен с политикой AML</div>
         <div style="padding-left: 30px; padding-top: 5px;">Нажимая на кнопку "Перейти к оплате", я соглашаюсь с правилами обмена</div>
-        <div style="padding-top: 20px; padding-left: 30px;"><button style="width: 515px; height: 30px; text-align: center; background-color: green;">ОТПРАВИТЬ</button></div>
+        <div style="padding-top: 20px; padding-left: 30px;"><button id="send_buttom" style="width: 515px; height: 30px; text-align: center; background-color: green;">ОТПРАВИТЬ</button></div>
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>

@@ -1,91 +1,22 @@
 services:
 
-  web-server:
-    image: web-server
-    build:
-      context: ./CryptoWebServer
-      dockerfile: CryptoWeb.dockerfile
+  redis-data:
+    image: redis:6.2-alpine
     ports:
-      - "5010:5010"
+      - '6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - redis-data:/data
     networks:
-      - auto-dr
-    depends_on:
-      - crypto-db
+      - redis-net
     restart: always
 
-  market-data:
-    image: web-market-data
-    build:
-      context: ./WebSokectMarketData
-      dockerfile: MarketData.dockerfile
-    ports:
-      - "9000:9000"
-    healthcheck:
-      test: CMD curl --fail http://127.0.0.1:9000/status || exit 1
-      interval: 5s
-      timeout: 10s
-      retries: 3
-    networks:
-      - postgres-db
-      - auto-dr
-    depends_on:
-      - crypto-db
-    restart: always
-
-  autorization:
-    image: autorization
-    build:
-      context: ./Authorization
-      dockerfile: Authorization.dockerfile
-    networks:
-      - auto-dr
-      - postgres-db
-    depends_on:
-      - crypto-db 
-    restart: always
-  
-  parser-buy:
-    image: parser
-    build:
-      context: ./CryptoParser
-      dockerfile: Parser.dockerfile
-    ports:
-      - "5001:5001"
-    networks:
-      - postgres-db
-    command: python3 buyMain.py
-    depends_on:
-      - crypto-db
-    restart: always
-
-  parser-sell:
-    image: parser
-    ports:
-      - "5002:5002"
-    networks:
-      - postgres-db
-    command: python3 sellMain.py
-    depends_on:
-      - crypto-db
-    restart: always
-
-  parser-spot:
-    image: parser
-    ports:
-      - "5003:5003"
-    networks:
-      - postgres-db
-    command: python3 spotMain.py
-    depends_on:
-      - crypto-db
-    restart: always
-
-  crypto-db:
-    container_name: postgres_container
+  postgres-data:
+    container_name: postgres-exchange
     image: postgresql
     build:
-      context: ./postgresql
-      dockerfile: db.dockerfile
+      context: ./Database
+      dockerfile: postgresql.dockerfile
     command:
       - "postgres"
       - "-c"
@@ -137,15 +68,20 @@ services:
           cpus: '2'
           memory: 4G
     networks:
-      - postgres-db
+      - postgres-net
     restart: unless-stopped
 
 networks:
-  postgres-db:
+  postgres-net:
+    driver: bridge
+  redis-net:
     driver: bridge
   auto-dr:
     driver: bridge
 
 volumes:
     postgres:
+      driver : local
+    redis-data:
+      driver : local
 

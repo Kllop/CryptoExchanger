@@ -19,7 +19,67 @@ function UpdateSetterOffers(setterName){
 
 $('#getter').on('change', function () {
   UpdateSetterOffers(this.value)
+  CalculationExchangeRate()
 })
+
+$('#setter').on('change', function () {
+  UpdateSetterOffers(this.value)
+  CalculationExchangeRate()
+})
+
+$('#setter_value').on('change', function () {
+  CalculationExchangeRate()
+})
+
+$('#getter_value').on('change', function () {
+  CalculationCoinRate()
+})
+
+$("#send_buttom").on('click', function () {
+  console.log("Send data")
+  if(CheckAMLPolitic()){SenderOfferData()}
+  else{alert("Примите AML политику")}
+})
+
+function CheckAMLPolitic(){
+  return $("#AML_checkbox").is(":checked")
+}
+
+function SenderOfferData(){
+  const method = "Buy"
+  const setterValue = $("#setter_value").val()
+  const getterValue = $("#getter_value").val()
+  const setterType = $("#setter").val()
+  const getterType = $("#getter").val()
+  const setterNumber = $("#setter_number").val()
+  const setterFullName = $("#setter_full_name").val()
+  const setterEmail = $("#setter_email").val()
+  const getterNumber = $("#getter_number").val()
+
+  $.ajax({
+    url: "/bid",
+    type: "post",
+    dataType: 'json',
+    contentType: "application/json; charset=utf-8",
+    data: JSON.stringify({
+                          method : method, 
+                          setterValue : setterValue, 
+                          getterValue : getterValue,
+                          setterType : setterType,
+                          getterType : getterType,
+                          setterNumber : setterNumber,
+                          setterFullName : setterFullName,
+                          setterEmail : setterEmail,
+                          getterNumber : getterNumber
+                        }),
+    success: function (response) {
+      console.log(response)
+    },
+    error: function (xhr) {
+      console.log("Error load fiat data")
+    }
+  })
+}
 
 function UpdateGetterOffers(){
     $('#getter').empty();
@@ -32,9 +92,23 @@ function UpdateGetterOffers(){
     UpdateSetterOffers(defaultValue)
 }
 
+function CalculationExchangeRate(){
+  var price = ChangeCourse()
+  var value = $("#setter_value").val()
+  $("#getter_value").val(Number((value/price).toFixed(5)))
+}
+
+function CalculationCoinRate(){
+  var price = ChangeCourse()
+  var value = $("#getter_value").val()
+  $("#setter_value").val(Number((price * value).toFixed(0)))
+}
+
 function ChangeCourse(){
-  getter_value = $('#getter').value
-  setter_value = $('#setter').value
+  getter_value = $('#getter').val()
+  setter_value = $('#setter').val()
+  var price = course_data[getter_value][setter_value]
+  return price
 }
 
 
@@ -60,6 +134,7 @@ $.ajax({
     success: function (response) {
       const data = JSON.parse(response);
       course_data = data
+      CalculationExchangeRate()
     },
     error: function (xhr) {
       console.log("Error load course")
@@ -68,4 +143,6 @@ $.ajax({
 }
 
 GetOffers()
+UpdateCourse()
+
 setInterval(UpdateCourse, 15000)

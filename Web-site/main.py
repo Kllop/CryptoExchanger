@@ -13,7 +13,8 @@ coin_and_pay = {"BTC" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"},
                          {"key" :"Uralsib", "name" : "Уралсиб RUB"}]
                 }
 
-json_export_course = {"BTC" : {"Sberbank" : "2950000", "Alfabank" : "3000000", "Tinkoff" : "2900000"}}
+json_export_course = {"BTC" : {"Sberbank" : "2950000", "Alfabank" : "3000000", "Tinkoff" : "2900000"}, 
+                      "ETH" : {"Sberbank" : "185000", "Alfabank" : "187000", "Uralsib" : "186500"}}
 
 @app.route('/', methods = ['GET'])
 def main_page():
@@ -26,6 +27,11 @@ def contact():
 @app.route("/reviews", methods = ["GET"])
 def reviews():
     return "Hello world!"
+
+@app.route("/bid", methods = ["POST"])
+def bid():
+    print(request.json)
+    return "Ok", 200
 
 @app.route("/course", methods = ["GET"])
 def course():
