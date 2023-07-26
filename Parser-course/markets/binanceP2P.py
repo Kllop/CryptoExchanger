@@ -86,18 +86,15 @@ class Binance2P2(MarketP2P):
         return parseData
         #data.append(parseData)
 
-    async def getRequestPayMethods(self, request:dict) -> list:
-        pass
+    async def GetBestPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: str, Filter: int, MinOrders: int, session):
+        data = await self.__get_server_data__(Fiat, Lot, [PaymentMethods], Operation, Filter, 1, 10, session)
+        return self.__parsData__(data, MinOrders)
 
-    def GetBestPrice(self, PaymentMethods: Enum, Fiat: Enum, Lot: Enum, Operation: Enum, Filter: int, MinOrders: int, session):
-        data = self.__get_server_data__(Fiat.name, Lot.name, [PaymentMethods.name], Operation.name, Filter, 1, 10, session)
-        return data#self.__parsData__(data, MinOrders) 
-
-    def GetMyPrice(self, PaymentMethods: Enum, Fiat: Enum, Lot: Enum, Operation: Enum, Filter: int, maxPages: int):
+    def GetMyPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: str, Filter: int, maxPages: int):
         if self.name == '':
             return "0"
         for page in range(1, maxPages):
-            data = self.__get_server_data__(Fiat.name, Lot.name, [PaymentMethods.name], Operation.name, Filter, page, 20)
+            data = self.__get_server_data__(Fiat.name, Lot.name, [PaymentMethods], Operation.name, Filter, page, 20)
             if len(data) == 0:
                 return "0"
             price = self.__findMyPrice__(data)
