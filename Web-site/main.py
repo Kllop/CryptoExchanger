@@ -3,16 +3,6 @@ import json
 
 app = Flask(__name__)
 
-
-coin_and_pay = {"BTC" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"}, 
-                         {"key" : "Alfabank", "name" : "Альфабанк RUB"}, 
-                         {"key" :"Tinkoff", "name" : "Тинькофф RUB"}],
-
-                "ETH" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"}, 
-                         {"key" : "Alfabank", "name" : "Альфабанк RUB"}, 
-                         {"key" :"Uralsib", "name" : "Уралсиб RUB"}]
-                }
-
 json_export_course = {"BTC" : {"Sberbank" : "2950000", "Alfabank" : "3000000", "Tinkoff" : "2900000"}, 
                       "ETH" : {"Sberbank" : "185000", "Alfabank" : "187000", "Uralsib" : "186500"}}
 

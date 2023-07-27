@@ -16,7 +16,7 @@ async def BinanceCourse(preferences):
         async with aiohttp.ClientSession(timeout=session_timeout) as session:
             for preference in preferences:
                 if preference["market"] == "P2P":
-                    data = await binance.GetBestPrice(preference["payMethodExchange"], "RUB", preference["coin"], "BUY", 1000, 1, session)
+                    data = await binance.GetBestPrice(preference["name_exch"], "RUB", preference["coin"], "BUY", 1000, 1, session)
                 elif preference["market"] == "SPOT":
                     data = BinanceSpot()
                 else:

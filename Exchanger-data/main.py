@@ -17,7 +17,7 @@ def payMethods(request):
 @app.websocket("/course")
 def course(request):
     pass
-
+                                
 @app.get("/status")
 def status(request):
     pass

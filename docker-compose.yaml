@@ -81,14 +81,14 @@ services:
     volumes:
       - postgres:/opt/foo
     environment:
-      POSTGRES_DB: crypto
+      POSTGRES_DB: exchange
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
       PGDATA: /data/postgres
     ports:
       - "5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U docker -d crypto"]
+      test: ["CMD-SHELL", "pg_isready -U docker -d exchange"]
       interval: 10s
       timeout: 5s
       retries: 5
