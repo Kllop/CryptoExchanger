@@ -1,7 +1,5 @@
 from markets.market import MarketP2P
-from enum import Enum
 from datetime import datetime
-import asyncio
 import json
 
 
@@ -35,60 +33,23 @@ class Binance2P2(MarketP2P):
             print("{0} Error load data binance".format(datetime.today().strftime('%Y-%m-%d %H:%M:%S')), e, flush=True)
             return {}
         return data
-    
-    def __parsData__(self, data, minOrders):
-        for lot in data:
-            temp = lot['advertiser']
-            if self.name != temp['nickName'] and minOrders <= temp['monthOrderCount']:
-                temp = lot['adv']
-                return temp['price']
-        return "0"
 
-    def __findMyPrice__(self, data):
-        for lot in data:
-            temp = lot['advertiser']
-            if self.name == temp['nickName']:
-                temp = lot['adv']
-                return temp['price']
-        return None
-
-    async def __ParseAllData__(self, data:list) -> list:
-        rdata = []
+    async def __AvgPriceData__(self, data:list) -> list:
+        price = []
         for temp in data:
-            parseData = []
-            for lot in temp:
-                info = {}
-                advertiser = lot['advertiser']
-                adv = lot['adv']
-                info.update({"name" : advertiser['nickName']})
-                info.update({"orders" : advertiser['monthOrderCount']})
-                info.update({"price" : adv['price']})
-                info.update({"finishRate" : advertiser['monthFinishRate']})
-                info.update({"surplusAmount" : adv['surplusAmount']})
-                info.update({"minSingleTransAmount" : adv['minSingleTransAmount']})
-                info.update({"maxSingleTransAmount" : adv['dynamicMaxSingleTransAmount']})
-                parseData.append(info)
-            rdata += parseData
-        return rdata
+            adv = temp['adv']
+            price.append(float(adv['price']))
+        return round(sum(price) / len(price), 2)
     
-    async def GetAllTickets(self, PaymentMethods: Enum, Fiat: Enum, Lot: Enum, Operation: Enum, maxPages: int, session) -> dict:
-        parseData = {}
-        data = []
-        tasks = []
-        for page in range(1, maxPages):
-            tasks.append(asyncio.create_task(self.__get_server_data__(Fiat.name, Lot.name, [PaymentMethods.name], Operation.name, 0, page, 20, session)))
-        temp = await asyncio.gather(*tasks)
-        data = await self.__ParseAllData__(temp)
-        parseData.update({'data': data})
-        parseData.update({'fiat': Fiat.name})
-        parseData.update({'payMethod': PaymentMethods.name})
-        parseData.update({'lot': Lot.name})
-        return parseData
-        #data.append(parseData)
 
     async def GetBestPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: str, Filter: int, MinOrders: int, session):
         data = await self.__get_server_data__(Fiat, Lot, [PaymentMethods], Operation, Filter, 1, 10, session)
-        return self.__parsData__(data, MinOrders)
+        parseData = {}
+        parseData.update({'AVGprice': await self.__AvgPriceData__(data)})
+        parseData.update({'fiat': Fiat})
+        parseData.update({'payMethod': PaymentMethods})
+        parseData.update({'lot': Lot})
+        return parseData
 
     def GetMyPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: str, Filter: int, maxPages: int):
         if self.name == '':

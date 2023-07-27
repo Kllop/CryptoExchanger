@@ -6,7 +6,7 @@ import aiohttp
 class MarketP2P:
 
     def __init__(self, name:str = "", isUseProxy = False, ConnectionTimeout = 5, proxyList = []) -> None:
-        self.__name = name
+        self._name = name
         self._isUseProxy = isUseProxy
         self._ConnectionTimeout = ConnectionTimeout
         if isUseProxy:
