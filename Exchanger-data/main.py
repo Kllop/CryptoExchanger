@@ -4,15 +4,17 @@ from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.encoders import jsonable_encoder
 import uvicorn
 
+from data.direction import Direction
+
 #folders
 from market_course import MarketCouse
 
-app = FastAPI(__name__)
+app = FastAPI()
 marketCourse = MarketCouse()
 
-@app.get("/pay_methods")
-def payMethods(request):
-    pass
+@app.get("/direction")
+def payMethods():
+    return JSONResponse(content=jsonable_encoder(Direction().get_direction()))
 
 @app.websocket("/course")
 def course(request):

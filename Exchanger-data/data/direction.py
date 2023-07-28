@@ -1,7 +1,7 @@
 from Database.db_redis import Redis_DB
 import json
 
-class direction:
+class Direction:
 #"ETH" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"}, 
 #         {"key" : "Alfabank", "name" : "Альфабанк RUB"}, 
 #         {"key" :"Uralsib", "name" : "Уралсиб RUB"}]
@@ -10,14 +10,15 @@ class direction:
     def __init__(self) -> None:
         self.redis_db = Redis_DB()
 
-    def __parsing__(self, data) -> dict:
-        pass
-
     def get_direction(self) -> dict:
-        preference = self.parse_preference(self.redis_db.getValueList("tradepreference"))
+        return self.__parse_preference__(self.redis_db.getValueList("tradepreference"))
 
-    def parse_preference(data:dict) -> dict:
-        outdata = []
-        for temp in data:
-            outdata.append(json.loads(temp))
+    def __parse_preference__(self, data:list) -> dict:
+        outdata = {}
+        for temp in data:        
+            data_dir = json.loads(temp)
+            coin_name = data_dir['coin']
+            if outdata.get(coin_name) == None:
+                outdata.update({coin_name : []})
+            outdata[coin_name].append({data_dir.get("name_des") : data_dir.get("name_ru")})
         return outdata
