@@ -2,6 +2,7 @@ from Database.db_redis import Redis_DB
 import json
 
 class Direction:
+# OUT
 #"ETH" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"}, 
 #         {"key" : "Alfabank", "name" : "Альфабанк RUB"}, 
 #         {"key" :"Uralsib", "name" : "Уралсиб RUB"}]

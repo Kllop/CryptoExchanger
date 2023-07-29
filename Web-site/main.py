@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, make_response
+from requests import request
 import json
 
 app = Flask(__name__)
@@ -8,7 +9,8 @@ json_export_course = {"BTC" : {"Sberbank" : "2950000", "Alfabank" : "3000000", "
 
 @app.route('/', methods = ['GET'])
 def main_page():
-    return make_response(render_template("main.html", seter = coin_and_pay))
+    payMethds = request("GET", "")
+    return make_response(render_template("main.html"))
 
 @app.route("/contact", methods = ["GET"])
 def contact():

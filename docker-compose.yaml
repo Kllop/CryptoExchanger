@@ -1,5 +1,20 @@
 services:
 
+  web-site:
+    container_name: web-exchange
+    image: web-exchanger
+    build:
+      context: ./Exchanger-data
+      dockerfile: exchanger_data.dockerfile
+    ports:
+      - "9000:9000"
+    networks:
+      - redis-net
+    depends_on:
+      - redis-data
+      - postgres-data
+    restart: always
+
   exchanger-data:
     container_name: data-exchange
     image: data-exchanger
