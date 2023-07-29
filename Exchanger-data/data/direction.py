@@ -20,6 +20,7 @@ class Direction:
             data_dir = json.loads(temp)
             coin_name = data_dir['coin']
             if outdata.get(coin_name) == None:
-                outdata.update({coin_name : []})
-            outdata[coin_name].append({data_dir.get("name_des") : data_dir.get("name_ru")})
+                outdata.update({coin_name : {}})
+            temp_data = outdata.get(coin_name)
+            temp_data.update({data_dir.get("name_des") : data_dir.get("name_ru")})
         return outdata

@@ -10,11 +10,11 @@ function UpdateSetterOffers(setterName){
   values = offers_data[setterName]
   if(values == null){return}
   $('#setter').empty();
-  for (let unit of values) {
-    const option1 = $("<option>").attr('value', unit.key).text(unit.name);
+  for (let unit of Object.keys(values)) {
+    const option1 = $("<option>").attr('value', unit).text(values[unit]);
     $('#setter').append(option1);
   }
-  defaultValue = values[0].key
+  defaultValue = "Tinkoff"
   $('#setter').val(defaultValue)
 }
 
