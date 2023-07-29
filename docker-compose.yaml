@@ -4,10 +4,10 @@ services:
     container_name: web-exchange
     image: web-exchanger
     build:
-      context: ./Exchanger-data
-      dockerfile: exchanger_data.dockerfile
+      context: ./Web-site
+      dockerfile: web-site.dockerfile
     ports:
-      - "9000:9000"
+      - "5010:5010"
     networks:
       - redis-net
     depends_on:
@@ -37,7 +37,7 @@ services:
       context: ./Settings
       dockerfile: settings.dockerfile
     ports:
-      - "5010:5010"
+      - "9010:9010"
     networks:
       - redis-net
       - postgres-net
@@ -53,7 +53,7 @@ services:
       context: ./Parser-course
       dockerfile: parser-course.dockerfile
     ports:
-      - "9000"
+      - "9020"
     networks:
       - redis-net
     depends_on:

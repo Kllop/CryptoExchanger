@@ -1,5 +1,6 @@
 
 url = "http://127.0.0.1:5010"
+url_data = "http://127.0.0.1:9000"
 
 offers_data = {}
 course_data = {}
@@ -114,11 +115,11 @@ function ChangeCourse(){
 
 function GetOffers(){
   $.ajax({
-    url: `${url}/offers`,
+    url: `${url_data}/direction`,
     type: "get",
     success: function (response) {
-      const data = JSON.parse(response);
-      offers_data = data
+      //const data = JSON.parse(response);
+      offers_data = response
       UpdateGetterOffers()
     },
     error: function (xhr) {
@@ -129,11 +130,11 @@ function GetOffers(){
 
 function UpdateCourse(){
 $.ajax({
-    url: `${url}/course`,
+    url: `${url_data}/course`,
     type: "get",
     success: function (response) {
-      const data = JSON.parse(response);
-      course_data = data
+      //const data = JSON.parse(response);
+      course_data = response
       CalculationExchangeRate()
     },
     error: function (xhr) {

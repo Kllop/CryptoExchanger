@@ -42,4 +42,4 @@ def setReidsDirection():
 
 if __name__ == "__main__":
     setReidsDirection()
-    app.run("0.0.0.0", port=5010)
+    app.run("0.0.0.0", port=9010)

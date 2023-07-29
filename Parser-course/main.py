@@ -31,7 +31,6 @@ async def start():
     while True:
         preference = parse_preference(redis_db.getValueList("tradepreference"))
         await BinanceCourse(preference)
-        print(redis_db.getValueMapping("binancecourse",), flush=True)
         await asyncio.sleep(15)
 
 def parse_preference(data:dict) -> dict:
