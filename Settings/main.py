@@ -30,6 +30,7 @@ coin_and_pay = {
                 }
 
 def createDirection():
+    postgres_db.DropTable("DirectionPreference")
     postgres_db.ClearTable("DirectionPreference")
     postgres_db.SendDirectoion("BTC", "TinkoffNew", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
     postgres_db.SendDirectoion("ETH", "TinkoffNew", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
@@ -43,5 +44,6 @@ def setReidsDirection():
         redis_db.setValueList("tradepreference", json.dumps(send_data))
 
 if __name__ == "__main__":
+    createDirection()
     setReidsDirection()
     app.run("0.0.0.0", port=9010)

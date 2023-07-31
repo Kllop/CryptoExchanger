@@ -93,7 +93,7 @@ class Postgres_DB():
     def __getDirection__(self, request:str) -> dict:
         connection, cursor = self.__getConnectionAndCursor__()
         if connection == None or cursor == None:
-            return Exception("Error connection database")
+            print("Error connection database", flush=True)
         try:
             cursor.execute(request)
             data = cursor.fetchall()
@@ -127,4 +127,15 @@ class Postgres_DB():
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error truncate table SendDirectoion", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+
+    def DropTable(self, tableName:str) -> None:
+        try:
+            connection, cursor = self.__getConnectionAndCursor__()
+            request = "DROP TABLE {0}".format(tableName)
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error drop table SendDirectoion", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
