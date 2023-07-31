@@ -26,15 +26,15 @@ app.add_middleware(
 marketCourse = MarketCouse()
 
 @app.get("/direction")
-async def payMethods():
+async def payMethods(request: Request):
     return JSONResponse(content=jsonable_encoder(Direction().get_direction()))
 
 @app.get("/course")
-async def course():
+async def course(request: Request):
     return JSONResponse(content=jsonable_encoder(Course().get_course()))
                                 
 @app.get("/status")
-def status(request):
+def status(request: Request):
     pass
 
 if __name__ == "__main__":

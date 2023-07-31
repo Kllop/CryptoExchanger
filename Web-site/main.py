@@ -18,8 +18,11 @@ def reviews():
 @app.route("/bid", methods = ["POST"])
 def bid():
     print(request.json)
-    return "Ok", 200
-
+    jsdata = request.json
+    return make_response(render_template("bid.html", oreder_number = 1, 
+                                         price = 10000, payMethod = "Тинькофф RUB",
+                                         order_pay = "1231232131", order_name = "Алексей К.", number_payMethod = jsdata['setterNumber'], 
+                                         order_count = jsdata['getterValue'], number_getter = jsdata['getterNumber']))
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5010)
