@@ -30,6 +30,8 @@ coin_and_pay = {
                 }
 
 def createDirection():
+    postgres_db.ClearTable("DirectionPreference")
+    postgres_db.SendDirectoion("BTC", "TinkoffNew", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
     postgres_db.SendDirectoion("ETH", "TinkoffNew", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
     postgres_db.SendDirectoion("USDT", "TinkoffNew", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
 

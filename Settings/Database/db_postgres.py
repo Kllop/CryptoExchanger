@@ -111,3 +111,20 @@ class Postgres_DB():
     def GetDirection(self) -> None:
         request = """SELECT * FROM DirectionPreference"""
         return self.__getDirection__(request)
+    
+    def ClearTable(self, tableName:str) -> None:
+        try:
+            if not self.CheckTable(tableName):
+                self.createTableDirectionPreference()
+        except Exception as e:
+            print("Error check table {0}".format(tableName), e, traceback.format_exc(), flush=True)
+            return     
+        try:
+            connection, cursor = self.__getConnectionAndCursor__()
+            request = "TRUNCATE TABLE {0}".format(tableName)
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error truncate table SendDirectoion", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
