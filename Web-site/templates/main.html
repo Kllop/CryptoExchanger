@@ -9,15 +9,17 @@
 <body style="background-color: gray;">
 <header>
     <div class="d-flex align-items-center justify-content-center bg-darker">
-        <div class="container d-flex justify-content-between">
-            <div class="d-flex gap48">
-                <img src="static/img/Logo.svg" alt="JANGO EXCHANGE"/>
+        <div class="container d-flex justify-content-between gap24">
+            <div class="d-flex gap24 flex-wrap">
+                <a href="/">
+                    <img src="static/img/Logo.svg" alt="JANGO EXCHANGE"/>
+                </a>
                 <nav class="d-flex align-items-center">
                     <ul class="d-flex justify-content-between gap28">
-                        <li class="text-nav"><a href="#">Статус заявки</a></li>
-                        <li class="text-nav"><a href="#">Правила обмена</a></li>
-                        <li class="text-nav"><a href="#">FAQ</a></li>
-                        <li class="text-nav"><a href="#">Контакты</a></li>
+                        <li class="text-nav"><a href="/#/bid">Статус заявки</a></li>
+                        <li class="text-nav"><a href="/">Правила обмена</a></li>
+                        <li class="text-nav"><a href="/">FAQ</a></li>
+                        <li class="text-nav"><a href="/">Контакты</a></li>
                     </ul>
                 </nav>
             </div>
@@ -38,7 +40,7 @@
         </div>
     </marquee>
 </header>
-<main>
+<main id="main">
     <section class="form-wrapper bg-dark">
         <h2 class="section-title">
             <img src="static/img/time.png"/>
@@ -61,7 +63,7 @@
                 <div class="d-flex justify-content-between gap64">
                     <div class="d-flex flex-column flex-1 gap28">
                         <input type="text" placeholder="Номер карты" id="setter_number">
-                        <input type="text" placeholder="Telegram" id="setter_email">
+                        <input type="text" placeholder="Telegram" id="setter_telegram">
                     </div>
                     <div class="d-flex flex-1">
                         <select class="select_bank" id="getter1">
@@ -110,7 +112,7 @@
     </section>
 </main>
 <footer>
-    <div class="container d-flex gap64">
+    <div class="container d-flex gap28 flex-wrap">
         <div class="d-flex gap24 align-items-center">
             <div>Email : Jango.Exchange@yandex.ru</div>
             <div>Телефон : +79011572392</div>
@@ -125,7 +127,6 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="static/js/exchange.js"></script>
-<script src="static/js/utils/select.js"></script>
 
 </body>
 </html>
