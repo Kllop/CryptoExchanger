@@ -7,7 +7,6 @@ import uvicorn
 
 from data.direction import Direction
 from data.course import Course
-from data.sendOrder import SendOrder
 
 #folders
 from market_course import MarketCouse
@@ -37,11 +36,6 @@ async def course(request: Request):
 @app.get("/status")
 def status(request: Request):
     pass
-
-@app.post("/bid")
-async def bid(request: Request):
-    resualt = SendOrder().send_order(await request.json())
-    return JSONResponse(content=jsonable_encoder({"resualt" : True}))
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=9000)

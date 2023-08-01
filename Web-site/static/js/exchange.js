@@ -1,14 +1,14 @@
-
 url = "http://127.0.0.1:5010"
 url_data = "http://127.0.0.1:9000"
 
 offers_data = {}
 course_data = {}
 
-
-function UpdateSetterOffers(setterName){
+function UpdateSetterOffers(setterName) {
   values = offers_data[setterName]
-  if(values == null){return}
+  if (values == null) {
+    return
+  }
   $('#setter').empty();
   for (let unit of Object.keys(values)) {
     const option1 = $("<option>").attr('value', unit).text(values[unit]);
@@ -39,75 +39,74 @@ $('#getter_value').on('change', function () {
 
 $("#form-send-bid-data").on('submit', function (event) {
   event.preventDefault();
-  console.log("Send data")
-  if(CheckAMLPolitic()){SenderOfferData()}
-  else{alert("Примите AML политику")}
+  if (CheckAMLPolitic()) {
+    window.location.href = '#/bid';
+  } else {
+    alert("Примите AML политику")
+  }
 })
 
-function CheckAMLPolitic(){
+function CheckAMLPolitic() {
   return $("#AML_checkbox").is(":checked")
 }
 
-function SenderOfferData(){
+function SenderOfferData() {
   const method = "Buy"
   const setterValue = $("#setter_value").val()
   const getterValue = $("#getter_value").val()
   const setterType = $("#setter").val()
   const getterType = $("#getter").val()
   const setterNumber = $("#setter_number").val()
-  const setterFullName = $("#setter_full_name").val()
-  const setterTelegram = $("#setter_email").val()
+  const setterTelegram = $("#setter_telegram").val()
   const getterNumber = $("#getter_number").val()
 
   $.ajax({
-    url: `${url_data}/bid`,
+    url: "/bid",
     type: "post",
-    dataType: 'json',
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify({
-                          method : method, 
-                          setterValue : setterValue, 
-                          getterValue : getterValue,
-                          setterType : setterType,
-                          getterType : getterType,
-                          setterNumber : setterNumber,
-                          setterFullName : setterFullName,
-                          setterTelegram : setterTelegram,
-                          getterNumber : getterNumber
-                        }),
+      method: method,
+      setterValue: setterValue,
+      getterValue: getterValue,
+      setterType: setterType,
+      getterType: getterType,
+      setterNumber: setterNumber,
+      setterTelegram: setterTelegram,
+      getterNumber: getterNumber
+    }),
     success: function (response) {
-      console.log(response)
+      document.getElementById("main").innerHTML = response;
     },
     error: function (xhr) {
-      console.log("Error load fiat data")
+      console.log("Error load fiat data", xhr)
     }
   })
 }
 
-function UpdateGetterOffers(){
-    $('#getter').empty();
-    defaultValue = "BTC"
-    for (let unit of Object.keys(offers_data)) {
-      const option1 = $("<option>").attr('value', unit).text(unit);
-      $('#getter').append(option1);
-    }
-    $('#getter').val(defaultValue)
-    UpdateSetterOffers(defaultValue)
+function UpdateGetterOffers() {
+  $('#getter').empty();
+  defaultValue = "BTC"
+  for (let unit of Object.keys(offers_data)) {
+    const option1 = $("<option>").attr('value', unit).text(unit);
+    $('#getter').append(option1);
+  }
+  $('#getter').val(defaultValue)
+  UpdateSetterOffers(defaultValue)
 }
 
-function CalculationExchangeRate(){
+function CalculationExchangeRate() {
   var price = ChangeCourse()
   var value = $("#setter_value").val()
-  $("#getter_value").val(Number((value/price).toFixed(5)))
+  $("#getter_value").val(Number((value / price).toFixed(5)))
 }
 
-function CalculationCoinRate(){
+function CalculationCoinRate() {
   var price = ChangeCourse()
   var value = $("#getter_value").val()
   $("#setter_value").val(Number((price * value).toFixed(0)))
 }
 
-function ChangeCourse(){
+function ChangeCourse() {
   getter_value = $('#getter').val()
   setter_value = $('#setter').val()
   var price = course_data[getter_value][setter_value]
@@ -115,12 +114,11 @@ function ChangeCourse(){
 }
 
 
-function GetOffers(){
+function GetOffers() {
   $.ajax({
     url: `${url_data}/direction`,
     type: "get",
     success: function (response) {
-      //const data = JSON.parse(response);
       offers_data = response
       UpdateGetterOffers()
     },
@@ -130,12 +128,14 @@ function GetOffers(){
   });
 }
 
-function UpdateCourse(){
-$.ajax({
+function UpdateCourse() {
+  const hash = window.location.hash;
+  if (hash === '#/bid') return;
+
+  $.ajax({
     url: `${url_data}/course`,
     type: "get",
     success: function (response) {
-      //const data = JSON.parse(response);
       course_data = response
       CalculationExchangeRate()
     },
@@ -147,8 +147,33 @@ $.ajax({
 
 GetOffers()
 UpdateCourse()
+init()
 
 setInterval(UpdateCourse, 15000)
+
+window.addEventListener('hashchange', function() {
+ route();
+});
+
+function route() {
+  const hash = window.location.hash;
+  if (hash === '#/bid') {
+    SenderOfferData();
+  }
+}
+
+function init() {
+  route();
+}
+
+$(document).on('click', '#btn-bid-accept', function (event) {
+  alert("Заявка в обработке");
+  event.target.parentElement.style.display = 'none';
+});
+$(document).on('click', '#btn-bid-cancel', function (event) {
+  alert("Заявка отменена");
+  window.location.replace("/");
+});
 
 function updateSelectStyle() {
   $('select').each(function () {
@@ -192,13 +217,11 @@ function updateSelectStyle() {
       $list.find('li.is-selected').removeClass('is-selected');
       $list.find('li[rel="' + $(this).attr('rel') + '"]').addClass('is-selected');
       $list.hide();
-      //console.log($this.val());
     });
 
     $(document).click(function () {
       $styledSelect.removeClass('active');
       $list.hide();
     });
-
   });
 }
