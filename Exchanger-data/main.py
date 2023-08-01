@@ -37,10 +37,5 @@ async def course(request: Request):
 def status(request: Request):
     pass
 
-@app.post("/bid")
-def bid(request: Request):
-    request.cookies.update({"key" : "value"})
-    return JSONResponse(content=jsonable_encoder({"resualt" : True}))
-
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=9000)
