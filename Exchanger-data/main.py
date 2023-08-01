@@ -7,6 +7,7 @@ import uvicorn
 
 from data.direction import Direction
 from data.course import Course
+from data.sendOrder import SendOrder
 
 #folders
 from market_course import MarketCouse
@@ -38,8 +39,8 @@ def status(request: Request):
     pass
 
 @app.post("/bid")
-def bid(request: Request):
-    request.cookies.update({"key" : "value"})
+async def bid(request: Request):
+    resualt = SendOrder().send_order(await request.json())
     return JSONResponse(content=jsonable_encoder({"resualt" : True}))
 
 if __name__ == "__main__":

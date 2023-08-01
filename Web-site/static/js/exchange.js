@@ -56,11 +56,11 @@ function SenderOfferData(){
   const getterType = $("#getter").val()
   const setterNumber = $("#setter_number").val()
   const setterFullName = $("#setter_full_name").val()
-  const setterEmail = $("#setter_email").val()
+  const setterTelegram = $("#setter_email").val()
   const getterNumber = $("#getter_number").val()
 
   $.ajax({
-    url: "/bid",
+    url: `${url_data}/bid`,
     type: "post",
     dataType: 'json',
     contentType: "application/json; charset=utf-8",
@@ -72,7 +72,7 @@ function SenderOfferData(){
                           getterType : getterType,
                           setterNumber : setterNumber,
                           setterFullName : setterFullName,
-                          setterEmail : setterEmail,
+                          setterTelegram : setterTelegram,
                           getterNumber : getterNumber
                         }),
     success: function (response) {
