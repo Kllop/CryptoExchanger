@@ -1,42 +1,131 @@
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-    </head>
-    <body style="background-color: gray;">
-        <div>
-            <span style="padding-left: 100px;">Отдаете</span>
-            <span style="padding-left: 100px;"><button>SWAP</button></span>
-            <span style="padding-left: 80px;">Получаете</span>
-        </div>
-        <div style="padding-top: 20px;">
-            <span style="padding-left: 30px;"><input value = "10000" id = "setter_value" type="number" step = "any" style="width: 200px; height: 30px; text-align: left;"></span>
-            <span style="padding-left: 105px;"><input type="number" id = "getter_value" step = "any" style="width: 200px; height: 30px; text-align: left;"></span>
-        </div>
-        <div style="padding-top: 20px;">
-            <sapn style="padding-left: 30px;">
-                <select class="select_bank", id = "setter" style="width: 200px; height: 30px; text-align: center;"></select>
-            </sapn>
-            <sapn style="padding-left: 105px;">
-                <select class="select_bank", id = "getter" style="width: 200px; height: 30px; text-align: center;"></select>
-            </sapn>
-        </div>
-        <div style="padding-top: 20px;">    
-            <span>
-                <div style="padding-left: 30px;"><input type="text" placeholder="Номер карты отправителя" id= "setter_number" style="width: 200px; height: 30px; text-align: left;"></div>
-                <div style="padding-left: 30px; padding-top: 20px;"><input id = "setter_full_name" type="text" placeholder="ФИО отправителя" style="width: 200px; height: 30px; text-align: left;"></div>
-            </span>
-        </div>
-        <div style="padding-top: 20px;">
-            <span style="padding-left: 30px;"><input type="email" placeholder="Email" id = "setter_email" style="width: 200px; height: 30px; text-align: left;"></span>
-            <span style="padding-left: 110px;"><input type="text" placeholder="Bitcoin кошелёк" id = "getter_number" style="width: 200px; height: 30px; text-align: left;"></span>
-        </div>
-        <div style="padding-top: 20px; padding-left: 190px;"><input type="checkbox" id = "AML_checkbox">Согласен с политикой AML</div>
-        <div style="padding-left: 30px; padding-top: 5px;">Нажимая на кнопку "Перейти к оплате", я соглашаюсь с правилами обмена</div>
-        <div style="padding-top: 20px; padding-left: 30px;"><button id="send_buttom" style="width: 515px; height: 30px; text-align: center; background-color: green;">ОТПРАВИТЬ</button></div>
-        
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-        <script src="static/scripts/exchange.js"></script>
+<html lang="ru">
 
-    </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <title>Jango Exchange</title>
+    <link href="static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body style="background-color: gray;">
+<header>
+    <div class="d-flex align-items-center justify-content-center bg-darker">
+        <div class="container d-flex justify-content-between">
+            <div class="d-flex gap48">
+                <img src="static/img/Logo.svg" alt="JANGO EXCHANGE"/>
+                <nav class="d-flex align-items-center">
+                    <ul class="d-flex justify-content-between gap28">
+                        <li class="text-nav"><a href="#">Статус заявки</a></li>
+                        <li class="text-nav"><a href="#">Правила обмена</a></li>
+                        <li class="text-nav"><a href="#">FAQ</a></li>
+                        <li class="text-nav"><a href="#">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="d-flex justify-content-between align-items-center gap28">
+                <div class="text-nav">Войти</div>
+                <div class="text-nav">Регистрация</div>
+                <div class="text-nav">RU</div>
+            </div>
+        </div>
+    </div>
+    <marquee class="bg-light d-flex justify-content-start align-items-center ">
+        <div class="d-flex gap48">
+            <div>1 BTC = 2,555,555 RUB</div>
+            <div>1 ETH = 174,555 RUB</div>
+            <div>1 BNB = 21,456 RUB</div>
+            <div>1 LTC = 2,232 RUB</div>
+            <div>1 LTC = 2,232 RUB</div>
+        </div>
+    </marquee>
+</header>
+<main>
+    <section class="form-wrapper bg-dark">
+        <h2 class="section-title">
+            <img src="static/img/time.png"/>
+            Работаем круглосуточно
+        </h2>
+        <form class="form" id="form-send-bid-data">
+            <div class="d-flex justify-content-between">
+                <div class="form-header-text">Отдаете</div>
+                <div class="form-header-text">Получаете</div>
+            </div>
+            <div class="form-container-data">
+                <div class="d-flex justify-content-between gap64">
+                    <input value="10000" id="setter_value" type="number" step="any">
+                    <input type="number" id="getter_value" step="any">
+                </div>
+                <div class="d-flex justify-content-between gap64">
+                    <select class="select_bank" id="setter"></select>
+                    <select class="select_bank" id="getter"></select>
+                </div>
+                <div class="d-flex justify-content-between gap64">
+                    <div class="d-flex flex-column flex-1 gap28">
+                        <input type="text" placeholder="Номер карты" id="setter_number">
+                        <input type="text" placeholder="Telegram" id="setter_email">
+                    </div>
+                    <div class="d-flex flex-1">
+                        <select class="select_bank" id="getter1">
+                            <option selected>BTC</option>
+                            <option>BEP 20</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="text" placeholder="Bitcoin кошелёк" id="getter_number">
+            </div>
+
+            <div class="d-flex flex-column gap8">
+                <div class="d-flex align-items-center justify-content-center gap12">
+                    <input type="checkbox" id="AML_checkbox">
+                    <span class="fs-16">Согласен с политикой AML</span>
+                </div>
+                <div class="text-center fs-14">Нажимая на кнопку "Перейти к оплате", я соглашаюсь с правилами обмена
+                </div>
+            </div>
+            <button class="submit" type="submit">Начать обмен</button>
+            <div>
+                <img src="static/img/status-network.png" alt="|||"/>
+                <span class="fs-16">Текущая загруженность сети Bitcoin*</span>
+            </div>
+        </form>
+    </section>
+    <section class="reviews-wrapper bg-light text-center">
+        <h1 class="fs-36 fw-700">Отзывы:</h1>
+        <div class="reviews-box">
+            <div class="reviews-item">
+                <div class="reviews-item__header">Виктория</div>
+                <div class="reviews-item__comment">Всё как всегда быстро и оперативно. Я уже несколько раз переводил
+                    через обменник. Огромное спастбо за оперативность. Всем рекомендую.5+++++.
+                </div>
+                <div class="reviews-item__date">2023-07-10 17:34:25</div>
+            </div>
+            <div class="reviews-item">
+                <div>
+                    <div class="reviews-item__header">Александр</div>
+                    <div class="reviews-item__comment">Отличный сервис! Всё быстро!</div>
+                </div>
+                <div class="reviews-item__date">2023-07-10 17:32:59</div>
+            </div>
+        </div>
+        <button class="reviews-btn">Отзывы</button>
+    </section>
+</main>
+<footer>
+    <div class="container d-flex gap64">
+        <div class="d-flex gap24 align-items-center">
+            <div>Email : Jango.Exchange@yandex.ru</div>
+            <div>Телефон : +79011572392</div>
+        </div>
+        <div class="d-flex gap24 align-items-center">
+            <div><img src="static/img/logo.svg"></div>
+            <div>© 2023 JangoExchange.cc</div>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="static/js/exchange.js"></script>
+<script src="static/js/utils/select.js"></script>
+
+</body>
 </html>

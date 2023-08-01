@@ -6,6 +6,9 @@ services:
     build:
       context: ./Web-site
       dockerfile: web-site.dockerfile
+    environment:
+      FLASK_DEBUG: "on"
+      FLASK_APP: ./main.py
     ports:
       - "5010:5010"
     networks:
@@ -14,6 +17,8 @@ services:
       - redis-data
       - postgres-data
     restart: always
+    volumes:
+      - ./Web-site:/app
 
   exchanger-data:
     container_name: data-exchange
