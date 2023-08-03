@@ -19,16 +19,6 @@ def owner():
 def operator():
     return "Hello"
 
-coin_and_pay = {
-                "BTC" : [{"name_en" : "Sberbank", "name_ru" : "Сбербанк RUB", "percent" : 5.00}, 
-                         {"name_en" : "Alfabank", "name_ru" : "Альфабанк RUB", "percent" : 2.00}, 
-                         {"name_en" :"Tinkoff", "name_ru" : "Тинькофф RUB", "percent" : 3.00}],
-
-                "ETH" : [{"key" : "Sberbank", "name" : "Сбербанк RUB"}, 
-                         {"key" : "Alfabank", "name" : "Альфабанк RUB"}, 
-                         {"key" :"Uralsib", "name" : "Уралсиб RUB"}]
-                }
-
 def createDirection():
     postgres_db.DropTable("DirectionPreference")
     postgres_db.ClearTable("DirectionPreference")

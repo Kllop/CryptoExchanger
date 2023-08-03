@@ -46,6 +46,24 @@ class Postgres_DB():
             return True
         return False
     
+    def GetLastOrderID(self) -> int:
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT MAX(orderid) FROM *;"
+        data = None
+        try:
+            cursor.execute(request)
+            data = cursor.fetchone()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data != None:
+            return 0
+        return data
+    
     def GetStructTable(self, tableName:str) -> str:
         request = """SELECT column_name, column_default, data_type 
                     FROM INFORMATION_SCHEMA.COLUMNS 
@@ -102,8 +120,9 @@ class Postgres_DB():
             return
         try:
             connection, cursor = self.__getConnectionAndCursor__()
-            values = [order_id, date_create, date_change, course, coin, price, count,telegram, pay_method, pay_method_number, wallet, status]
-            request = "INSERT INTO OrdersList VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+            values = [order_id, date_create, date_change, course, coin, price, count, telegram, 
+                      pay_method, pay_method_number, wallet, status]
+            request = "INSERT INTO OrdersList VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
             cursor.execute(request, values)
             connection.commit()
         except Exception as e:

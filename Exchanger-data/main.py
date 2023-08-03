@@ -7,6 +7,7 @@ import uvicorn
 
 from data.direction import Direction
 from data.course import Course
+from data.orders import Orders
 
 #folders
 from market_course import MarketCouse
@@ -24,6 +25,7 @@ app.add_middleware(
 
 
 marketCourse = MarketCouse()
+Orders().RemoveTable()
 
 @app.get("/direction")
 async def payMethods(request: Request):
@@ -36,6 +38,14 @@ async def course(request: Request):
 @app.get("/status")
 def status(request: Request):
     pass
+
+@app.post("/bid")
+async def status(request: Request):
+    jsdata = await request.json()
+    print(jsdata, flush=True)
+    Orders().send_order(jsdata)
+    return JSONResponse(content=jsonable_encoder(jsdata))
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=9000)
