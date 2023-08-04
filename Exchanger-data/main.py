@@ -41,9 +41,8 @@ def status(request: Request):
 @app.post("/bid")
 async def status(request: Request):
     jsdata = await request.json()
-    print(jsdata, flush=True)
-    Orders().send_order(jsdata)
-    return JSONResponse(content=jsonable_encoder(jsdata))
+    data = Orders().send_order(jsdata)
+    return JSONResponse(content=jsonable_encoder(data))
 
 
 if __name__ == "__main__":

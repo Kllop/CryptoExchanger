@@ -19,12 +19,17 @@ def reviews():
 @app.route("/bid", methods = ["POST"])
 def bid():
     responce = requests.post(url = "http://exchanger-data:9000/bid", json=request.json)
-    data = responce.json
-    print(data)
-    return make_response(render_template("bid.html", oreder_number = 1, 
-                                         price = 10000, payMethod = "Тинькофф RUB",
-                                         order_pay = "1231232131", order_name = "Алексей К.", number_payMethod = 312312, 
-                                         order_count = 23123, number_getter = 312321))
+    jsdata = responce.json()
+    if jsdata.get("resualt") == False:
+        return "Errror"
+    order_id = jsdata.get("OrderID")
+    data = jsdata.get("data")
+    responce = make_response(render_template("bid.html", oreder_number = order_id, 
+                                         price = data.get("price"), payMethod = data.get("pay_type"),
+                                         order_pay = data.get("bank_number"), order_name = data.get("bank_owner_name"), number_payMethod = data.get("setter_number"), 
+                                         order_count = data.get("count"), number_getter = data.get("wallet")))
+    responce.set_cookie("OrderID", order_id)
+    return responce
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5010)

@@ -1,5 +1,6 @@
 from Database.db_postgres import Postgres_DB
 from datetime import datetime
+from data.course import Course
 
 class Orders:
 
@@ -8,22 +9,30 @@ class Orders:
 
     def decryptOrderID(self, order_id) -> None:
         return "Hello"
+    
+    def __returnOutDataOrder__(self):
+        pass
+
+    def __oderPriceInfo__(self, coin:str, payMethod:str, price:float):
+        data = Course().get_course()
+        course = data.get(coin).get(payMethod)
+        return course, round(price/course, 8)
 
     def send_order(self, request_data:dict) -> dict:
         order_id = self.__generateOrderId__()
         date_create = self.__dateTimeNow__()
         date_change = self.__dateTimeNow__()
-        course = "127000.20"    
-        coin = request_data['getterType']
         price = float(request_data['setterValue'])
-        count = 1.00
-        telegram = request_data['setterTelegram']
+        coin = request_data['getterType']
         pay_method = request_data['setterType']
+        course, count = self.__oderPriceInfo__(coin, pay_method, price)    
+        telegram = request_data['setterTelegram']
         pay_method_number = request_data['setterNumber']
         wallet = request_data['getterNumber']
         status = "new order"
         self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status)
-        return {"resualt" : True, "OrderID" : order_id, "data" : {}}
+        out_order_id = "Hello"
+        return {"resualt" : True, "OrderID" : out_order_id, "data" : {"price" : price, "bank_name" : "Tinkoff RUB", "bank_number" : "1232132312", "bank_owner_name" : "Алексей К.", "setter_number" : pay_method_number, "pay_type" : pay_method, "count" : count, "wallet" : wallet, "coin" : coin}}
 
     def __generateOrderId__(self) -> int:
         data = self.db.GetLastOrderID()

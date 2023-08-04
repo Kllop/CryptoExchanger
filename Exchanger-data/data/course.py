@@ -19,12 +19,12 @@ class Course:
         self.redis_db = Redis_DB()
 
     def get_course(self) -> dict:
-        return self.parse_course(self.redis_db.getValueList("tradepreference"), self.redis_db.getValueMapping("binancecourse"))
+        return self.__parse_course__(self.redis_db.getValueList("tradepreference"), self.redis_db.getValueMapping("binancecourse"))
     
     def __find_course__(self, name:str, course:dict) -> dict:
         pass
 
-    def parse_course(self, preference:list, course:dict) -> dict:
+    def __parse_course__(self, preference:list, course:dict) -> dict:
         outdata = {}
         for data_pref in preference:
             jsdata = json.loads(data_pref)
