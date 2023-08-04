@@ -26,7 +26,10 @@ class Orders:
         return {"resualt" : True, "OrderID" : order_id, "data" : {}}
 
     def __generateOrderId__(self) -> int:
-        return self.db.GetLastOrderID() + 1
+        data = self.db.GetLastOrderID()
+        if data == None:
+            return 1
+        return data + 1
     
     def __dateTimeNow__(self) -> str:
         return datetime.now().strftime("%d/%m/%Y %H:%M:%S")

@@ -25,7 +25,6 @@ app.add_middleware(
 
 
 marketCourse = MarketCouse()
-Orders().RemoveTable()
 
 @app.get("/direction")
 async def payMethods(request: Request):

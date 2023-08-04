@@ -33,6 +33,10 @@ def setReidsDirection():
         send_data = {"coin" : data[0], "name_exch" : data[1], "name_ru" : data[2], "name_en" : data[3], "name_des" : data[4], "percent" : data [5], "market" : data[6]}
         redis_db.setValueList("tradepreference", json.dumps(send_data))
 
+@app.route("/allorders")
+def allOrders():
+    return postgres_db.GetAllOrders()
+
 if __name__ == "__main__":
     createDirection()
     setReidsDirection()

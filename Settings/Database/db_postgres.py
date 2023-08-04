@@ -46,6 +46,42 @@ class Postgres_DB():
             return True
         return False
     
+    def GetAllOrders(self) -> list:
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT * FROM OrdersList;"
+        try:
+            cursor.execute(request)
+            data = cursor.fetchall()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data == None:
+            return []
+        return data
+    
+    def GetLastOrderID(self) -> int:
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT MAX(orderid) FROM *;"
+        data = None
+        try:
+            cursor.execute(request)
+            data = cursor.fetchone()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data != None:
+            return 0
+        return data
+    
     def GetStructTable(self, tableName:str) -> str:
         request = """SELECT column_name, column_default, data_type 
                     FROM INFORMATION_SCHEMA.COLUMNS 
@@ -70,6 +106,47 @@ class Postgres_DB():
             print("Error create direction preference table", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
 
+    def createTableOrdersList(self) -> None:
+        request = """CREATE TABLE OrdersList (orderid INT NOT NULL,
+                                              datecreate VARCHAR(60) NOT NULL,
+                                              datechange VARCHAR(60) NOT NULL,
+                                              course VARCHAR(30) NOT NULL,
+                                              coin VARCHAR(30) NOT NULL,
+                                              price FLOAT NOT NULL,
+                                              count FLOAT NOT NULL,
+                                              telegram VARCHAR(120) NOT NULL,
+                                              paymethod VARCHAR(30) NOT NULL,
+                                              paymethodnumber VARCHAR(30) NOT NULL,
+                                              wallet VARCHAR(120) NOT NULL,
+                                              status VARCHAR(20) NOT NULL);"""
+        connection, cursor = self.__getConnectionAndCursor__()
+        try:
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error create order list table", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+
+    def SendOrder(self, order_id:str, date_create:str, date_change:str, course:str, coin:str, price:float, 
+                  count:float, telegram:str, pay_method:str, pay_method_number:str, wallet:str, status:str) -> None:
+        try:
+            if not self.CheckTable("OrdersList"):
+                self.createTableOrdersList()
+        except Exception as e:
+            print("Error check table OrdersList", e, traceback.format_exc(), flush=True)
+            return
+        try:
+            connection, cursor = self.__getConnectionAndCursor__()
+            values = [order_id, date_create, date_change, course, coin, price, count, telegram, 
+                      pay_method, pay_method_number, wallet, status]
+            request = "INSERT INTO OrdersList VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+            cursor.execute(request, values)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
 
     def SendDirectoion(self, coin:str, name_exch:str, name_ru:str, name_en:str, name_des:str, percent:float, market:str) -> None:
         try:
@@ -88,7 +165,6 @@ class Postgres_DB():
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
-
 
     def __getDirection__(self, request:str) -> dict:
         connection, cursor = self.__getConnectionAndCursor__()

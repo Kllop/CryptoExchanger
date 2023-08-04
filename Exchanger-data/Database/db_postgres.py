@@ -51,18 +51,19 @@ class Postgres_DB():
         if connection == None or cursor == None:
             print("Error connection database")
             return
-        request = "SELECT MAX(orderid) FROM *;"
+        request = "SELECT MAX(orderid) FROM OrdersList;"
         data = None
         try:
             cursor.execute(request)
             data = cursor.fetchone()
+            print(data, flush=True)
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error check table", flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
-        if data != None:
+        if data == None:
             return 0
-        return data
+        return data[0]
     
     def GetStructTable(self, tableName:str) -> str:
         request = """SELECT column_name, column_default, data_type 
