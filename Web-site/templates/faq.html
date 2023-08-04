@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="../static/css/page-faq.css">{% extends "index.html" %}
+
+{% block head %}
+<link href="static/css/page-faq.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1 class="page-title">Ответы на частые вопросы :</h1>
+    <div>
+        <div class="box-item">
+            <div class="d-flex gap24 align-items-center fs-24 fw-600">
+                <img class="box-item__img" src="static/img/arrow-down.png"/>
+                <div>Сколько требуется времени на выполнение сервисом моей заявки?</div>
+            </div>
+            <ul class="box-item__list">
+                <li>
+                    Обмен выполняется оператором в ручном режиме и занимает от 1 до 10 минут после зачисления платежа по
+                    заявке от клиента.
+                </li>
+            </ul>
+        </div>
+        <div class="box-item">
+            <div class="d-flex gap24 align-items-center fs-24 fw-600">
+                <img class="box-item__img" src="static/img/arrow-down.png"/>
+                <div>Где я могу проверить свой перевод Bitcoin — подтвержден ли мой перевод и сколько подтверждений
+                    сетью уже получил?
+                </div>
+            </div>
+            <ul class="box-item__list">
+                <li>
+                    На сайте www.blockchain.com можно проверить по адресу перевод BTC а так же увидеть количество
+                    подтверждений.
+                </li>
+            </ul>
+        </div>
+        <div class="box-item">
+            <div class="d-flex gap24 align-items-center fs-24 fw-600">
+                <img class="box-item__img" src="static/img/arrow-down.png"/>
+                <div>Сколько времени требуется для подтверждения перевода Bitcoin сетью?</div>
+            </div>
+            <ul class="box-item__list">
+                <li>
+                    Обычно это занимает от 3 до 20 минут в зависимости от нагрузки на сеть Bitcoin. Мы используем
+                    высокую комиссию, поэтому у нас быстрые переводы.
+                </li>
+            </ul>
+        </div>
+        <div class="box-item">
+            <div class="d-flex gap24 align-items-center fs-24 fw-600">
+                <img class="box-item__img" src="static/img/arrow-down.png"/>
+                <div>Где я могу проверить свой перевод Ethereum?</div>
+            </div>
+            <ul class="box-item__list">
+                <li>
+                    На сайте etherscan.io можно по адресу кошелька просмотреть данные переводов не только Ethereum но
+                    так же и некоторых монет — токенов основанных на платформе Ethereum.
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
