@@ -1,17 +1,22 @@
 from Database.db_postgres import Postgres_DB
 from datetime import datetime
 from data.course import Course
+from cryptography.fernet import Fernet
 
 class Orders:
+    secret_key = b'p3guEPuaLDyekB7fIec45Bc_ajqWZFnpfTqBzUjML3c='
 
     def __init__(self) -> None:
         self.db = Postgres_DB("ownerdb", "X$Oi815H%nd*FLyB!9v%", "postgres-data", "5432", "exchange")
+        key = Fernet.generate_key()
+        print(key, flush=True)
+        self.fl = Fernet(key)
 
-    def decryptOrderID(self, order_id) -> None:
-        return "Hello"
+    def decryptOrderID(self, order_id) -> str:
+        return str(hash(order_id))#self.fl.decrypt(str(order_id))
     
-    def __returnOutDataOrder__(self):
-        pass
+    def encryptOrderID(self, order_id) -> int:
+        return hash(order_id)#self.fl.encrypt(str(order_id).encode())
 
     def __oderPriceInfo__(self, coin:str, payMethod:str, price:float):
         data = Course().get_course()
@@ -31,7 +36,8 @@ class Orders:
         wallet = request_data['getterNumber']
         status = "new order"
         self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status)
-        out_order_id = "Hello"
+        out_order_id = self.encryptOrderID(order_id)
+        print(out_order_id, flush=True)
         return {"resualt" : True, "OrderID" : out_order_id, "data" : {"price" : price, "bank_name" : "Tinkoff RUB", "bank_number" : "1232132312", "bank_owner_name" : "Алексей К.", "setter_number" : pay_method_number, "pay_type" : pay_method, "count" : count, "wallet" : wallet, "coin" : coin}}
 
     def __generateOrderId__(self) -> int:
@@ -41,7 +47,7 @@ class Orders:
         return data + 1
     
     def __dateTimeNow__(self) -> str:
-        return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return datetime.now().strftime("%d.%m.%Y %H:%M")
     
     def RemoveTable(self) -> None:
         self.db.DropTable("OrdersList")
