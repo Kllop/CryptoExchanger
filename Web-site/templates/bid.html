@@ -1,34 +1,43 @@
+{% extends "index.html" %}
+
+{% block head %}
+<link href="static/css/page-bid.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
 <section class="section-bid">
-    <div class="bid-container">
-        <div class="bid-header">
-            <div>Номер заявки</div>
-            <div>{{oreder_number}}</div>
+    <div class="bid-header">
+        <div>Номер заявки</div>
+        <div>{{oreder_number}}</div>
+    </div>
+    <div class="bid-wrapper">
+        <div class="bid-line">
+            <div class="bid-label">Отдаете :</div>
+            <div>{{price}} {{payMethod}} на счет {{order_pay}} {{order_name}}</div>
         </div>
-        <div class="bid-wrapper">
-            <div class="bid-line">
-                <div class="bid-label">ОТДАЕТЕ :</div>
-                <div>{{price}} {{payMethod}} на счет {{order_pay}} {{order_name}}</div>
-            </div>
-            <div class="bid-line">
-                <div class="bid-label">Со Счета : </div>
-                <div>{{number_payMethod}}</div>
-            </div>
-            <div class="bid-line">
-                <div class="bid-label">Получаете :</div>
-                <div>{{order_count}}</div>
-            </div>
-            <div class="bid-line">
-                <div class="bid-label">На счет :</div>
-                <div>{{number_getter}}</div>
-            </div>
+        <div class="bid-line">
+            <div class="bid-label">Со Счета :</div>
+            <div>{{number_payMethod}}</div>
         </div>
-        <div class="d-flex flex-column gap8">
-            <p>Время изменения статуса: 19.07.2023, 11:30</p>
-            <p>Статус заявки: Принята, ожидает оплаты клиентом</p>
+        <div class="bid-line">
+            <div class="bid-label">Получаете :</div>
+            <div>{{order_count}}</div>
         </div>
-        <div class="btn-group">
-            <button class="bid__btn bg-light" id="btn-bid-cancel">Отменить заявку</button>
-            <button class="bid__btn bg-green" id="btn-bid-accept">Я оплатил заявку</button>
+        <div class="bid-line">
+            <div class="bid-label">На счет :</div>
+            <div>{{number_getter}}</div>
         </div>
     </div>
+    <div class="d-flex flex-column gap8">
+        <p>Время изменения статуса: 19.07.2023, 11:30</p>
+        <p>Статус заявки: Принята, ожидает оплаты клиентом</p>
+    </div>
+    <div class="btn-group">
+        <button class="bid__btn bg-light" id="btn-bid-cancel">Отменить заявку</button>
+        <button class="bid__btn bg-green" id="btn-bid-accept">Я оплатил заявку</button>
+    </div>
 </section>
+<script src="static/js/bid.js"></script>
+
+{% endblock %}

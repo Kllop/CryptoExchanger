@@ -1,0 +1,79 @@
+<html lang="ru">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <title>Jango Exchange</title>
+    <link href="static/css/index.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    {% block head %}{% endblock %}
+</head>
+
+<body style="background-color: gray;">
+<header>
+    <div class="d-flex align-items-center justify-content-center bg-darker">
+        <div class="container d-flex justify-content-between gap24">
+            <div class="d-flex gap24 flex-wrap">
+                <a href="/">
+                    <img src="static/img/Logo.svg" alt="JANGO EXCHANGE"/>
+                </a>
+                <nav class="d-flex align-items-center">
+                    <ul class="d-flex justify-content-between gap28">
+                        <li class="text-nav"><a href="/my-bids">Мои заявки</a></li>
+                        <li class="text-nav"><a href="/rules">Правила обмена</a></li>
+                        <li class="text-nav"><a href="/faq">FAQ</a></li>
+                        <li class="text-nav"><a href="/contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="d-flex justify-content-between align-items-center gap28">
+                <div class="text-nav">Войти</div>
+                <div class="text-nav">Регистрация</div>
+                <div class="text-nav">RU</div>
+            </div>
+        </div>
+    </div>
+    <marquee class="bg-light d-flex justify-content-start align-items-center ">
+        <div class="d-flex gap48">
+            <div>1 BTC = 2,555,555 RUB</div>
+            <div>1 ETH = 174,555 RUB</div>
+            <div>1 BNB = 21,456 RUB</div>
+            <div>1 LTC = 2,232 RUB</div>
+            <div>1 LTC = 2,232 RUB</div>
+        </div>
+    </marquee>
+</header>
+<main id="main">
+    {% block content %}
+    {% include "main.html" %}
+    {% endblock %}
+</main>
+<footer>
+    <div class="container d-flex gap28 flex-wrap">
+        <div class="d-flex gap24 align-items-center">
+            <div>Email : Jango.Exchange@yandex.ru</div>
+            <div>Телефон : +79011572392</div>
+        </div>
+        <div class="d-flex gap24 align-items-center">
+            <div><img src="static/img/logo.svg"></div>
+            <div>© 2023 JangoExchange.cc</div>
+        </div>
+    </div>
+</footer>
+
+<script>
+  $(document).ready(function () {
+    const path = window.location.pathname;
+    if(path === '/') return;
+    if(path === '/bid') {
+      $("a[href='/my-bids']").addClass('nav-tab--selected');
+      return
+    }
+    $(`a[href="${path}"]`).addClass('nav-tab--selected');
+  })
+</script>
+
+</body>
+</html>
