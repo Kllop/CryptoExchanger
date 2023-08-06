@@ -3,7 +3,7 @@ import redis
 class Redis_DB():
 
     def __init__(self) -> None:
-        self.rc = redis.Redis(host='redis-data', port=6379, decode_responses=True, password='eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81')
+        self.rc = redis.Redis(host='redis-data', port=6500, decode_responses=True, password='eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81')
 
     def setValueMapping(self, key:str, value:dict) -> None:
         self.rc.hset(key, mapping = value)
