@@ -1,7 +1,9 @@
 import {updateSelectStyle} from "./utils/select.js";
 
-var url = "https://jango-exchange.com"
-var url_data = "https://jango-exchange.com"
+
+var isDev = false
+var url = isDev ? "https://jango-exchange.com" : "http://127.0.0.1:5010"
+var url_data = isDev ? "https://jango-exchange.com" : "http://127.0.0.1:9000"
 
 var offers_data = {}
 var course_data = {}

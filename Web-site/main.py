@@ -28,6 +28,8 @@ def contacts():
 @app.route("/bid", methods = ["GET"])
 def bid_page():
     order_id = request.cookies.get("OrderID")
+    if order_id == None:
+        return redirect("/")
     responce = requests.post(url = "http://exchanger-data:9000/order", json={"order_id" : order_id})
     jsdata = responce.json()
     if jsdata.get("resualt") == False:

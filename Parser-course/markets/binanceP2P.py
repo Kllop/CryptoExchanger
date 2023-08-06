@@ -39,7 +39,7 @@ class Binance2P2(MarketP2P):
         for temp in data:
             adv = temp['adv']
             price.append(float(adv['price']))
-        return round(sum(price) / len(price), 2)
+        return round((sum(price) / len(price)) * 1.03, 2) 
     
 
     async def GetBestPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: str, Filter: int, MinOrders: int, session):
