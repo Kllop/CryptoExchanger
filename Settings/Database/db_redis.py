@@ -7,7 +7,7 @@ from redis.commands.search.query import NumericFilter, Query
 class Redis_DB():
 
     def __init__(self) -> None:
-        self.rc = redis.Redis(host='redis-data', port=6500, decode_responses=True, password='eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81')
+        self.rc = redis.Redis(host='redis-data', port=6379, decode_responses=True, password='eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81')
 
     def setValueStr(self, key:str, value:str) -> None:
         self.rc.set(key, value=value)
