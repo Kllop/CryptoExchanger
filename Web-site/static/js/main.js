@@ -1,7 +1,7 @@
 import {updateSelectStyle} from "./utils/select.js";
 
 
-var isDev = false
+var isDev = true
 var url = isDev ? "https://jango-exchange.com" : "http://127.0.0.1:5010"
 var url_data = isDev ? "https://jango-exchange.com" : "http://127.0.0.1:9000"
 
