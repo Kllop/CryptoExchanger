@@ -44,6 +44,11 @@ async def status(request: Request):
     data = Orders().send_order(jsdata)
     return JSONResponse(content=jsonable_encoder(data))
 
+@app.post("/order")
+async def order(request: Request):
+    jsdata = await request.json()
+    data = Orders().getOrder(jsdata['order_id'])
+    return JSONResponse(content=jsonable_encoder(data))
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=9000)

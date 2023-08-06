@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response, jsonify
+from flask import Flask, request, render_template, make_response, jsonify, redirect
 import requests
 import json
 
@@ -10,7 +10,8 @@ def main_page():
 
 @app.route("/my-bids", methods = ["GET"])
 def bids():
-    return make_response(render_template("my-bids.html"))
+    return redirect("bid")
+    #return make_response(render_template("my-bids.html"))
 
 @app.route("/rules", methods = ["GET"])
 def rules():
@@ -26,19 +27,16 @@ def contacts():
 
 @app.route("/bid", methods = ["GET"])
 def bid_page():
-    # запрос на получение заявки
-    # responce = requests.post(url = "http://exchanger-data:9000/bid", json=request.json)
-    # заглушка заявки
-    response = {"resualt" : True, "OrderID" : "Hello", "data" : {"price" : "10000", "bank_name" : "Tinkoff RUB", "bank_number" : "1232132312", "bank_owner_name" : "Алексей К.", "setter_number" : "4276290058654584", "pay_type" : "Тинькофф", "count" : "20", "wallet" : "btcwallet0021", "coin" : "BTC"}}
-    jsdata = response
+    order_id = request.cookies.get("OrderID")
+    responce = requests.post(url = "http://exchanger-data:9000/order", json={"order_id" : order_id})
+    jsdata = responce.json()
     if jsdata.get("resualt") == False:
         return "Errror"
-    order_id = jsdata.get("OrderID")
     data = jsdata.get("data")
-    responce = make_response(render_template("bid.html", oreder_number=order_id,
+    responce = make_response(render_template("bid.html", oreder_number=data.get("orderID"),
                                              price=data.get("price"), payMethod=data.get("pay_type"),
                                              order_pay=data.get("bank_number"), order_name=data.get("bank_owner_name"),
-                                             number_payMethod=data.get("setter_number"),
+                                             number_payMethod=data.get("setter_number"), change_time = data.get("change_time"),
                                              order_count=data.get("count"), number_getter=data.get("wallet")))
     return responce
 
@@ -48,8 +46,7 @@ def bid():
     jsdata = responce.json()
     if jsdata.get("resualt") == False:
         return "Errror"
-    order_id = jsdata.get("OrderID")
-
+    order_id = str(jsdata.get("OrderID"))
     responce = make_response(jsonify({'success': 1}), 201)
     responce.set_cookie("OrderID", order_id)
     return responce

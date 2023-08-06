@@ -65,12 +65,29 @@ class Postgres_DB():
             return 0
         return data[0]
     
+    def getOrderWithOrderID(self, order_id) -> list:
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT * FROM OrdersList WHERE orderid = {0};".format(order_id)
+        data = None
+        try:
+            cursor.execute(request)
+            data = cursor.fetchone()
+            print(data, flush=True)
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        return data
+
     def GetStructTable(self, tableName:str) -> str:
         request = """SELECT column_name, column_default, data_type 
                     FROM INFORMATION_SCHEMA.COLUMNS 
                     WHERE table_name = '{0}';""".format(tableName)
         return request
-
 
     def createTableDirectionPreference(self) -> None:
         request = """CREATE TABLE DirectionPreference (coin VARCHAR(30) NOT NULL,

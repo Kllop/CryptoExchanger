@@ -36,7 +36,7 @@ services:
       - postgres-data
     restart: always
 
-  setting-data:
+  settings-data:
     container_name: settings-exchange
     image: settings-exchange
     build:
@@ -65,7 +65,7 @@ services:
     depends_on:
       - redis-data
       - postgres-data
-      - setting-data
+      - settings-data
     restart: always
 
   redis-data:

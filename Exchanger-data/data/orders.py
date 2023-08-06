@@ -7,12 +7,6 @@ class Orders:
     def __init__(self) -> None:
         self.db = Postgres_DB("ownerdb", "X$Oi815H%nd*FLyB!9v%", "postgres-data", "5432", "exchange")
 
-    def decryptOrderID(self, order_id) -> None:
-        return "Hello"
-    
-    def __returnOutDataOrder__(self):
-        pass
-
     def __oderPriceInfo__(self, coin:str, payMethod:str, price:float):
         data = Course().get_course()
         course = data.get(coin).get(payMethod)
@@ -31,8 +25,7 @@ class Orders:
         wallet = request_data['getterNumber']
         status = "new order"
         self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status)
-        out_order_id = "Hello"
-        return {"resualt" : True, "OrderID" : out_order_id, "data" : {"price" : price, "bank_name" : "Tinkoff RUB", "bank_number" : "2200700834422205", "bank_owner_name" : "Ксения А.", "setter_number" : pay_method_number, "pay_type" : pay_method, "count" : count, "wallet" : wallet, "coin" : coin}}
+        return {"resualt" : True, "OrderID" : order_id}
 
     def __generateOrderId__(self) -> int:
         data = self.db.GetLastOrderID()
@@ -40,6 +33,14 @@ class Orders:
             return 1
         return data + 1
     
+    def getOrder(self, order_id:str) -> dict:
+        data = self.db.getOrderWithOrderID(order_id)
+        if len(data) == 0:
+            return {"resualt" : False, "data" : {}}
+        return {"resualt" : True, "data" : {"orderID" : order_id, "price" : data[5], "bank_number" : "2200700834422205", 
+                                            "bank_owner_name" : "Ксения А.", "setter_number" : data[9], "pay_type" : "Tinkoff RUB", 
+                                            "count" : data[6], "wallet" : data[10], "coin" : data[4], "status" : data[11], "change_time" : data[2]}}
+
     def __dateTimeNow__(self) -> str:
         return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
