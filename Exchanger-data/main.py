@@ -4,13 +4,14 @@ from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import requests
+
+#folders
+from market_course import MarketCouse
 
 from data.direction import Direction
 from data.course import Course
 from data.orders import Orders
-
-#folders
-from market_course import MarketCouse
 
 app = FastAPI()
 origins = ["*"]
@@ -23,8 +24,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 marketCourse = MarketCouse()
+
+class TelegramMessage:
+    
+    def __init__(self) -> None:
+        self.TeleBot = '6163052051:AAHpUAmWaU9Vlf71kyAZ-brg2fet_CUvx0E'
+        self.chatID = '5829831042'
+    
+    def sendMessage(self, message:str):   
+        requests.get("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self.TeleBot, self.chatID, message))
 
 @app.get("/direction")
 async def payMethods(request: Request):
@@ -42,6 +51,7 @@ def status(request: Request):
 async def status(request: Request):
     jsdata = await request.json()
     data = Orders().send_order(jsdata)
+    TelegramMessage().sendMessage("У вас навая заявка")
     return JSONResponse(content=jsonable_encoder(data))
 
 @app.post("/order")
