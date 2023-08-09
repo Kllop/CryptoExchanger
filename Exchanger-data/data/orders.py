@@ -41,6 +41,9 @@ class Orders:
                                             "bank_owner_name" : "Ксения А.", "setter_number" : data[9], "pay_type" : "Tinkoff RUB", 
                                             "count" : data[6], "wallet" : data[10], "coin" : data[4], "status" : data[11], "change_time" : data[2]}}
 
+    def change_status_order(self, order_id:int, new_status:str) -> dict:
+        print(new_status, flush=True)
+
     def __dateTimeNow__(self) -> str:
         return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     

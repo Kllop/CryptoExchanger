@@ -47,6 +47,16 @@ async def course(request: Request):
 def status(request: Request):
     pass
 
+
+##########  LOCAL  #############
+#       payment or cancel      #
+@app.post("/status")
+async def status(request: Request):
+    jsdata = await request.json()
+    data = Orders().change_status_order(jsdata.get("status"), jsdata.get("key"))
+    TelegramMessage().sendMessage("Проверяй оплату")
+    return JSONResponse(content=jsonable_encoder({"resualt" : True, "message" : ""}))
+
 @app.post("/bid")
 async def status(request: Request):
     jsdata = await request.json()

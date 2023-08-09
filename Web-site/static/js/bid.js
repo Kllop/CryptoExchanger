@@ -6,3 +6,17 @@ $(document).on('click', '#btn-bid-cancel', function (event) {
   alert("Заявка отменена");
   window.location.replace("/");
 });
+
+function sendNewStatus(){
+  $.ajax({
+    url: "/status",
+    type: "get",
+    success: function (response) {
+      offers_data = response
+      UpdateGetterOffers()
+    },
+    error: function (xhr) {
+      console.log("Error load offers")
+    }
+  });
+}
