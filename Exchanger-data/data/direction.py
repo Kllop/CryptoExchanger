@@ -13,7 +13,6 @@ class Direction:
 
     def get_direction(self) -> dict:
         data =  self.__parse_preference__(self.redis_db.getValueList("tradepreference"))
-        print(data, flush=True)
         return data
 
     def __parse_preference__(self, data:list) -> dict:
