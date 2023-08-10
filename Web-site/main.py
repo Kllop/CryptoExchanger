@@ -25,13 +25,12 @@ def faq():
 def contacts():
     return make_response(render_template("contacts.html"))
 
-
 @app.route("/status", methods = ["GET"])
 def status():
     order_id = request.cookies.get("OrderID")
     if order_id == None:
         return redirect("/")
-    responce = requests.post(url = "http://exchanger-data:9000/status", json={"key" : order_id, "status" : "payment"})
+    responce = requests.post(url = "http://exchanger-data:9000/status", json={"key" : order_id, "status" : request.args.get("status")})
     return responce.json()
 
 @app.route("/bid", methods = ["GET"])

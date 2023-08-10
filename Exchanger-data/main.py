@@ -53,7 +53,7 @@ def status(request: Request):
 @app.post("/status")
 async def status(request: Request):
     jsdata = await request.json()
-    data = Orders().change_status_order(jsdata.get("status"), jsdata.get("key"))
+    resualt = Orders().change_status_order(jsdata.get("key"), jsdata.get("status"))
     TelegramMessage().sendMessage("Проверяй оплату")
     return JSONResponse(content=jsonable_encoder({"resualt" : True, "message" : ""}))
 
