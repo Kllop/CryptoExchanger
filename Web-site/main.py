@@ -43,11 +43,12 @@ def bid_page():
     if jsdata.get("resualt") == False:
         return "Errror"
     data = jsdata.get("data")
+    isNewStatus = data.get("status") == "new order"
     responce = make_response(render_template("bid.html", oreder_number=data.get("orderID"),
                                              price=data.get("price"), payMethod=data.get("pay_type"),
                                              order_pay=data.get("bank_number"), order_name=data.get("bank_owner_name"),
                                              number_payMethod=data.get("setter_number"), change_time = data.get("change_time"),
-                                             order_count=data.get("count"), number_getter=data.get("wallet")))
+                                             order_count=data.get("count"), number_getter=data.get("wallet"), isNewStatus = isNewStatus))
     return responce
 
 @app.route("/bid", methods = ["POST"])

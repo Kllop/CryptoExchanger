@@ -33,16 +33,23 @@ class Orders:
             return 1
         return data + 1
     
+    def __getPayMethod__(self, Pay_name:str):
+        data = {"Tinkoff"  : {"pay_type" : "Tinkoff RUB", "bank_number" : "2200700834422205", "bank_owner_name" : "Ксения А."},
+                "Alfabank" : {"pay_type" : "Alfabank RUB", "bank_number" : "2200150965819482", "bank_owner_name" : "Богдан Х."}}
+        return data.get(Pay_name)
+    
     def getOrder(self, order_id:str) -> dict:
         data = self.db.getOrderWithOrderID(order_id)
+        pay_data = self.__getPayMethod__(data[8])
+        print(data, flush=True)
         if len(data) == 0:
             return {"resualt" : False, "data" : {}}
-        return {"resualt" : True, "data" : {"orderID" : order_id, "price" : data[5], "bank_number" : "2200700834422205", 
-                                            "bank_owner_name" : "Ксения А.", "setter_number" : data[9], "pay_type" : "Tinkoff RUB", 
+        return {"resualt" : True, "data" : {"orderID" : order_id, "price" : data[5], "bank_number" : pay_data.get("bank_number"), 
+                                            "bank_owner_name" : pay_data.get("bank_owner_name"), "setter_number" : data[9], "pay_type" : pay_data.get("pay_type"), 
                                             "count" : data[6], "wallet" : data[10], "coin" : data[4], "status" : data[11], "change_time" : data[2]}}
 
     def change_status_order(self, order_id:int, new_status:str) -> dict:
-        print(new_status, flush=True)
+        return self.db.ChangeStatusOrder(order_id, new_status)
 
     def __dateTimeNow__(self) -> str:
         return datetime.now().strftime("%d/%m/%Y %H:%M:%S")

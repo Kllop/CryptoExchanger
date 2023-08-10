@@ -54,8 +54,11 @@ def status(request: Request):
 async def status(request: Request):
     jsdata = await request.json()
     resualt = Orders().change_status_order(jsdata.get("key"), jsdata.get("status"))
-    TelegramMessage().sendMessage("Проверяй оплату")
-    return JSONResponse(content=jsonable_encoder({"resualt" : True, "message" : ""}))
+    if jsdata.get("status") == "payment":
+        TelegramMessage().sendMessage("Проверяй оплату")
+    elif jsdata.get("status") == "cancel":
+        TelegramMessage().sendMessage("Ордер был отменен")
+    return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))
 
 @app.post("/bid")
 async def status(request: Request):

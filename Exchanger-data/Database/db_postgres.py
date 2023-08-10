@@ -75,7 +75,6 @@ class Postgres_DB():
         try:
             cursor.execute(request)
             data = cursor.fetchone()
-            print(data, flush=True)
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error check table", flush=True)
@@ -147,6 +146,25 @@ class Postgres_DB():
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
+
+    def ChangeStatusOrder(self, order_id:str, new_status:str) -> bool:
+        try:
+            if not self.CheckTable("OrdersList"):
+                self.createTableDirectionPreference()
+        except Exception as e:
+            print("Error check table OrdersList", e, traceback.format_exc(), flush=True)
+            return False
+        try:
+            connection, cursor = self.__getConnectionAndCursor__()
+            request = "UPDATE OrdersList SET status = '{0}' WHERE orderid = {1};".format(new_status, order_id)
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error update SendDirectoion", e, traceback.format_exc(), flush=True)
+            return False
+        self.__closeConnectionAndCursor__(connection, cursor)
+        return True
 
     def SendDirectoion(self, coin:str, name_exch:str, name_ru:str, name_en:str, name_des:str, percent:float, market:str) -> None:
         try:

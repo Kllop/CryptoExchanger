@@ -33,10 +33,14 @@
         <p>Время изменения статуса: {{change_time}}</p>
         <p>Статус заявки: Принята, ожидает оплаты клиентом</p>
     </div>
-    <div class="btn-group">
-        <button class="bid__btn bg-light" id="btn-bid-cancel">Отменить заявку</button>
-        <button class="bid__btn bg-green" id="btn-bid-accept">Я оплатил заявку</button>
-    </div>
+    {% if isNewStatus: %}
+        <div class="btn-group">
+            <button class="bid__btn bg-light" id="btn-bid-cancel">Отменить заявку</button>
+            <button class="bid__btn bg-green" id="btn-bid-accept">Я оплатил заявку</button>
+        </div>
+    {% else %}
+    {% endif %}
+    
 </section>
 <script src="static/js/bid.js"></script>
 
