@@ -117,7 +117,6 @@ function ChangeCourse() {
   return price
 }
 
-
 function GetOffers() {
   $.ajax({
     url: `${url_data}/direction`,
