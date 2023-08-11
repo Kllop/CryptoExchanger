@@ -55,8 +55,7 @@ async def status(request: Request):
     jsdata = await request.json()
     resualt = Orders().change_status_order(jsdata.get("key"), jsdata.get("status"))
     if jsdata.get("status") == "payment":
-        order_data = Orders().getOrder(jsdata.get("key"))
-        print(order_data, flush=True)
+        order_data = Orders().getOrder(jsdata.get("key")).get("data")
         TelegramMessage().sendMessage("""Покупатель оплатил ордер № {0} на сумму {1} RUB, переведите {2} в 
                                       количестве {3} на адрес {4}""".format(order_data.get("orderID"), order_data.get("price"), 
                                                                             order_data.get("coin"), order_data.get("count"),
