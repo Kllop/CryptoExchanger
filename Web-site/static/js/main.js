@@ -124,6 +124,7 @@ function GetOffers() {
     success: function (response) {
       offers_data = response
       UpdateGetterOffers()
+      UpdateCourse()
     },
     error: function (xhr) {
       console.log("Error load offers")
@@ -149,6 +150,4 @@ function UpdateCourse() {
 }
 
 GetOffers()
-UpdateCourse()
-
 setInterval(UpdateCourse, 15000)
