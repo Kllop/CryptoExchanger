@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, make_response, jsonify, redirect
 import requests
-import json
 
 app = Flask(__name__)
 
@@ -61,6 +60,20 @@ def bid():
     responce = make_response(jsonify({'success': 1}), 201)
     responce.set_cookie("OrderID", order_id)
     return responce
+
+@app.route("/direction", methods = ["GET"])
+def direction():
+    order_id = request.cookies.get("OrderID")
+    if order_id == None:
+        return redirect("/")
+    responce = requests.get(url = "http://exchanger-data:9000/direction")
+    return responce.json()
+
+@app.route("/course", methods = ["GET"])
+def course():
+    responce = requests.get(url = "http://exchanger-data:9000/course")
+    return responce.json()
+
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5010)

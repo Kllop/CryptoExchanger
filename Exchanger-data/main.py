@@ -1,6 +1,6 @@
 #api
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
-from fastapi.responses import PlainTextResponse, JSONResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -35,6 +35,8 @@ class TelegramMessage:
     def sendMessage(self, message:str):   
         requests.get("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self.TeleBot, self.chatID, message))
 
+##########  LOCAL  #############
+
 @app.get("/direction")
 async def payMethods(request: Request):
     return JSONResponse(content=jsonable_encoder(Direction().get_direction()))
@@ -42,13 +44,7 @@ async def payMethods(request: Request):
 @app.get("/course")
 async def course(request: Request):
     return JSONResponse(content=jsonable_encoder(Course().get_course()))
-                                
-@app.get("/status")
-def status(request: Request):
-    pass
 
-
-##########  LOCAL  #############
 #       payment or cancel      #
 @app.post("/status")
 async def status(request: Request):

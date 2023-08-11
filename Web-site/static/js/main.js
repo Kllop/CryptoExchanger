@@ -1,7 +1,7 @@
 import {updateSelectStyle} from "./utils/select.js";
 
 
-var isDev = true
+var isDev = false
 var url = isDev ? "https://jango-exchange.com" : "http://127.0.0.1:5010"
 var url_data = isDev ? "https://jango-exchange.com" : "http://127.0.0.1:9000"
 
@@ -119,7 +119,7 @@ function ChangeCourse() {
 
 function GetOffers() {
   $.ajax({
-    url: `${url_data}/direction`,
+    url: "/direction",
     type: "get",
     success: function (response) {
       offers_data = response
@@ -136,7 +136,7 @@ function UpdateCourse() {
   if (hash === '#/bid') return;
 
   $.ajax({
-    url: `${url_data}/course`,
+    url: "/course",
     type: "get",
     success: function (response) {
       course_data = response

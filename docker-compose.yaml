@@ -24,7 +24,7 @@ services:
       context: ./Exchanger-data
       dockerfile: exchanger_data.dockerfile
     ports:
-      - "9000:9000"
+      - "9000"
     networks:
       - redis-net
       - postgres-net
@@ -40,7 +40,7 @@ services:
       context: ./Settings
       dockerfile: settings.dockerfile
     ports:
-      - "9010:9010"
+      - "9010"
     networks:
       - redis-net
       - postgres-net
