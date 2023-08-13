@@ -6,7 +6,7 @@ class Registraton:
     def __init__(self) -> None:
         pass 
 
-    def reg(self, login:str, password:str, email:str, referal:str) -> bool:
+    def send_registraton(self, login:str, password:str, email:str, referal:str) -> bool:
         password = self.hash_password(password)
 
     def hash_password(self, password):

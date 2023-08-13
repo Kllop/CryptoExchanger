@@ -18,7 +18,7 @@ function UpdateSetterOffers(setterName) {
     const option1 = $("<option>").attr('value', unit).text(values[unit]);
     $('#setter').append(option1);
   }
-  var defaultValue = "Tinkoff"
+  var defaultValue = Object.keys(values)[0]
   $('#setter').val(defaultValue)
   updateSelectStyle();
 }
@@ -96,7 +96,6 @@ function UpdateGetterOffers() {
   var defaultValue = "BTC"
   $('#getter').val(defaultValue)
   UpdateSetterOffers(defaultValue)
-  console.log("Finish payment")
 }
 
 function CalculationExchangeRate() {
@@ -125,6 +124,7 @@ function GetOffers() {
     success: function (response) {
       offers_data = response
       UpdateGetterOffers()
+      setTimeout(UpdateCourse, 100)
     },
     error: function (xhr) {
       console.log("Error load offers")
@@ -150,5 +150,4 @@ function UpdateCourse() {
 }
 
 GetOffers()
-setTimeout(UpdateCourse, 300)
 setInterval(UpdateCourse, 15000)

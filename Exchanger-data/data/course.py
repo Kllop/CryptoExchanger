@@ -35,5 +35,4 @@ class Course:
             course_data = json.loads(course.get(coin_name))
             coin_data.update({jsdata["name_des"] : course_data["AVGprice"]})
             outdata.update({coin_name : coin_data})
-        print(outdata, flush=True)
         return outdata
