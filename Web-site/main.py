@@ -63,9 +63,6 @@ def bid():
 
 @app.route("/direction", methods = ["GET"])
 def direction():
-    order_id = request.cookies.get("OrderID")
-    if order_id == None:
-        return redirect("/")
     responce = requests.get(url = "http://exchanger-data:9000/direction")
     return responce.json()
 

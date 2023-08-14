@@ -12,6 +12,8 @@ from market_course import MarketCouse
 from data.direction import Direction
 from data.course import Course
 from data.orders import Orders
+from data.registraton_user import Registraton
+from data.login_user import Login
 
 app = FastAPI()
 origins = ["*"]
@@ -58,6 +60,18 @@ async def status(request: Request):
     elif jsdata.get("status") == "cancel":
         TelegramMessage().sendMessage("Ордер был отменен")
     return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))
+
+@app.post("/registration")
+async def registration(request: Request):
+    data = await request.json
+    Registraton().send_registraton(data.get("login"), data.get("password"), data.get("email"), data.get("ip"), data.get("referal"))
+    return JSONResponse(content=jsonable_encoder({"resualt" : True, "message" : ""}))
+
+@app.post("/authorization")
+async def authorization(request: Request):
+    data = await request.json
+    outdata = Login().send_login(data.get("login"), data.get("password"), data.get("ip"))
+    return JSONResponse(content=jsonable_encoder(outdata))
 
 @app.post("/bid")
 async def status(request: Request):

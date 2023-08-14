@@ -35,7 +35,10 @@ class Orders:
     
     def __getPayMethod__(self, Pay_name:str):
         data = {"Alfabank" : {"pay_type" : "Alfabank RUB", "bank_number" : "2200150965819482", "bank_owner_name" : "Богдан Х."}}
-        return data.get(Pay_name)
+        outdata = data.get(Pay_name)
+        if outdata == None:
+            return {}
+        return outdata
     
     def getOrder(self, order_id:str) -> dict:
         data = self.db.getOrderWithOrderID(order_id)
