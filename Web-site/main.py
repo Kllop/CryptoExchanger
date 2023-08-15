@@ -7,6 +7,10 @@ app = Flask(__name__)
 def main_page():
     return make_response(render_template("index.html"))
 
+@app.route('/reg', methods = ['GET'])
+def reg():
+    return make_response(render_template("reg.html"))
+
 @app.route("/my-bids", methods = ["GET"])
 def bids():
     return redirect("bid")
@@ -49,6 +53,12 @@ def bid_page():
                                              number_payMethod=data.get("setter_number"), change_time = data.get("change_time"),
                                              order_count=data.get("count"), number_getter=data.get("wallet"), isNewStatus = isNewStatus))
     return responce
+
+@app.route("/authorization", methods = ["POST"])
+def authorization():
+    jsdata = request.json()
+    responce = requests.post(url = "http://exchanger-data:9000/authorization", json={"login" : jsdata.get('login'), "password" : jsdata.get('passowrd'), "ip" : "127.0.0.1"})
+    return responce.json()
 
 @app.route("/bid", methods = ["POST"])
 def bid():

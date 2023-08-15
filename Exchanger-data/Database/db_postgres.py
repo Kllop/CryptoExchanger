@@ -135,7 +135,7 @@ class Postgres_DB():
         if connection == None or cursor == None:
             print("Error connection database")
             return
-        request = "SELECT * FROM UsersData WHERE login = {0};".format(login)
+        request = "SELECT * FROM UsersData WHERE login = '{0}';".format(login)
         data = None
         try:
             cursor.execute(request)

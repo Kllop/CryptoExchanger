@@ -63,13 +63,13 @@ async def status(request: Request):
 
 @app.post("/registration")
 async def registration(request: Request):
-    data = await request.json
+    data = await request.json()
     Registraton().send_registraton(data.get("login"), data.get("password"), data.get("email"), data.get("ip"), data.get("referal"))
     return JSONResponse(content=jsonable_encoder({"resualt" : True, "message" : ""}))
 
 @app.post("/authorization")
 async def authorization(request: Request):
-    data = await request.json
+    data = await request.json()
     outdata = Login().send_login(data.get("login"), data.get("password"), data.get("ip"))
     return JSONResponse(content=jsonable_encoder(outdata))
 
