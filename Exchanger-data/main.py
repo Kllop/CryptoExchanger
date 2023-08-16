@@ -1,6 +1,6 @@
 #api
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -40,6 +40,9 @@ class TelegramMessage:
         requests.get("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self.TeleBot, self.chatID, message))
 
 ##########  LOCAL  #############
+@app.get("/request-exportxml.xml")
+async def request_exportxml(request: Request):
+    return Response(content=Course().get_course_xml(), media_type="application/xml")
 
 @app.get("/direction")
 async def payMethods(request: Request):

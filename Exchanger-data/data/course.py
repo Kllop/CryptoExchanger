@@ -21,9 +21,23 @@ class Course:
     def get_course(self) -> dict:
         return self.__parse_course__(self.redis_db.getValueList("tradepreference"), self.redis_db.getValueMapping("binancecourse"))
     
+    def get_course_xml(self) -> dict:
+        return self.__parse_course_xml__(self.redis_db.getValueList("tradepreference"), self.redis_db.getValueMapping("binancecourse"))
+    
     def __find_course__(self, name:str, course:dict) -> dict:
         pass
 
+    def __parse_course_xml__(self, preference:list, course:dict) -> dict:
+        outdata = """<?xml version="1.0"?><rates>"""
+        for data_pref in preference:
+            jsdata = json.loads(data_pref)
+            coin_name_out = jsdata['coin']
+            bank_name_out = jsdata["name_des"]
+            course_out = json.loads(course.get(coin_name_out))["AVGprice"]
+            outdata += """<item><from>{0}</from><to>{1}</to><in>{2}</in><out>1</out><amount>2</amount><minamount>0.0003</minamount><maxamount>1</maxamount>
+                          </item>""".format(bank_name_out, coin_name_out, course_out)
+        return outdata + "</rates>"
+    
     def __parse_course__(self, preference:list, course:dict) -> dict:
         outdata = {}
         for data_pref in preference:

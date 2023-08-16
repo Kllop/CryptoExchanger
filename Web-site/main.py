@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response, jsonify, redirect, session
+from flask import Flask, request, render_template, make_response, jsonify, redirect, session, Response
 from werkzeug.middleware.proxy_fix import ProxyFix
 import requests
 
@@ -6,8 +6,17 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+@app.after_request
+def add_header(r):
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
+
 @app.route('/', methods = ['GET'])
 def main_page():
+    GetIp()
     code_id = request.args.get('id')
     responce = make_response(render_template("index.html"))
     if code_id != None:
@@ -130,6 +139,10 @@ def course():
     responce = requests.get(url = "http://exchanger-data:9000/course")
     return responce.json()
 
+@app.route("/request-exportxml.xml", methods = ["GET"])
+def request_exportxml():
+    responce = requests.get(url = "http://exchanger-data:9000/request-exportxml.xml")
+    return Response(responce.content, mimetype='text/xml')
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5010)
