@@ -93,18 +93,15 @@ def getReferalCode():
     return out
 
 def GetIp():
-    #ip =  request.environ.get('HTTP_X_REAL_IP', request.remote_addr) 
-    print(request.remote_addr, flush=True)
-    print(request.headers, flush=True)
-    return "ip"
+    return request.remote_addr
 
 @app.route("/registration", methods = ["POST"])
 def registration():
     jsdata = request.json
+    ip = GetIp()
     referal = getReferalCode()
     responce = requests.post(url = "http://exchanger-data:9000/registration", json={"login" : jsdata.get('login'), "password" : jsdata.get('password'),
-                                                                                    "email" : jsdata.get('email'), "referal" : referal, 
-                                                                                    "ip" : "127.0.0.1"})
+                                                                                    "email" : jsdata.get('email'), "referal" : referal, "ip" : ip})
     outdata = responce.json()
     if outdata.get('resualt') == True:
         session['id'] = outdata.get('id')
@@ -113,8 +110,8 @@ def registration():
 @app.route("/authorization", methods = ["POST"])
 def authorization():
     jsdata = request.json
-    responce = requests.post(url = "http://exchanger-data:9000/authorization", json={"login" : jsdata.get('login'), "password" : jsdata.get('password'), 
-                                                                                     "ip" : "127.0.0.1"})
+    ip = GetIp()
+    responce = requests.post(url = "http://exchanger-data:9000/authorization", json={"login" : jsdata.get('login'), "password" : jsdata.get('password'), "ip" : ip})
     outdata = responce.json()
     if outdata.get('resualt') == True:
         session['id'] = outdata.get('id')
