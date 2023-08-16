@@ -95,6 +95,7 @@ def getReferalCode():
 def GetIp():
     #ip =  request.environ.get('HTTP_X_REAL_IP', request.remote_addr) 
     print(request.remote_addr, flush=True)
+    print(request.headers, flush=True)
     return "ip"
 
 @app.route("/registration", methods = ["POST"])
