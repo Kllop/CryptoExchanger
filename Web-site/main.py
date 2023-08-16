@@ -3,7 +3,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import requests
 
 app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.after_request
