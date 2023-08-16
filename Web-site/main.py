@@ -1,20 +1,43 @@
-from flask import Flask, request, render_template, make_response, jsonify, redirect
+from flask import Flask, request, render_template, make_response, jsonify, redirect, session
+from werkzeug.middleware.proxy_fix import ProxyFix
 import requests
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/', methods = ['GET'])
 def main_page():
-    return make_response(render_template("index.html"))
+    code_id = request.args.get('id')
+    responce = make_response(render_template("index.html"))
+    if code_id != None:
+        responce.set_cookie("referal", code_id)
+    return responce
+
+@app.route('/log', methods = ['GET'])
+def log():
+    if session.get('id') != None:
+        print("Login in", flush=True)
+    return make_response(render_template("log.html"))
 
 @app.route('/reg', methods = ['GET'])
 def reg():
+    if session.get('id') != None:
+        print("Registration", flush=True)
     return make_response(render_template("reg.html"))
 
 @app.route("/my-bids", methods = ["GET"])
 def bids():
     return redirect("bid")
     #return make_response(render_template("my-bids.html"))
+
+@app.route("/referal", methods = ["GET"])
+def referal():
+    code_id = session.get('id')
+    if code_id == None:
+        return {}
+    responce = requests.post(url = "http://exchanger-data:9000/referal", json={"id" : code_id})
+    return responce.json()
 
 @app.route("/rules", methods = ["GET"])
 def rules():
@@ -54,11 +77,37 @@ def bid_page():
                                              order_count=data.get("count"), number_getter=data.get("wallet"), isNewStatus = isNewStatus))
     return responce
 
+def getReferalCode():
+    out = request.cookies.get('referal')
+    if out == None:
+        return ""
+    return out
+
+def GetIp():
+    print(request.headers, flush=True)
+    return "127.0.0.1"
+
+@app.route("/registration", methods = ["POST"])
+def registration():
+    jsdata = request.json
+    referal = getReferalCode()
+    responce = requests.post(url = "http://exchanger-data:9000/registration", json={"login" : jsdata.get('login'), "password" : jsdata.get('password'),
+                                                                                    "email" : jsdata.get('email'), "referal" : referal, 
+                                                                                    "ip" : "127.0.0.1"})
+    outdata = responce.json()
+    if outdata.get('resualt') == True:
+        session['id'] = outdata.get('id')
+    return {"resualt" : outdata.get('resualt'), "message" : outdata.get('message')}
+
 @app.route("/authorization", methods = ["POST"])
 def authorization():
-    jsdata = request.json()
-    responce = requests.post(url = "http://exchanger-data:9000/authorization", json={"login" : jsdata.get('login'), "password" : jsdata.get('passowrd'), "ip" : "127.0.0.1"})
-    return responce.json()
+    jsdata = request.json
+    responce = requests.post(url = "http://exchanger-data:9000/authorization", json={"login" : jsdata.get('login'), "password" : jsdata.get('password'), 
+                                                                                     "ip" : "127.0.0.1"})
+    outdata = responce.json()
+    if outdata.get('resualt') == True:
+        session['id'] = outdata.get('id')
+    return {"resualt" : outdata.get('resualt')}
 
 @app.route("/bid", methods = ["POST"])
 def bid():

@@ -27,6 +27,8 @@ app.add_middleware(
 )
 
 marketCourse = MarketCouse()
+#Registraton().db.ClearTable("UsersData")
+#Registraton().send_registraton_admin('admin', '100699', 'admin@gmail.com', '127.0.0.1','')
 
 class TelegramMessage:
     
@@ -64,13 +66,37 @@ async def status(request: Request):
 @app.post("/registration")
 async def registration(request: Request):
     data = await request.json()
-    Registraton().send_registraton(data.get("login"), data.get("password"), data.get("email"), data.get("ip"), data.get("referal"))
-    return JSONResponse(content=jsonable_encoder({"resualt" : True, "message" : ""}))
+    login = data.get("login")
+    password = data.get("password")
+    ip = data.get("ip")
+    email = data.get("email")
+    if login == None or password == None or ip == None or email == None:
+        print("Error not attribute login, password, ip", flush=True)
+        return JSONResponse(content=jsonable_encoder({'resualt' : False, "message" : "Registraton error, has not attribute"}))
+    outdata = Registraton().send_registraton_user(data.get("login"), data.get("password"), data.get("email"), data.get("ip"), data.get("referal"))
+    print(outdata, flush=True)
+    return JSONResponse(content=jsonable_encoder(outdata))
+
+@app.post("/referal")
+async def referal(request: Request):
+    data = await request.json()
+    code_id = data.get("id")
+    if code_id == None:
+        return {"resualt" : False, "referal" : ""}
+    outdata = Login().referal_code(code_id)
+    return JSONResponse(content=jsonable_encoder(outdata)) 
 
 @app.post("/authorization")
 async def authorization(request: Request):
     data = await request.json()
-    outdata = Login().send_login(data.get("login"), data.get("password"), data.get("ip"))
+    login = data.get("login")
+    password = data.get("password")
+    ip = data.get("ip")
+    if login == None or password == None or ip == None:
+        print("Error not attribute login, password, ip", flush=True)
+        return JSONResponse(content=jsonable_encoder({"resualt" : False, "id" : ""}))
+    outdata = Login().send_login(login, password, ip)
+    print(outdata, flush=True)
     return JSONResponse(content=jsonable_encoder(outdata))
 
 @app.post("/bid")

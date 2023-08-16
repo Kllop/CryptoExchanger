@@ -90,13 +90,17 @@ class Postgres_DB():
 
     def createTableUser(self) -> None:
         request = """CREATE TABLE UsersData (login VARCHAR(30) NOT NULL,
-                                                       password VARCHAR(30) NOT NULL,
-                                                       email VARCHAR(30) NOT NULL,
+                                                       password VARCHAR(256) NOT NULL,
+                                                       email VARCHAR(60) NOT NULL,
                                                        datereg VARCHAR(30) NOT NULL,
                                                        datelast VARCHAR(30) NOT NULL,
                                                        ip VARCHAR(30) NOT NULL,
                                                        referal VARCHAR(30) NOT NULL,
-                                                       personalsale FLOAT NOT NULL);"""
+                                                       referalcode VARCHAR(256) NOT NULL,
+                                                       permision VARCHAR(20) NOT NULL,
+                                                       referalpercent FLOAT NOT NULL,
+                                                       personalsale FLOAT NOT NULL,
+                                                       id VARCHAR(256) NOT NULL);"""
         connection, cursor = self.__getConnectionAndCursor__()
         try:
             cursor.execute(request)
@@ -106,7 +110,8 @@ class Postgres_DB():
             print("Error create direction preference table", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
     
-    def createUser(self, login:str, passowrd:str, email:str, datereg:str, datelast:str, ip:str, referal:str, personal:float) -> None:
+    def createUser(self, login:str, passowrd:str, email:str, datereg:str, datelast:str, ip:str, referal:str, referal_code:str, permision:str, 
+                   referalpercent:str, personal:float, id_code:str) -> None:
         try:
             if not self.CheckTable("UsersData"):
                 self.createTableUser()
@@ -115,14 +120,64 @@ class Postgres_DB():
             return
         try:
             connection, cursor = self.__getConnectionAndCursor__()
-            values = [login, passowrd, email, datereg, datelast, ip, referal, personal]
-            request = "INSERT INTO UsersData VALUES(%s, %s, %s, %s, %s, %s, %s, %s);"
+            values = [login, passowrd, email, datereg, datelast, ip, referal, referal_code, permision, referalpercent, personal, id_code]
+            request = "INSERT INTO UsersData VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
             cursor.execute(request, values)
             connection.commit()
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error execute request UsersData", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
+
+    def GetFreeUserData(self, login:str, email:str) -> tuple:
+        try:
+            if not self.CheckTable("UsersData"):
+                self.createTableUser()
+        except Exception as e:
+            print("Error check table OrdersList", e, traceback.format_exc(), flush=True)
+            return
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT * FROM UsersData WHERE login = '{0}' OR email = '{1}';".format(login, email)
+        data = []
+        try:
+            cursor.execute(request)
+            data = cursor.fetchall()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data == None:
+            return []
+        return data
+    
+    def GetReferalCodeUserData(self, code_id:str) -> tuple:
+        try:
+            if not self.CheckTable("UsersData"):
+                self.createTableUser()
+        except Exception as e:
+            print("Error check table OrdersList", e, traceback.format_exc(), flush=True)
+            return
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT referalcode FROM UsersData WHERE id = '{0}';".format(code_id)
+        data = []
+        try:
+            cursor.execute(request)
+            data = cursor.fetchone()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return ""
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data == None:
+            return ""
+        return data[0]
 
     def GetUserData(self, login:str) -> tuple:
         try:
