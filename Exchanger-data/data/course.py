@@ -34,7 +34,7 @@ class Course:
             coin_name_out = jsdata['coin']
             bank_name_out = jsdata["name_des"]
             course_out = json.loads(course.get(coin_name_out))["AVGprice"]
-            outdata += """<item><from>{0}</from><to>{1}</to><in>{2}</in><out>1</out><amount>2</amount><minamount>0.0003</minamount><maxamount>1</maxamount>
+            outdata += """<item><from>ACRUB</from><to>{1}</to><in>{2}</in><out>1</out><amount>2</amount><minamount>3000</minamount><maxamount>1000000</maxamount>
                           </item>""".format(bank_name_out, coin_name_out, course_out)
         return outdata + "</rates>"
     
