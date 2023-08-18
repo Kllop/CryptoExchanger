@@ -101,3 +101,72 @@ input[type="checkbox"] {
     margin: 30px 0;
     box-sizing: border-box;
 }
+
+.modal-window {
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    height: 100vh;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    transition: all .18s ease-in-out;
+    visibility: hidden;
+    opacity: 0;
+    overflow-y: auto;
+
+    padding: 44px 48px 48px 48px;
+    width: 560px;
+    box-sizing: border-box;
+    border-radius: 40px;
+    background-color: var(--form-bg);
+    filter: drop-shadow(0px 2px 3px rgba(255, 255, 255, 0.25));
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.modal-window--center {
+    left: calc(50vw + 200px);
+    top: calc(50vh - 180px);
+    height: fit-content;
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+}
+
+.modal-window__backdrop {
+    position: fixed;
+    z-index: 110;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-bg-dark);
+    opacity: .8;
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    transform: translate(-380px, 0%);
+    opacity: 1;
+    visibility: visible;
+}
+
+.auth-btn {
+    width: 100%;
+    margin: 10px auto auto;
+    max-width: 320px;
+    border-radius: 10px;
+    background-color: var(--green);
+    font-size: 20px;
+    font-weight: 500;
+    color: #FFFFFF;
+    height: 54px;
+    border: none;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+

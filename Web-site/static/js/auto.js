@@ -1,14 +1,16 @@
-$("#submitLog").click(function(){
-    const login = $("#login").val()
-    const password = $("#password").val()
+$("#submitLog").on("submit", function(event){
+    event.preventDefault()
+    const login = $("#log-login").val()
+    const password = $("#log-password").val()
     console.log(login, password)
     LoginIn(login, password)
 });
 
-$("#submitReg").click(function(){
-  const login = $("#login").val()
-  const password = $("#password").val()
-  const email = $("#email").val()
+$("#submitReg").on("submit", function(event){
+  event.preventDefault()
+  const login = $("#reg-login").val()
+  const password = $("#reg-password").val()
+  const email = $("#reg-email").val()
   console.log(login, password, email)
   Registration(login, password, email)
 });
