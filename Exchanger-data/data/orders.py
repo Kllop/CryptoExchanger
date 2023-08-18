@@ -24,7 +24,9 @@ class Orders:
         pay_method_number = request_data['setterNumber']
         wallet = request_data['getterNumber']
         status = "new order"
-        self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status)
+        referal = request_data['referal']
+        owner = request_data['owner']
+        self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status, referal, owner)
         return {"resualt" : True, "OrderID" : order_id}
 
     def __generateOrderId__(self) -> int:

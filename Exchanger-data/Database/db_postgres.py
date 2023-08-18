@@ -231,7 +231,9 @@ class Postgres_DB():
                                               paymethod VARCHAR(30) NOT NULL,
                                               paymethodnumber VARCHAR(30) NOT NULL,
                                               wallet VARCHAR(120) NOT NULL,
-                                              status VARCHAR(20) NOT NULL);"""
+                                              status VARCHAR(20) NOT NULL),
+                                              referal VARCHAR(256) NOT NULL,
+                                              owner VARCHAR(256) NOT NULL;"""
         connection, cursor = self.__getConnectionAndCursor__()
         try:
             cursor.execute(request)
@@ -241,8 +243,8 @@ class Postgres_DB():
             print("Error create order list table", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
 
-    def SendOrder(self, order_id:str, date_create:str, date_change:str, course:str, coin:str, price:float, 
-                  count:float, telegram:str, pay_method:str, pay_method_number:str, wallet:str, status:str) -> None:
+    def SendOrder(self, order_id:str, date_create:str, date_change:str, course:str, coin:str, price:float, count:float, 
+                  telegram:str, pay_method:str, pay_method_number:str, wallet:str, status:str, referal:str, owner:str) -> None:
         try:
             if not self.CheckTable("OrdersList"):
                 self.createTableOrdersList()
@@ -252,8 +254,8 @@ class Postgres_DB():
         try:
             connection, cursor = self.__getConnectionAndCursor__()
             values = [order_id, date_create, date_change, course, coin, price, count, telegram, 
-                      pay_method, pay_method_number, wallet, status]
-            request = "INSERT INTO OrdersList VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+                      pay_method, pay_method_number, wallet, status, referal, owner]
+            request = "INSERT INTO OrdersList VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
             cursor.execute(request, values)
             connection.commit()
         except Exception as e:
