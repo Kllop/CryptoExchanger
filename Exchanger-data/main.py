@@ -27,7 +27,8 @@ app.add_middleware(
 )
 
 marketCourse = MarketCouse()
-#Registraton().db.ClearTable("UsersData")
+Registraton().db.DropTable("UsersData")
+Registraton().db.DropTable("OrdersList")
 #Registraton().send_registraton_admin('admin', '100699', 'admin@gmail.com', '127.0.0.1','')
 
 class TelegramMessage:
@@ -59,9 +60,9 @@ async def status(request: Request):
     resualt = Orders().change_status_order(jsdata.get("key"), jsdata.get("status"))
     if jsdata.get("status") == "payment":
         order_data = Orders().getOrder(jsdata.get("key")).get("data")
-        TelegramMessage().sendMessage("""Покупатель оплатил ордер № {0} на сумму {1} RUB, переведите {2} в количестве {3} на адрес {4}""".format(order_data.get("orderID"), order_data.get("price"), 
-                                                                                                                                                 order_data.get("coin"), order_data.get("count"),
-                                                                                                                                                 order_data.get("wallet")))
+        TelegramMessage().sendMessage("""Покупатель оплатил ордер № {0} {1} на сумму {2} RUB, переведите {3} в количестве {4} на адрес {5} **********************\ntelegram : {6}, курс {7}""".format(
+            order_data.get("orderID"), order_data.get("pay_type"), order_data.get("price"), order_data.get("coin"), order_data.get("count"), 
+            order_data.get("wallet"), order_data.get("telegram"), order_data.get("course")))
     elif jsdata.get("status") == "cancel":
         TelegramMessage().sendMessage("Ордер был отменен")
     return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))

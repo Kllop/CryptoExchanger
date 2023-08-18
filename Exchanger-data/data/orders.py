@@ -26,6 +26,8 @@ class Orders:
         status = "new order"
         referal = request_data['referal']
         owner = request_data['owner']
+        if owner != None:
+            referal = self.db.GetReferalUserData(owner)
         self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status, referal, owner)
         return {"resualt" : True, "OrderID" : order_id}
 
@@ -48,9 +50,9 @@ class Orders:
         print(data, flush=True)
         if len(data) == 0:
             return {"resualt" : False, "data" : {}}
-        return {"resualt" : True, "data" : {"orderID" : order_id, "price" : data[5], "bank_number" : pay_data.get("bank_number"), 
-                                            "bank_owner_name" : pay_data.get("bank_owner_name"), "setter_number" : data[9], "pay_type" : pay_data.get("pay_type"), 
-                                            "count" : data[6], "wallet" : data[10], "coin" : data[4], "status" : data[11], "change_time" : data[2]}}
+        return {"resualt" : True, "data" : {"orderID" : order_id, "price" : data[5], "bank_number" : pay_data.get("bank_number"), "bank_owner_name" : 
+                                            pay_data.get("bank_owner_name"), "setter_number" : data[9], "pay_type" : pay_data.get("pay_type"), "count" : data[6], 
+                                            "wallet" : data[10], "coin" : data[4], "status" : data[11], "change_time" : data[2], "course" : data[3], "telegram" : data[7] }}
 
     def change_status_order(self, order_id:int, new_status:str) -> dict:
         return self.db.ChangeStatusOrder(order_id, new_status)

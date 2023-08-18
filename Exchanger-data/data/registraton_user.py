@@ -18,15 +18,14 @@ class Registraton:
     def send_registraton_admin(self, login:str, password:str, email:str, ip:str, referal:str) -> dict:
         return self.__sendRegistraton__(login, password, email, ip, referal, "ADMIN")
     
-    def __sendRegistraton__(self, login:str, password:str, email:str, ip:str, referal:str, permision:str) -> dict:
-        check = self.__checkFreeSlot__(login, email)
-        print(check.get('resualt'), flush=True)
-        if check.get('resualt') == True:
-            password = self.__hashPassword__(password)
-            referalcode = self.__hashPassword__(login)
-            code_id = self.__randomWords__(password, login)
+    def __sendRegistraton__(self, in_login:str, in_password:str, email:str, ip:str, referal:str, permision:str) -> dict:
+        check = self.__checkFreeSlot__(in_login, email)
+        if check.get('resualt') == True:   
+            password = self.__hashPassword__(in_password)
+            referalcode = self.__hashPassword__(in_login)
+            code_id = self.__hashId__(in_password, in_login)
             date = self.__dateTimeNow__()
-            self.db.createUser(login, password, email, date, date, ip, referal, referalcode, permision, '0', 0, code_id)
+            self.db.createUser(in_login, password, email, date, date, ip, referal, referalcode, permision, '0', 0, code_id)
             return {"resualt" : True, "message": "", "id" : code_id}
         return {"resualt" : False, "message" : check.get("message"), "id" : ""}
 
@@ -54,4 +53,4 @@ class Registraton:
         for i, word in enumerate(map(list, words)):
             random.shuffle(word)
             words[i] = ''.join(word)
-        return words
+        return words[0]

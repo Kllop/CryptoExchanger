@@ -95,6 +95,12 @@ def getReferalCode():
 def GetIp():
     return request.remote_addr
 
+def GetId():
+    outdata = session.get('id')
+    if outdata == None:
+        return ""
+    return outdata
+
 @app.route("/registration", methods = ["POST"])
 def registration():
     jsdata = request.json
@@ -119,7 +125,11 @@ def authorization():
 
 @app.route("/bid", methods = ["POST"])
 def bid():
-    responce = requests.post(url = "http://exchanger-data:9000/bid", json=request.json)
+    jsdata = request.json
+    owner = GetId()
+    referal = getReferalCode()
+    jsdata.update({"owner" : owner, "referal" : referal})
+    responce = requests.post(url = "http://exchanger-data:9000/bid", json=jsdata)
     jsdata = responce.json()
     if jsdata.get("resualt") == False:
         return "Errror"

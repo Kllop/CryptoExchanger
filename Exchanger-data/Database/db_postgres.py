@@ -95,7 +95,7 @@ class Postgres_DB():
                                                        datereg VARCHAR(30) NOT NULL,
                                                        datelast VARCHAR(30) NOT NULL,
                                                        ip VARCHAR(30) NOT NULL,
-                                                       referal VARCHAR(30) NOT NULL,
+                                                       referal VARCHAR(256) NOT NULL,
                                                        referalcode VARCHAR(256) NOT NULL,
                                                        permision VARCHAR(20) NOT NULL,
                                                        referalpercent FLOAT NOT NULL,
@@ -153,6 +153,31 @@ class Postgres_DB():
         if data == None:
             return []
         return data
+    
+    def GetReferalUserData(self, code_id:str) -> tuple:
+        try:
+            if not self.CheckTable("UsersData"):
+                self.createTableUser()
+        except Exception as e:
+            print("Error check table OrdersList", e, traceback.format_exc(), flush=True)
+            return
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT referal FROM UsersData WHERE id = '{0}';".format(code_id)
+        data = []
+        try:
+            cursor.execute(request)
+            data = cursor.fetchone()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return ""
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data == None:
+            return ""
+        return data[0]
     
     def GetReferalCodeUserData(self, code_id:str) -> tuple:
         try:
@@ -231,9 +256,9 @@ class Postgres_DB():
                                               paymethod VARCHAR(30) NOT NULL,
                                               paymethodnumber VARCHAR(30) NOT NULL,
                                               wallet VARCHAR(120) NOT NULL,
-                                              status VARCHAR(20) NOT NULL),
+                                              status VARCHAR(20) NOT NULL,
                                               referal VARCHAR(256) NOT NULL,
-                                              owner VARCHAR(256) NOT NULL;"""
+                                              owner VARCHAR(256) NOT NULL);"""
         connection, cursor = self.__getConnectionAndCursor__()
         try:
             cursor.execute(request)
