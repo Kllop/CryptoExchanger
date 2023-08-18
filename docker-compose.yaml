@@ -40,7 +40,7 @@ services:
       context: ./Settings
       dockerfile: settings.dockerfile
     ports:
-      - "9010:9010"
+      - "9010"
     networks:
       - redis-net
       - postgres-net
