@@ -14,7 +14,7 @@
 
 <body style="background-color: gray;">
 <header>
-    <div class="d-flex align-items-center justify-content-center bg-darker">
+    <div class="d-flex align-items-center justify-content-center bg-darker header-panel">
         <div class="container d-flex justify-content-between gap24">
             <div class="d-flex gap24 flex-wrap">
                 <a href="/">
@@ -30,8 +30,9 @@
                 </nav>
             </div>
             <div class="d-flex justify-content-between align-items-center gap28">
-                <div class="text-nav js-modal" data-modal="#modal-login">Войти</div>
-                <div class="text-nav js-modal" data-modal="#modal-registration">Регистрация</div>
+                <div class="text-nav js-modal pointer" data-modal="#modal-login" id="header-link-login" style="display: none">Войти</div>
+                <div class="text-nav js-modal special-btn" data-modal="#modal-registration" id="header-link-reg" style="display: none">Регистрация</div>
+                <div class="text-nav js-modal pointer special-btn" id="header-link-exit" style="display: none">Выход</div>
                 <div class="text-nav">RU</div>
             </div>
         </div>
@@ -46,17 +47,17 @@
 <div id="modal-login" class="modal-window--center modal-window">
     <h2 class="fs-24 fw-600">Авторизация</h2>
     <form class="d-flex gap24 flex-column" id="submitLog">
-        <input id="log-login" type="text" placeholder="Логин" required>
-        <input id="log-password" type="text" placeholder="Пароль" required>
+        <input id="log-login" type="text" minlength="3" placeholder="Логин" required>
+        <input id="log-password" type="password" placeholder="Пароль" required autocomplete="on">
         <button type="submit"  class="auth-btn">Авторизоваться</button>
     </form>
 </div>
 <div id="modal-registration" class="modal-window--center modal-window">
     <h2 class="fs-24 fw-600">Регистрация</h2>
     <form class="d-flex gap24 flex-column" id="submitReg">
-        <input id="reg-login" type="text" placeholder="Логин" required>
-        <input id="reg-email" type="text" placeholder="Email" required>
-        <input id="reg-password" type="text" placeholder="Пароль" required>
+        <input id="reg-login" type="text" minlength="3" placeholder="Логин" required>
+        <input id="reg-email" type="email" placeholder="Email" required>
+        <input id="reg-password" type="password" minlength="6" placeholder="Пароль" required autocomplete="on">
         <button type="submit" class="auth-btn">Зарегистрироваться</button>
     </form>
 </div>
@@ -79,7 +80,6 @@
 </footer>
 
 <script src="static/js/index.js"></script>
-<script src="static/js/auto.js"></script>
 <script type="module" src="static/js/modal.js"></script>
 
 </body>
