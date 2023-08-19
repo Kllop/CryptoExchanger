@@ -11,7 +11,7 @@ redis_db = Redis_DB()
 
 async def BinanceCourse(preferences):
     try:
-        binance = Binance2P2("", False, 5, proxyListMarketP2PRUB)
+        binance = Binance2P2("", True, 5, proxyListMarketP2PRUB)
         session_timeout = aiohttp.ClientTimeout(total=None,sock_connect=40,sock_read=40)
         async with aiohttp.ClientSession(timeout=session_timeout) as session:
             for preference in preferences:
@@ -21,6 +21,8 @@ async def BinanceCourse(preferences):
                     data = BinanceSpot()
                 else:
                     data = {}
+                if len(data) == 0:
+                    continue
                 redis_db.setValueMapping("binancecourse", {preference["coin"] : json.dumps(data)})
     except ConnectionError as e:
         print("Error connection", flush=True)

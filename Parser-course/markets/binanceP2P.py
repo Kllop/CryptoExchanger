@@ -36,17 +36,22 @@ class Binance2P2(MarketP2P):
 
     async def __AvgPriceData__(self, data:list) -> list:
         price = []
-        print(data, flush=True)
+        if len(data) == 0:
+            return 0
         for temp in data:
             adv = temp['adv']
             price.append(float(adv['price']))
+            print(price, flush=True)
         return round((sum(price) / len(price)) * 1.05, 2) 
     
 
     async def GetBestPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: str, Filter: int, MinOrders: int, session):
         data = await self.__get_server_data__(Fiat, Lot, [PaymentMethods], Operation, Filter, 1, 10, session)
         parseData = {}
-        parseData.update({'AVGprice': await self.__AvgPriceData__(data)})
+        price = await self.__AvgPriceData__(data)
+        if price == 0:
+            return {}
+        parseData.update({'AVGprice': price})
         parseData.update({'fiat': Fiat})
         parseData.update({'payMethod': PaymentMethods})
         parseData.update({'lot': Lot})
