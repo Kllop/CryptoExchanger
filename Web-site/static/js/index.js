@@ -43,7 +43,6 @@ $("#submitLog").on("submit", function(event){
   event.preventDefault()
   const login = $("#log-login").val()
   const password = $("#log-password").val()
-  console.log(login, password)
   LoginIn(login, password)
 });
 
@@ -52,7 +51,6 @@ $("#submitReg").on("submit", function(event){
   const login = $("#reg-login").val()
   const password = $("#reg-password").val()
   const email = $("#reg-email").val()
-  console.log(login, password, email)
   Registration(login, password, email)
 });
 
@@ -63,6 +61,7 @@ function Registration(login, password, email) {
     contentType: "application/json; charset=utf-8",
     data : JSON.stringify({login : login, password : password, email : email}),
     success: function (response) {
+      if(response['resualt'] == false){alert(response['message']); return}
       localStorage.setItem(IS_LOGIN_FLAG, 'true')
       hideNavByIsLogin();
     },
@@ -82,6 +81,7 @@ function LoginIn(login, password) {
     contentType: "application/json; charset=utf-8",
     data : JSON.stringify({login : login, password : password}),
     success: function (response) {
+      if(response['resualt'] == false){alert("Логин и пароль неверный"); return}
       localStorage.setItem(IS_LOGIN_FLAG, 'true')
       hideNavByIsLogin();
     },

@@ -29,4 +29,5 @@ class Login:
         code_id = data[11]
         if resualt == True:
             print("user login in {0}, ip {1}".format(login, ip))
-        return {"resualt" : resualt, "id" : code_id}
+            return {"resualt" : resualt, "id" : code_id}
+        return {"resualt" : False, "id" : ""}
