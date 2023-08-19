@@ -36,6 +36,7 @@ class Binance2P2(MarketP2P):
 
     async def __AvgPriceData__(self, data:list) -> list:
         price = []
+        print(data, flush=True)
         for temp in data:
             adv = temp['adv']
             price.append(float(adv['price']))
