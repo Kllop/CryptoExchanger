@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, make_response, jsonify, redirect, session, Response
 from werkzeug.middleware.proxy_fix import ProxyFix
 import requests
+import datetime
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2)
@@ -16,11 +17,12 @@ def add_header(r):
 
 @app.route('/', methods = ['GET'])
 def main_page():
-    GetIp()
     code_id = request.args.get('id')
     responce = make_response(render_template("index.html"))
     if code_id != None:
-        responce.set_cookie("referal", code_id)
+        expire_date = datetime.datetime.now()
+        expire_date = expire_date + datetime.timedelta(days=365)
+        responce.set_cookie("referal", code_id, expires=expire_date)
     return responce
 
 @app.route('/log', methods = ['GET'])
