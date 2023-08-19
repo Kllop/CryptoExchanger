@@ -41,7 +41,6 @@ class Binance2P2(MarketP2P):
         for temp in data:
             adv = temp['adv']
             price.append(float(adv['price']))
-            print(price, flush=True)
         return round((sum(price) / len(price)) * 1.05, 2) 
     
 
