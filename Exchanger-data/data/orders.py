@@ -38,8 +38,8 @@ class Orders:
         return data + 1
     
     def __getPayMethod__(self, Pay_name:str):
-        data = {"Alfabank" : {"pay_type" : "Alfabank RUB", "bank_number" : "2200150965819482", "bank_owner_name" : "Богдан Х."},
-                "Tinkoff"  : {"pay_type" : "Tinkoff RUB", "bank_number" : "2200700885124924", "bank_owner_name" : "Анастасия М."}}
+        data = {"Raiffeisen" : {"pay_type" : "Raiffeisen RUB", "bank_number" : "2200300518082464", "bank_owner_name" : "Чуев И."},
+                "Homecredit"  : {"pay_type" : "Homecredit RUB", "bank_number" : "2200500111416445", "bank_owner_name" : "Рустам З."}}
         outdata = data.get(Pay_name)
         if outdata == None:
             return {}
