@@ -55,15 +55,3 @@ class Binance2P2(MarketP2P):
         parseData.update({'payMethod': PaymentMethods})
         parseData.update({'lot': Lot})
         return parseData
-
-    def GetMyPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: str, Filter: int, maxPages: int):
-        if self.name == '':
-            return "0"
-        for page in range(1, maxPages):
-            data = self.__get_server_data__(Fiat.name, Lot.name, [PaymentMethods], Operation.name, Filter, page, 20)
-            if len(data) == 0:
-                return "0"
-            price = self.__findMyPrice__(data)
-            if price != None:
-                return price
-        return "0"

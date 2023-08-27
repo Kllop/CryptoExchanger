@@ -17,7 +17,7 @@ class Direction:
 
     def __parse_preference__(self, data:list) -> dict:
         outdata = {}
-        for temp in data:        
+        for temp in data:      
             data_dir = json.loads(temp)
             coin_name = data_dir['coin']
             if outdata.get(coin_name) == None:

@@ -4,7 +4,7 @@ import aiohttp
 import json
 #folder
 from Database.db_redis import Redis_DB
-from markets import Binance2P2, BinanceSpot
+from markets import Binance2P2, BinanceSpot, ByBit2P2
 from proxy.proxyList import proxyListMarketP2PRUB
 
 redis_db = Redis_DB()
@@ -29,10 +29,25 @@ async def BinanceCourse(preferences):
     except Exception as e:
         print(e, flush=True)
 
+async def ByBitCourse(preferences):
+    try:
+        bybit = ByBit2P2("", True, 5, proxyListMarketP2PRUB)
+        session_timeout = aiohttp.ClientTimeout(total=None,sock_connect=40,sock_read=40)
+        async with aiohttp.ClientSession(timeout=session_timeout) as session:
+            for preference in preferences:
+                data = await bybit.GetBestPrice(preference["name_exch"], "RUB", preference["coin"], "1", session, preference['name_des'])
+                if len(data) == 0:
+                    continue
+                redis_db.setValueMapping("binancecourse", {preference["coin"] : json.dumps(data)})
+    except ConnectionError as e:
+        print("Error connection", flush=True)
+    except Exception as e:
+        print(e, flush=True)
+
 async def start():
     while True:
         preference = parse_preference(redis_db.getValueList("tradepreference"))
-        await BinanceCourse(preference)
+        await ByBitCourse(preference)
         await asyncio.sleep(15)
 
 def parse_preference(data:dict) -> dict:

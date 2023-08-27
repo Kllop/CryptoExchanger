@@ -22,12 +22,14 @@ def operator():
 def createDirection():
     #postgres_db.DropTable("DirectionPreference")
     postgres_db.ClearTable("DirectionPreference")
-    postgres_db.SendDirectoion("BTC", "RaiffeisenBank", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P")
-    postgres_db.SendDirectoion("BTC", "HomeCreditBank", "Хомкредит RUB", "Homecredit RUB", "Homecredit", 5.00, "P2P")
-    postgres_db.SendDirectoion("ETH", "RaiffeisenBank", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P")
-    postgres_db.SendDirectoion("ETH", "HomeCreditBank", "Хомкредит RUB", "Homecredit RUB", "Homecredit", 5.00, "P2P")
-    postgres_db.SendDirectoion("USDT", "RaiffeisenBank", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P")
-    postgres_db.SendDirectoion("USDT", "HomeCreditBank", "Хомкредит RUB", "Homecredit RUB", "Homecredit", 5.00, "P2P")
+    
+    postgres_db.SendDirectoion("BTC", "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P")
+    postgres_db.SendDirectoion("ETH", "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P")
+    postgres_db.SendDirectoion("USDT", "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P")
+
+    postgres_db.SendDirectoion("BTC", "64", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P")
+    postgres_db.SendDirectoion("ETH", "64", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P")
+    postgres_db.SendDirectoion("USDT", "64", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P")
 
 def setReidsDirection():
     postgre_data = postgres_db.GetDirection()
