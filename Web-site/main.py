@@ -42,7 +42,6 @@ def bids():
     return redirect("bid")
     #return make_response(render_template("my-bids.html"))
 
-@app.route("/referal", methods = ["GET"])
 def referal():
     code_id = session.get('id')
     if code_id == None:
@@ -72,7 +71,8 @@ def account_bids():
 
 @app.route("/account-referral", methods = ["POST"])
 def account_referral():
-    return make_response(render_template("referral.html"))
+    data = referal()
+    return make_response(render_template("referral.html", referal_code = data.get('referal')))
 
 @app.route("/account-security", methods = ["POST"])
 def account_security():

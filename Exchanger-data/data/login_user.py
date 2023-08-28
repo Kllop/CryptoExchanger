@@ -16,7 +16,7 @@ class Login:
         referal = self.db.GetReferalCodeUserData(code_id)
         if referal == "":
             return {"resualt" : False, "referal" : ""}
-        return {"resualt" : True, "referal" : url + "?id=" + referal}
+        return {"resualt" : True, "referal" : url + "?ref=" + referal}
     
     def __findLogin__(self, login:str) -> list:
         return self.db.GetUserData(login)
