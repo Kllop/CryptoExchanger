@@ -45,24 +45,9 @@
         </div>
     </marquee>
 </header>
-<div id="modal-backdrop" class="modal-window__backdrop hidden"></div>
-<div id="modal-login" class="modal-window--center modal-window">
-    <h2 class="fs-24 fw-600">Авторизация</h2>
-    <form class="d-flex gap24 flex-column" id="submitLog">
-        <input id="log-login" type="text" minlength="3" placeholder="Логин" required>
-        <input id="log-password" type="password" placeholder="Пароль" required autocomplete="on">
-        <button type="submit" class="auth-btn">Авторизоваться</button>
-    </form>
-</div>
-<div id="modal-registration" class="modal-window--center modal-window">
-    <h2 class="fs-24 fw-600">Регистрация</h2>
-    <form class="d-flex gap24 flex-column" id="submitReg">
-        <input id="reg-login" type="text" minlength="3" placeholder="Логин" required>
-        <input id="reg-email" type="email" placeholder="Email" required>
-        <input id="reg-password" type="password" minlength="6" placeholder="Пароль" required autocomplete="on">
-        <button type="submit" class="auth-btn">Зарегистрироваться</button>
-    </form>
-</div>
+{% block modals %}
+{% include "_modals.html" %}
+{% endblock %}
 <main id="main">
     {% block content %}
     {% include "main.html" %}
