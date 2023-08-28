@@ -62,6 +62,34 @@ def faq():
 def contacts():
     return make_response(render_template("contacts.html"))
 
+@app.route("/account", methods = ["GET"])
+def account():
+    return make_response(render_template("account.html"))
+
+@app.route("/account-bids", methods = ["POST"])
+def account_bids():
+    return make_response(render_template("bids.html"))
+
+@app.route("/account-referral", methods = ["POST"])
+def account_referral():
+    return make_response(render_template("referral.html"))
+
+@app.route("/account-security", methods = ["POST"])
+def account_security():
+    return make_response(render_template("security.html"))
+
+@app.route("/account-referral-referrals", methods = ["POST"])
+def account_referrals():
+    return make_response(render_template("referrals.html"))
+
+@app.route("/account-referral-charges", methods = ["POST"])
+def account_charges():
+    return make_response(render_template("charges.html"))
+
+@app.route("/account-referral-withdrawal", methods = ["POST"])
+def account_withdrawal():
+    return make_response(render_template("withdrawal.html"))
+
 @app.route("/status", methods = ["GET"])
 def status():
     order_id = request.cookies.get("OrderID")

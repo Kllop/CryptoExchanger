@@ -15,10 +15,12 @@ function hideNavByIsLogin() {
   if(isLogin) {
     $("#header-link-login").hide();
     $("#header-link-reg").hide();
+    $("#header-link-lc").show();
     $("#header-link-exit").show();
   } else {
     $("#header-link-login").show();
     $("#header-link-reg").show();
+    $("#header-link-lc").hide();
     $("#header-link-exit").hide();
   }
 }

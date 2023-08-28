@@ -1,0 +1,34 @@
+<div>
+    <h1 class="section-title">Зарабатывайте с нами</h1>
+    <p class="article bg-black fs-16 text-center">
+        Расскажите о нас, делитесь Вашей индивидуальной ссылкой с друзьями, знакомыми, размещайте наш рекламный материал
+        на Ваших сайтах, и получайте проценты с обменных операций приведённых пользователей.
+    </p>
+    <p class="article">Ваша ссылка для приглашения знакомых</p>
+    <p class="article bg-black">
+        https://jango-exchange.com/?id=7dcb39fcb253b8b8b7cd8006a558924297667faedeb8cf1e87752cf6d2c631a5:d9684ef8152044f79272536366d9b4b4
+    </p>
+    <nav class="nav-menu" style="margin: 60px 0 30px">
+        <ul class="nav-list">
+            <li class="nav-list__item nav-list__item--active" data-referral-url="account-referral-referrals">Рефералы</li>
+            <li class="nav-list__item" data-referral-url="account-referral-charges">Начисления</li>
+            <li class="nav-list__item" data-referral-url="account-referral-withdrawal">Заявки на вывод</li>
+        </ul>
+    </nav>
+    <div id="account-referral-content">
+        {% include "referrals.html" %}
+    </div>
+    <h1 class="section-title">Вывести вознаграждение</h1>
+    <div class="d-flex flex-column gap24">
+        <select>
+            <option>Альфабанк RUB</option>
+            <option>Сбербанк RUB</option>
+            <option>Тинькофф RUB</option>
+        </select>
+        <input type="number">
+        <input type="number">
+    <button class="auth-btn" id="btn-bid-accept" style="margin: 32px auto">Вывести средства</button>
+    </div>
+</div>
+
+<script src="static/js/account-referral.js"></script>
