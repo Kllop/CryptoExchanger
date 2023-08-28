@@ -81,13 +81,22 @@ async def registration(request: Request):
     print(outdata, flush=True)
     return JSONResponse(content=jsonable_encoder(outdata))
 
-@app.post("/referal")
+@app.post("/referalcode")
 async def referal(request: Request):
     data = await request.json()
     code_id = data.get("id")
     if code_id == None:
         return {"resualt" : False, "referal" : ""}
     outdata = Login().referal_code(code_id)
+    return JSONResponse(content=jsonable_encoder(outdata))
+
+@app.post("/referalbid")
+async def referal(request: Request):
+    data = await request.json()
+    code_id = data.get("id")
+    if code_id == None:
+        return {"resualt" : False, "data" : []}
+    outdata = Login().referal_bid(code_id)
     return JSONResponse(content=jsonable_encoder(outdata)) 
 
 @app.post("/authorization")

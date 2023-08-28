@@ -18,6 +18,14 @@ class Login:
             return {"resualt" : False, "referal" : ""}
         return {"resualt" : True, "referal" : url + "?ref=" + referal}
     
+    def referal_bid(self, code_id:str) -> str:
+        referal = self.db.GetReferalCodeUserData(code_id)
+        referal_bid = self.db.GetReferalBid(referal)
+        outdata = []
+        for bid in referal_bid:
+            outdata.append({'coin' : bid[4], 'summ' : bid[5], 'ref_summ' : bid[5] * 0.05})
+        return {"resualt" : bool(len(outdata)), "data" : outdata}
+    
     def __findLogin__(self, login:str) -> list:
         return self.db.GetUserData(login)
 

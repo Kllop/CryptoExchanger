@@ -129,6 +129,31 @@ class Postgres_DB():
             print("Error execute request UsersData", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
 
+    def GetReferalBid(self, referal_code:str) -> tuple:
+        try:
+            if not self.CheckTable("UsersData"):
+                self.createTableUser()
+        except Exception as e:
+            print("Error check table OrdersList", e, traceback.format_exc(), flush=True)
+            return
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT * FROM OrdersList WHERE referal = '{0}' AND status = 'payment';".format(referal_code)
+        data = []
+        try:
+            cursor.execute(request)
+            data = cursor.fetchall()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data == None:
+            return []
+        return data
+
     def GetFreeUserData(self, login:str, email:str) -> tuple:
         try:
             if not self.CheckTable("UsersData"):

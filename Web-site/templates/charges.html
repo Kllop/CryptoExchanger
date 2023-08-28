@@ -5,20 +5,12 @@
             <div>Сумма</div>
             <div>Получено</div>
         </li>
+        {% for bid in referal_bid %}
         <li class="d-flex justify-content-evenly row">
-            <div>BTC</div>
-            <div>30,000 RUB</div>
-            <div>150 RUB</div>
+            <div>bid['coin']</div>
+            <div>bid['summ'] RUB</div>
+            <div>bid['ref_summ'] RUB</div>
         </li>
-        <li class="d-flex justify-content-evenly row">
-            <div>BTC</div>
-            <div>30,000 RUB</div>
-            <div>150 RUB</div>
-        </li>
-        <li class="d-flex justify-content-evenly row">
-            <div>BTC</div>
-            <div>30,000 RUB</div>
-            <div>150 RUB</div>
-        </li>
+        {% endfor %}
     </ul>
 </div>
