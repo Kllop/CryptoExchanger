@@ -108,7 +108,8 @@ def account_referrals():
 
 @app.route("/account-referral-charges", methods = ["POST"])
 def account_charges():
-    return make_response(render_template("charges.html"))
+    data = referal_bid()
+    return make_response(render_template("charges.html", referal_bid = data))
 
 @app.route("/account-referral-withdrawal", methods = ["POST"])
 def account_withdrawal():
