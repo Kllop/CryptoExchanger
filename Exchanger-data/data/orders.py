@@ -40,10 +40,17 @@ class Orders:
     def __getPayMethod__(self, Pay_name:str):
         data = {"Raiffeisen" : {"pay_type" : "Raiffeisen RUB", "bank_number" : "2200300518082464", "bank_owner_name" : "Чуев И."},
                 "Sberbank"   : {"pay_type" : "Sberbank RUB", "bank_number" : "5332058052345671", "bank_owner_name" : "Бахтияр К."},
-                "Tinkoff"   : {"pay_type" : "Tinkoff RUB", "bank_number" : "2200700897695382", "bank_owner_name" : "Александр К."}}
+                "Tinkoff"    : {"pay_type" : "Tinkoff RUB", "bank_number" : "2200700897695382", "bank_owner_name" : "Александр К."}}
         outdata = data.get(Pay_name)
         if outdata == None:
             return {}
+        return outdata
+    
+    def getAllMyBids(self, code_id:str) -> list:
+        data = self.db.GetAll_My_Bids(code_id)
+        outdata = []
+        for temp in data:
+            outdata.append({'coin' : temp[4], 'course' : temp[5], 'summ' : temp[9], 'count' : temp[6], 'status' : temp[11]})
         return outdata
     
     def getOrder(self, order_id:str) -> dict:

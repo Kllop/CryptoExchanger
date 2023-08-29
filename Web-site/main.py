@@ -44,6 +44,7 @@ def bids():
 
 def referal_code():
     code_id = session.get('id')
+    print(code_id)
     if code_id == None:
         return {}
     responce = requests.post(url = "http://exchanger-data:9000/referalcode", json={"id" : code_id})
@@ -54,6 +55,13 @@ def referal_bid():
     if code_id == None:
         return {}
     responce = requests.post(url = "http://exchanger-data:9000/referalbid", json={"id" : code_id})
+    return responce.json()
+
+def all_my_bid():
+    code_id = session.get('id')
+    if code_id == None:
+        return {}
+    responce = requests.post(url = "http://exchanger-data:9000/allmybids", json={"id" : code_id})
     return responce.json()
 
 @app.route("/rules", methods = ["GET"])
@@ -74,7 +82,8 @@ def account():
 
 @app.route("/account-bids", methods = ["POST"])
 def account_bids():
-    return make_response(render_template("bids.html"))
+    data = all_my_bid()
+    return make_response(render_template("bids.html", my_bids = data))
 
 @app.route("/account-referral", methods = ["POST"])
 def account_referral():

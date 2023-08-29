@@ -26,5 +26,14 @@
             <div>Кол-во</div>
             <div>Статус</div>
         </li>
+        {% for bid in my_bids %}
+        <li class="d-flex justify-content-evenly row">
+            <div>{{bid['coin']}}</div>
+            <div>{{bid['course']}}</div>
+            <div>{{bid['summ']}}</div>
+            <div>{{bid['count']}}</div>
+            <div>{{bid['status']}}</div>
+        </li>
+        {% endfor %}
     </ul>
 </div>
