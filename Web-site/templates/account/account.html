@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block head %}
+<link href="static/css/account.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+<section class="wrapper">
+    <h1 class="page-title">Личный кабинет</h1>
+    <nav class="nav-menu nav-menu-short">
+        <ul class="nav-list">
+            <li class="nav-list__item" data-url="account-bids">Мои заявки</li>
+            <li class="nav-list__item nav-list__item--active" data-url="account-referral-program">Реферальная программа</li>
+            <li class="nav-list__item" data-url="account-security">Безопасность</li>
+        </ul>
+    </nav>
+    <div id="account-content">
+        {% include "account/referral-program/base.html" %}
+    </div>
+</section>
+<script type="module" src="static/js/account.js"></script>
+<script type="module" src="static/js/common/select.js"></script>
+{% endblock %}

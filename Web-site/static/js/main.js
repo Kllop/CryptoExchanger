@@ -1,4 +1,4 @@
-import {updateSelectStyle} from "./utils/select.js";
+import {updateSelectStyle} from "./common/select.js";
 
 
 var isDev = false
