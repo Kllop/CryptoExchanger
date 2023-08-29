@@ -85,12 +85,12 @@ def contacts():
 
 @app.route("/account", methods = ["GET"])
 def account():
-    if session.get('id') != None:
+    if session.get('session') != None:
         return redirect("/")
     referal = referal_code()
     count = referal_count()
     data = referal_bid()
-    return make_response(render_template("account/bids.html.html", referal_code = referal.get('referal'), count = count.get('count'), referal_bid = data.get('data')))
+    return make_response(render_template("account/base.html", referal_code = referal.get('referal'), count = count.get('count'), referal_bid = data.get('data')))
 
 @app.route("/account-bids", methods = ["POST"])
 def account_bids():
@@ -113,6 +113,7 @@ def account_referrals():
 
 @app.route("/account-referral-charges", methods = ["POST"])
 def account_charges():
+    # TODO из-за этой строчки возвращает 500
     data = referal_bid()
     return make_response(render_template("account/referral-program/charges.html", referal_bid = data.get('data')))
 

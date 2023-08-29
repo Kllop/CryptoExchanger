@@ -27,8 +27,4 @@ function getSubPage(url, idElementContainer = '#account-content') {
 
 $( document ).ready(function() {
   updateSelectStyle()
-  const isLogin = localStorage.getItem('isLogin') || null;
-  if(!isLogin) {
-    document.location.href = '/'
-  }
 });
