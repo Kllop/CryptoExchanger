@@ -84,7 +84,10 @@ def contacts():
 
 @app.route("/account", methods = ["GET"])
 def account():
-    return make_response(render_template("account.html"))
+    referal = referal_code()
+    count = referal_count()
+    data = referal_bid()
+    return make_response(render_template("account.html", referal_code = referal.get('referal'), count = count.get('count'), referal_bid = data.get('data')))
 
 @app.route("/account-bids", methods = ["POST"])
 def account_bids():
