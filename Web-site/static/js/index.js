@@ -38,6 +38,7 @@ $(document).ready(function () {
   $("#header-link-exit").click(function () {
     localStorage.removeItem(IS_LOGIN_FLAG);
     window.location.reload();
+    LogOut()
   })
 })
 
@@ -73,6 +74,20 @@ function Registration(login, password, email) {
     complete: function () {
       hideModal(document.getElementById('modal-registration'))
     }
+  });
+}
+
+function LogOut(login, password, email) {
+  $.ajax({
+    url: "/logout",
+    type: "get",
+    contentType: "application/json; charset=utf-8",
+    data : JSON.stringify({login : login, password : password, email : email}),
+    success: function (response) {
+    },
+    error: function (xhr) {
+      alert('Не удалось выйти')
+    },
   });
 }
 

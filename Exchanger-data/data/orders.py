@@ -26,7 +26,7 @@ class Orders:
         status = "new order"
         referal = request_data['referal']
         owner = request_data['owner']
-        if owner != None:
+        if owner != "":
             referal = self.db.GetReferalUserData(owner)
         self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status, referal, owner)
         return {"resualt" : True, "OrderID" : order_id}

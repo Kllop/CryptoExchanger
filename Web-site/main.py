@@ -44,7 +44,6 @@ def bids():
 
 def referal_code():
     code_id = session.get('id')
-    print(code_id)
     if code_id == None:
         return {}
     responce = requests.post(url = "http://exchanger-data:9000/referalcode", json={"id" : code_id})
@@ -182,6 +181,8 @@ def authorization():
 def bid():
     jsdata = request.json
     owner = GetId()
+    if owner == None:
+        owner = ""
     referal = getReferalCode()
     jsdata.update({"owner" : owner, "referal" : referal})
     responce = requests.post(url = "http://exchanger-data:9000/bid", json=jsdata)
@@ -192,6 +193,12 @@ def bid():
     responce = make_response(jsonify({'success': 1}), 201)
     responce.set_cookie("OrderID", order_id)
     return responce
+
+@app.route("/logout", methods = ["GET"])
+def logout():
+    session.pop('id')
+    print('logout', flush=True)
+    return {'resualt' : True}
 
 @app.route("/direction", methods = ["GET"])
 def direction():

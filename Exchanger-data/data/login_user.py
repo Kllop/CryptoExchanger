@@ -30,7 +30,7 @@ class Login:
         referal_bid = self.db.GetReferalBid(referal)
         outdata = []
         for bid in referal_bid:
-            outdata.append({'coin' : bid[4], 'summ' : bid[5], 'ref_summ' : bid[5] * 0.05})
+            outdata.append({'coin' : bid[4], 'summ' : bid[5], 'ref_summ' : bid[5] * 0.005})
         return {"resualt" : bool(len(outdata)), "data" : outdata}
     
     def __findLogin__(self, login:str) -> list:
