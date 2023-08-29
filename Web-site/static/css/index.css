@@ -1,7 +1,7 @@
-@import "reset.css";
-@import "colors.css";
-@import "select.css";
-@import "kit.css";
+@import "_reset.css";
+@import "_colors.css";
+@import "_select.css";
+@import "_kit.css";
 
 body {
     font-family: Inter, sans-serif;

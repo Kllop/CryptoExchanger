@@ -44,6 +44,7 @@ def bids():
 
 def referal_code():
     code_id = session.get('id')
+    print(code_id)
     if code_id == None:
         return {}
     responce = requests.post(url = "http://exchanger-data:9000/referalcode", json={"id" : code_id})
@@ -72,15 +73,15 @@ def all_my_bid():
 
 @app.route("/rules", methods = ["GET"])
 def rules():
-    return make_response(render_template("rules.html"))
+    return make_response(render_template("rules/base.html"))
 
 @app.route("/faq", methods = ["GET"])
 def faq():
-    return make_response(render_template("faq.html"))
+    return make_response(render_template("faq/base.html"))
 
 @app.route("/contacts", methods = ["GET"])
 def contacts():
-    return make_response(render_template("contacts.html"))
+    return make_response(render_template("contacts/base.html"))
 
 @app.route("/account", methods = ["GET"])
 def account():
@@ -89,35 +90,35 @@ def account():
     referal = referal_code()
     count = referal_count()
     data = referal_bid()
-    return make_response(render_template("account.html", referal_code = referal.get('referal'), count = count.get('count'), referal_bid = data.get('data')))
+    return make_response(render_template("account/bids.html.html", referal_code = referal.get('referal'), count = count.get('count'), referal_bid = data.get('data')))
 
 @app.route("/account-bids", methods = ["POST"])
 def account_bids():
     data = all_my_bid()
-    return make_response(render_template("bids.html", my_bids = data))
+    return make_response(render_template("account/bids.html", my_bids = data))
 
-@app.route("/account-referral", methods = ["POST"])
+@app.route("/account-referral-program", methods = ["POST"])
 def account_referral():
     data = referal_code()
-    return make_response(render_template("referral.html", referal_code = data.get('referal')))
+    return make_response(render_template("account/referral-program/base.html", referal_code = data.get('referal')))
 
 @app.route("/account-security", methods = ["POST"])
 def account_security():
-    return make_response(render_template("security.html"))
+    return make_response(render_template("account/security.html"))
 
 @app.route("/account-referral-referrals", methods = ["POST"])
 def account_referrals():
     data = referal_count()
-    return make_response(render_template("referrals.html", count = data.get('count')))
+    return make_response(render_template("account/referral-program/referral-list.html", count = data.get('count')))
 
 @app.route("/account-referral-charges", methods = ["POST"])
 def account_charges():
     data = referal_bid()
-    return make_response(render_template("charges.html", referal_bid = data.get('data')))
+    return make_response(render_template("account/referral-program/charges.html", referal_bid = data.get('data')))
 
 @app.route("/account-referral-withdrawal", methods = ["POST"])
 def account_withdrawal():
-    return make_response(render_template("withdrawal.html"))
+    return make_response(render_template("account/referral-program/withdrawal.html"))
 
 @app.route("/status", methods = ["GET"])
 def status():
@@ -138,7 +139,7 @@ def bid_page():
         return "Errror"
     data = jsdata.get("data")
     isNewStatus = data.get("status") == "new order"
-    responce = make_response(render_template("bid.html", oreder_number=data.get("orderID"),
+    responce = make_response(render_template("bid-status/bid.html", oreder_number=data.get("orderID"),
                                              price=data.get("price"), payMethod=data.get("pay_type"),
                                              order_pay=data.get("bank_number"), order_name=data.get("bank_owner_name"),
                                              number_payMethod=data.get("setter_number"), change_time = data.get("change_time"),

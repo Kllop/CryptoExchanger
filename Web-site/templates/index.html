@@ -47,11 +47,11 @@
     </marquee>
 </header>
 {% block modals %}
-{% include "_modals.html" %}
+{% include "modals.html" %}
 {% endblock %}
 <main id="main">
     {% block content %}
-    {% include "main.html" %}
+    {% include "main/main.html" %}
     {% endblock %}
 </main>
 <footer>
@@ -68,7 +68,7 @@
 </footer>
 
 <script src="static/js/index.js"></script>
-<script type="module" src="static/js/modal.js"></script>
+<script type="module" src="static/js/common/modal.js"></script>
 
 </body>
 </html>

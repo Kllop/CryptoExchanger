@@ -1,5 +1,7 @@
-import {updateSelectStyle} from "./utils/select.js";
+import {updateSelectStyle} from "./common/select.js";
 
+
+// Селектим 'nav > ul > li' с атрибутом 'data-url', который будет url в post запросе
 $("li[data-url]").on('click', function (event) {
   const url = event.target.dataset.url;
   if (url) getSubPage(url);
@@ -11,7 +13,7 @@ function getSubPage(url, idElementContainer = '#account-content') {
     type: "post",
     success: function (response) {
       $(idElementContainer).html(response);
-      if (url === 'account-referral') updateSelectStyle();
+      if (url === 'account-referral-program') updateSelectStyle();
     },
     error: function (xhr) {
       alert('Не удалось загрузить страницу')
@@ -23,4 +25,10 @@ function getSubPage(url, idElementContainer = '#account-content') {
   });
 }
 
-updateSelectStyle()
+$( document ).ready(function() {
+  updateSelectStyle()
+  const isLogin = localStorage.getItem('isLogin') || null;
+  if(!isLogin) {
+    document.location.href = '/'
+  }
+});
