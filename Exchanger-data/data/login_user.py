@@ -18,6 +18,13 @@ class Login:
             return {"resualt" : False, "referal" : ""}
         return {"resualt" : True, "referal" : url + "?ref=" + referal}
     
+    def referal_count(self, code_id:str) -> str:
+        referal = self.db.GetReferalCodeUserData(code_id)
+        if referal == "":
+            return {"resualt" : False, "count" : 0}
+        count = self.db.GetCountReferalUsers(referal)
+        return {"resualt" : True, "count" : count}
+    
     def referal_bid(self, code_id:str) -> str:
         referal = self.db.GetReferalCodeUserData(code_id)
         referal_bid = self.db.GetReferalBid(referal)

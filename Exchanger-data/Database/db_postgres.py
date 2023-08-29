@@ -204,6 +204,31 @@ class Postgres_DB():
             return []
         return data
     
+    def GetCountReferalUsers(self, referal_code:str) -> tuple:
+        try:
+            if not self.CheckTable("UsersData"):
+                self.createTableUser()
+        except Exception as e:
+            print("Error check table OrdersList", e, traceback.format_exc(), flush=True)
+            return
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT COUNT(datereg) FROM UsersData WHERE referal = '{0}';".format(referal_code)
+        data = 0
+        try:
+            cursor.execute(request)
+            data = cursor.fetchone()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data == None:
+            return 0
+        return data[0]
+    
     def GetReferalUserData(self, code_id:str) -> tuple:
         try:
             if not self.CheckTable("UsersData"):

@@ -90,6 +90,15 @@ async def referal(request: Request):
     outdata = Login().referal_code(code_id)
     return JSONResponse(content=jsonable_encoder(outdata))
 
+@app.post("/countreferal")
+async def referal(request: Request):
+    data = await request.json()
+    code_id = data.get("id")
+    if code_id == None:
+        return {"resualt" : False, "count" : 0}
+    outdata = Login().referal_count(code_id)
+    return JSONResponse(content=jsonable_encoder(outdata))
+
 @app.post("/allmybids")
 async def referal(request: Request):
     data = await request.json()
