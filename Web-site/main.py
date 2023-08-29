@@ -84,6 +84,8 @@ def contacts():
 
 @app.route("/account", methods = ["GET"])
 def account():
+    if session.get('id') != None:
+        return redirect("/")
     referal = referal_code()
     count = referal_count()
     data = referal_bid()
