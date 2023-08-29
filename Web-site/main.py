@@ -17,7 +17,7 @@ def add_header(r):
 
 @app.route('/', methods = ['GET'])
 def main_page():
-    code_id = request.args.get('id')
+    code_id = request.args.get('ref')
     responce = make_response(render_template("index.html"))
     if code_id != None:
         expire_date = datetime.datetime.now()

@@ -31,6 +31,10 @@ def createDirection():
     postgres_db.SendDirectoion("ETH", "64", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P")
     postgres_db.SendDirectoion("USDT", "64", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P")
 
+    postgres_db.SendDirectoion("BTC", "64", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
+    postgres_db.SendDirectoion("ETH", "64", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
+    postgres_db.SendDirectoion("USDT", "64", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P")
+
 def setReidsDirection():
     postgre_data = postgres_db.GetDirection()
     redis_db.removeKey("tradepreference")
