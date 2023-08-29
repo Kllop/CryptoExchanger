@@ -50,7 +50,7 @@ class Orders:
         data = self.db.GetAll_My_Bids(code_id)
         outdata = []
         for temp in data:
-            outdata.append({'coin' : temp[4], 'course' : temp[5], 'summ' : temp[9], 'count' : temp[6], 'status' : temp[11]})
+            outdata.append({'coin' : temp[4], 'course' : temp[3], 'summ' : temp[5], 'count' : temp[6], 'status' : temp[11]})
         return outdata
     
     def getOrder(self, order_id:str) -> dict:
