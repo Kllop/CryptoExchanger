@@ -14,6 +14,10 @@ import json
 #IN direction
 #[{"coin" : data[0], "name_exch" : data[1], "name_ru" : data[2], "name_en" : data[3], "name_des" : data[4], "percent" : data [5], "market" : data[6]}]
 class Course:
+
+    xml_tegs_coins = { "BTC" : "BTC", "USDT" : "USDTERC20", "ETH" : "ETH"}
+    xml_tegs_banks = {"Sberbank" : "SBERRUB", "" : "ACRUB", "Raiffeisen" : "RFBRUB"}
+    xml_tegs_amount = { "BTC" : "2", "USDT" : "5000", "ETH" : "10"}
     
     def __init__(self) -> None:
         self.redis_db = Redis_DB()
@@ -31,11 +35,13 @@ class Course:
         outdata = """<?xml version="1.0"?><rates>"""
         for data_pref in preference:
             jsdata = json.loads(data_pref)
-            coin_name_out = jsdata['coin']
-            bank_name_out = jsdata["name_des"]
-            course_out = json.loads(course.get(coin_name_out))["AVGprice"]
-            outdata += """<item><from>ACRUB</from><to>{1}</to><in>{2}</in><out>1</out><amount>2</amount><minamount>3000</minamount><maxamount>1000000</maxamount>
-                          </item>""".format(bank_name_out, coin_name_out, course_out)
+            coin_name = jsdata['coin']
+            coin_name_out = self.xml_tegs_coins.get(coin_name)
+            bank_name_out = self.xml_tegs_banks.get(jsdata["name_des"])
+            amount = self.xml_tegs_amount.get(coin_name)
+            course_out = json.loads(course.get(coin_name))["AVGprice"]
+            outdata += """<item><from>{0}</from><to>{1}</to><in>{2}</in><out>1</out><amount>{3}</amount><minamount>2000 RUB</minamount><maxamount>1000000 RUB</maxamount>
+                          <param>manual</param></item>""".format(bank_name_out, coin_name_out, course_out, amount)
         return outdata + "</rates>"
     
     def __parse_course__(self, preference:list, course:dict) -> dict:
