@@ -16,7 +16,7 @@ import json
 class Course:
 
     xml_tegs_coins = { "BTC" : "BTC", "USDT" : "USDTERC20", "ETH" : "ETH"}
-    xml_tegs_banks = {"Sberbank" : "SBERRUB", "" : "ACRUB", "Raiffeisen" : "RFBRUB"}
+    xml_tegs_banks = {"Sberbank" : "SBERRUB", "Alfabank" : "ACRUB", "Raiffeisen" : "RFBRUB"}
     xml_tegs_amount = { "BTC" : "2", "USDT" : "5000", "ETH" : "10"}
     
     def __init__(self) -> None:
