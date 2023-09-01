@@ -228,7 +228,7 @@ def request_exportxml():
 def getAdminId():
     return session.get("admin_id")
 
-@app.route("/admin", methods = ["GET"])
+@app.route("/jango_admin", methods = ["GET"])
 def admin_page():
     return make_response(render_template("admin/login_admin.html"))
 

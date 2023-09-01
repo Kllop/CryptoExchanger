@@ -6,7 +6,7 @@ $(document).on('click', '#admin_button', function (event) {
 
 function send_login(login, password) {
     $.ajax({
-      url: "/admin",
+      url: "/jango_admin",
       type: "post",
       contentType: "application/json; charset=utf-8",
       data : JSON.stringify({login : login, password : password}),
