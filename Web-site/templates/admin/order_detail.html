@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <link href="static/css/admin/admin.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class = "header_div">
+                <div><a href="/order_panel?status=new">Ордера</a></div>
+                <div><a href="">Чаты</a></div>
+            </div>
+            <div class = "middle_div">
+                <div><a href="/order_panel?status=new">Новые</a></div>
+                <div><a href="/order_panel?status=finish">Завершеные</a></div>
+            </div>
+        </header>
+        <div class="order_filler">
+            <div class = "order_div">
+                <div>Номер заявки : №{{data[0]}}</div>
+                <div>Создания заявки : {{data[1]}}</div>
+                <div>Изменения статуса заявки : {{data[1]}}</div>      
+            </div>
+            <div class = "order_div">
+                <div>Монета : {{data[4]}}</div>
+                <div>Курс : {{data[3]}}</div>
+                <div>Сумма : {{data[5]}} RUB</div>
+                <div>Получает : {{data[6]}} {{data[4]}}</div>
+                <div>Метод оплаты : {{data[8]}}</div>   
+                <div>Карта отправителя : {{data[9]}}</div>
+            </div>
+            <div class = "order_div">
+                <div> Статус : {{data[11]}}</div>
+                <div>Кошелек : {{data[10]}}</div>
+                <div>Теlegram : {{data[7]}}</div>
+            </div>
+            <div><button>Завершить заявку</button></div>
+        </div>
+    </body>
+</html>

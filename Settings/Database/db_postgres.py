@@ -51,10 +51,28 @@ class Postgres_DB():
         if connection == None or cursor == None:
             print("Error connection database")
             return
-        request = "SELECT * FROM OrdersList;"
+        request = "SELECT * FROM OrdersList ORDER BY orderid DESC;"
         try:
             cursor.execute(request)
             data = cursor.fetchall()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error check table", flush=True)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        if data == None:
+            return []
+        return data
+    
+    def GetOrderDetail(self, order_id:int) -> list:
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database")
+            return
+        request = "SELECT * FROM OrdersList WHERE orderid = {0};".format(order_id)
+        try:
+            cursor.execute(request)
+            data = cursor.fetchone()
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error check table", flush=True)

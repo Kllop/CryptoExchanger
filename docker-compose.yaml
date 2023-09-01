@@ -12,7 +12,7 @@ services:
     ports:
       - "5010:5010"
     networks:
-      - redis-net
+      - web-net
     depends_on:
       - redis-data
       - postgres-data
@@ -29,6 +29,7 @@ services:
     ports:
       - "9000"
     networks:
+      - web-net
       - redis-net
       - postgres-net
     depends_on:
@@ -45,6 +46,7 @@ services:
     ports:
       - "9010"
     networks:
+      - web-net
       - redis-net
       - postgres-net
     depends_on:
@@ -139,6 +141,8 @@ services:
     restart: unless-stopped
 
 networks:
+  web-net:
+   driver: bridge
   postgres-net:
     driver: bridge
   redis-net:

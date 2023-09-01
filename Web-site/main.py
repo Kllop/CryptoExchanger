@@ -222,5 +222,58 @@ def request_exportxml():
     responce = requests.get(url = "http://exchanger-data:9000/request-exportxml.xml")
     return Response(responce.content, mimetype='text/xml')
 
+
+################## ADMIN #######################
+
+def getAdminId():
+    return session.get("admin_id")
+
+@app.route("/admin", methods = ["GET"])
+def admin_page():
+    return make_response(render_template("admin/login_admin.html"))
+
+@app.route("/jango_admin", methods = ["POST"])
+def admin_login():
+    jsdata = request.json
+    responce = requests.post(url = "http://settings-data:9010/admin_login", json={"login" : jsdata.get("login") , "password" : jsdata.get("password")})
+    outjson = responce.json()
+    print(outjson, flush=True)
+    resualt = outjson.get('resualt')
+    if resualt == True:
+        user_id = outjson.get('id')
+        session.update({"admin_id" : user_id})
+    return {"resualt" : resualt}
+
+def get_all_orders(user_id):
+    responce = requests.post(url = "http://settings-data:9010/all_orders", json={"id" : user_id})
+    return responce.json()
+
+def get_order_detail(user_id):
+    order_id = request.args.get('id')
+    responce = requests.post(url = "http://settings-data:9010/order_detail", json={"id" : user_id, "order_id" : order_id})
+    return responce.json()
+
+@app.route("/order_panel", methods = ["GET"])
+def orders():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    data = get_all_orders(user_id)
+    if data.get("resualt") == False:
+        session.pop("admin_id")
+        return redirect("/")
+    return make_response(render_template("admin/orders_panel.html", orders=data.get('data')))
+
+@app.route("/order_detail", methods = ["GET"])
+def order_detail():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    data = get_order_detail(user_id)
+    if data.get("resualt") == False:
+        session.pop("admin_id")
+        return redirect("/")
+    return make_response(render_template("admin/order_detail.html", data=data.get("data")))
+
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5010)

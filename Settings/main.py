@@ -1,23 +1,55 @@
-from flask import Flask
-from Database.db_redis import Redis_DB
-from Database.db_postgres import Postgres_DB
+#api
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, Response
+from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+import uuid
 import json
 
-app = Flask(__name__)
+#Folder
+from Database import Redis_DB
+from Database import Postgres_DB
+
+app = FastAPI()
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 redis_db = Redis_DB()
 postgres_db = Postgres_DB("ownerdb", "X$Oi815H%nd*FLyB!9v%", "postgres-data", "5432", "exchange")
 
-@app.route('/admin')
-def admin():
-    return "Hello"
+login = "MisPIcudesTormAToCLo"
+password = "27865PHhuYxkk2EdaUYR"
+user_id = uuid.uuid4().hex
 
-@app.route('/owner')
-def owner():
-    return "Hello"
+@app.post("/admin_login")
+async def login_admin(request: Request):
+    jsdata = await request.json()
+    if login == jsdata.get("login") and password == jsdata.get("password"):
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "id" : user_id}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "id" : ""}))
 
-@app.route("/operator")
-def operator():
-    return "Hello"
+@app.post("/all_orders")
+async def all_orders(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : postgres_db.GetAllOrders()}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/order_detail")
+async def order_detail(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        order_id = jsdata.get("order_id")
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : postgres_db.GetOrderDetail(int(order_id))}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 def createDirection():
     #postgres_db.DropTable("DirectionPreference")
@@ -46,11 +78,7 @@ def setReidsDirection():
         send_data = {"coin" : data[0], "name_exch" : data[1], "name_ru" : data[2], "name_en" : data[3], "name_des" : data[4], "percent" : data [5], "market" : data[6]}
         redis_db.setValueList("tradepreference", json.dumps(send_data))
 
-@app.route("/allorders")
-def allOrders():
-    return postgres_db.GetAllOrders()
-
 if __name__ == "__main__":
     createDirection()
     setReidsDirection()
-    app.run("0.0.0.0", port=9010)
+    uvicorn.run(app, host="0.0.0.0", port=9010)
