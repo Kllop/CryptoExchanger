@@ -241,7 +241,9 @@ def admin_login():
     resualt = outjson.get('resualt')
     if resualt == True:
         user_id = outjson.get('id')
+        uid_chat = outjson.get('uuid')
         session.update({"admin_id" : user_id})
+        request.cookies.update({"uuid" : uid_chat})
     return {"resualt" : resualt}
 
 def get_all_orders(user_id):

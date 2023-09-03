@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import uuid
 import json
+import hashlib
 
 #Folder
 from Database import Redis_DB
@@ -33,8 +34,9 @@ user_id = uuid.uuid4().hex
 async def login_admin(request: Request):
     jsdata = await request.json()
     if login == jsdata.get("login") and password == jsdata.get("password"):
-        return JSONResponse(content=jsonable_encoder({"resualt" : True, "id" : user_id}))
-    return JSONResponse(content=jsonable_encoder({"resualt" : False, "id" : ""}))
+        uid_chat = hashlib.sha256(user_id)
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "id" : user_id, "uuid" : uid_chat}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "id" : "", "uuid" : ""}))
 
 @app.post("/all_orders")
 async def all_orders(request: Request):
@@ -42,6 +44,13 @@ async def all_orders(request: Request):
     if jsdata.get("id") == user_id:
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : postgres_db.GetAllOrders()}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/admin_chat")
+async def all_orders(request: Request):
+    jsdata = await request.json()
+    uid = jsdata.get("uuid") == user_id
+    resualt = hashlib.sha256(user_id) == uid
+    return JSONResponse(content=jsonable_encoder({"resualt" : resualt}))
 
 @app.post("/order_detail")
 async def order_detail(request: Request):
