@@ -1,6 +1,5 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
-from fastapi.responses import PlainTextResponse, JSONResponse
-from fastapi.encoders import jsonable_encoder
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.responses import PlainTextResponse
 from datetime import datetime
 import uvicorn
 import uuid
@@ -128,4 +127,4 @@ async def websocket_endpoint_admin(websocket: WebSocket):
 
 if __name__ == "__main__":
     print("Start chat", flush=True)
-    uvicorn.run(app, host="0.0.0.0", port=9000)
+    uvicorn.run(app, host="0.0.0.0", port=9020)

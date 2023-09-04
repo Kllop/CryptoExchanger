@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link href="static/css/admin/admin.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class = "header_div">
+                <div><a href="/order_panel?status=new">Ордера</a></div>
+                <div><a href="">Чаты</a></div>
+            </div>
+        </header>
+            <div class="chats" id = "place_chats">
+                
+            </div>
+            <div class="chats">
+                <div style="background-color: wheat; width: 1200px; height: 900px;">
+                    <div style="height:90%;width:100%;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+                        <div> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+                        <div style = "background-color: blue;"> Client : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>
+                        <div style = "background-color: red;">Operator : As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.</div>             
+
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Сообшение" style="width: 90%; height: 70px;">
+                        <button style="height: 70px; width: 100px;">Отправить</button>
+                    </div>
+                </div>
+            </div>
+            
+            <template id="chat_panel">
+                <div class="chats_div" id = "chat_element">
+                    <div id = "uuid_chat">uuid chat : 312312321321312321</div>
+                    <div id = "shortmessage">Hello world!</div>   
+                </div>
+            </template>
+            <script src="static/js/admin_chat.js"></script>
+    </body>
+</html>

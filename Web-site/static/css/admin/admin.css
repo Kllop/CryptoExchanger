@@ -39,6 +39,18 @@ body{
     gap: 24px;
 }
 
+.chats {
+    display: inline-table;
+}
+
+.chats_div {
+    padding: 10px 100px 10px 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    flex-direction: column;
+    background-color: silver;
+}
+
 .order_filler{
     padding: 10px 48px 10px 100px;
     margin: 0px 250px 0px 250px;

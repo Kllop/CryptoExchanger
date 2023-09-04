@@ -277,5 +277,9 @@ def order_detail():
         return redirect("/")
     return make_response(render_template("admin/order_detail.html", data=data.get("data")))
 
+@app.route("/chats_admin", methods = ["GET"])
+def chats_admin():
+    return make_response(render_template("admin/chat_admin.html"))
+
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5010)
