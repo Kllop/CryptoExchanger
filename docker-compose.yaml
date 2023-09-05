@@ -20,6 +20,16 @@ services:
     volumes:
       - ./Web-site:/app
 
+  exchanger-chat:
+    container_name: chat-exchange
+    image: chat-exchanger
+    build:
+      context: ./Web-chat
+      dockerfile: web-chat.dockerfile
+    ports:
+      - "9020:9020"
+    restart: always
+
   exchanger-data:
     container_name: data-exchange
     image: data-exchanger
