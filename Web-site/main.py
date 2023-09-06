@@ -277,8 +277,15 @@ def order_detail():
         return redirect("/")
     return make_response(render_template("admin/order_detail.html", data=data.get("data")))
 
-@app.route("/chats_admin", methods = ["GET"])
+@app.route("/chats_panel", methods = ["GET"])
 def chats_admin():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    data = get_order_detail(user_id)
+    if data.get("resualt") == False:
+        session.pop("admin_id")
+        return redirect("/")
     return make_response(render_template("admin/chat_admin.html"))
 
 if __name__ == "__main__":
