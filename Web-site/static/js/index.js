@@ -111,3 +111,75 @@ function LoginIn(login, password) {
     }
   });
 }
+
+
+
+
+$('#prime').click(function() {
+  toggleFab();
+});
+
+//Toggle chat and links
+function toggleFab() {
+  $('.prime').toggleClass('zmdi-comment-outline');
+  $('.prime').toggleClass('zmdi-close');
+  $('.prime').toggleClass('is-active');
+  $('.prime').toggleClass('is-visible');
+  $('#prime').toggleClass('is-float');
+  $('.chat').toggleClass('is-visible');
+  $('.fab').toggleClass('is-visible');
+  
+}
+
+function hideChat() {
+  $('#chat_converse').css('display', 'none');
+  $('#chat_body').css('display', 'none');
+  $('#chat_form').css('display', 'none');
+  $('.chat_login').css('display', 'none');
+  $('.chat_fullscreen_loader').css('display', 'block');
+  $('#chat_fullscreen').css('display', 'block');
+}
+
+function createElementChatsAdmin(message){
+  var $template = $("#chat_panel")
+  var node = $template.prop('content');
+  const element = $(node).find("#admin_item")
+  var clone = element.clone()
+  clone.find("#element_message_admin").text(message)
+  $("#chat_fullscreen").append(clone);
+}
+
+function createElementChatsClient(message){
+  var $template = $("#chat_panel")
+  var node = $template.prop('content');
+  const element = $(node).find("#client_item")
+  var clone = element.clone()
+  clone.text(message)
+  $("#chat_fullscreen").append(clone);
+}
+
+$(document).on('click', '#fab_send', function (event) {
+  message = $("#chatSend").val()
+  $("#chatSend").val("")
+  socketMarketGraph.send(message)
+});
+
+let socketMarketGraph = new WebSocket("wss://jango-exchange.com/chat");
+
+socketMarketGraph.onmessage = function(event) {
+  chat_data = JSON.parse(event.data)
+  construct_chats();
+};
+
+function construct_chats(){
+  $("#chat_fullscreen").empty()
+  messages = chat_data['messages']
+  for (let unit of messages) {
+    if(unit["owner"] == "Client"){createElementChatsClient(unit["message"])}
+    else{createElementChatsAdmin(unit["message"])}
+  }
+}
+
+var chat_data = {}
+
+hideChat();

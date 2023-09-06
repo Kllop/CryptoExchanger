@@ -1,7 +1,7 @@
 var chats_data = {}
 var uuid = ""
 
-let socketMarketGraph = new WebSocket("ws://127.0.0.1:9020/admin_chat");
+let socketMarketGraph = new WebSocket("ws://jango-exchange.com/admin_chat");
 
 socketMarketGraph.onopen = function(e) {
     
@@ -11,7 +11,13 @@ socketMarketGraph.onmessage = function(event) {
   chats_data = JSON.parse(event.data)
   construct_chats()
   if(uuid != ""){openChat(uuid)}
+  play_sound()
 };
+
+function play_sound(){
+  var beat = new Audio('static/mp3/signal.mp3');
+  beat.play();
+}
 
 socketMarketGraph.onclose = function(event) {alert("Close market graph")};
 
@@ -50,13 +56,14 @@ function openChat(tag){
 }
 
 $(document).on('click', '#chat_element', function (event) {
-    var tag = this.accessKey
-    console.log(tag)
-    openChat(tag)
+  var tag = this.accessKey
+  console.log(tag)
+  openChat(tag)
 });
 
 $(document).on('click', '#send_message', function (event) {
-  var message = $("#text_message").val()
-  $("#text_message").val("")
-  socketMarketGraph.send(JSON.stringify({uuid : uuid, message : message}))
+var message = $("#text_message").val()
+$("#text_message").val("")
+socketMarketGraph.send(JSON.stringify({uuid : uuid, message : message}))
 });
+

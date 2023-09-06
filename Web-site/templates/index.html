@@ -8,7 +8,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link rel="icon" href="static\img\je_icon.png">
     <script type="text/javascript"
-            src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+            src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> 
     {% block head %}{% endblock %}
 </head>
 
@@ -54,6 +54,28 @@
     {% include "main/main.html" %}
     {% endblock %}
 </main>
+ 
+<div class="fabs">
+<div class="chat">
+    <div class="chat_header">
+    <div class="chat_option">
+        <div class="header_img">
+            <img src="static/img/operator_image.png"/>
+        </div>
+        <span id="chat_head">Алексей</span> <br> <span class="agent">Оператор</span> <span class="online">(Online)</span>
+    </div>
+    </div>
+    <div id="chat_fullscreen" class="chat_conversion chat_converse"></div>
+        <div class="fab_field">    
+            <a id="fab_send" class="fab"><span class = "send_buttom">Send</span></a>
+            <textarea id="chatSend" name="chat_message" placeholder="Send a message" class="chat_field chat_message"></textarea>
+        </div>
+    </div>
+    <a id="prime" class="fab"><i class="prime zmdi zmdi-comment-outline"></i></a>
+</div>
+    
+
+
 <footer>
     <div class="d-flex gap28 flex-wrap">
         <div class="d-flex gap24 align-items-center">
@@ -67,6 +89,14 @@
         </div>
     </div>
 </footer>
+
+<template id="chat_panel">
+    <span class="chat_msg_item chat_msg_item_admin" id = "admin_item">
+        <div class="chat_avatar">
+            <img src="static/img/operator_image.png"/>
+        </div><div id="element_message_admin">Hey there! Any question?</div></span>
+    <span class="chat_msg_item chat_msg_item_user" id = "client_item">Where can I get some?</span>
+</template>
 
 <script src="static/js/index.js"></script>
 <script type="module" src="static/js/common/modal.js"></script>

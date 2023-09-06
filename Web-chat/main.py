@@ -26,7 +26,7 @@ class ChatsData:
         out_data = self.chats.get(uid)
         if out_data == None:
             return {}
-        return out_data.get("messages")
+        return out_data
     
     async def set_new_message(self, uid:str, new_message:str, isNewMessage:bool, owner:str) -> str: 
         data = await self.__getChatData__(uid)
@@ -43,11 +43,11 @@ class Connection:
     client_connection = {}
     chats_data = ChatsData()
 
-    async def __send_message_client__(self, uid:str, message:str) -> None:
+    async def __send_message_client__(self, uid:str) -> None:
         websocket = self.client_connection.get(uid)
         if websocket == None:
             return
-        await websocket.send_text(message)
+        await websocket.send_json(await self.chats_data.get_all_messages(uid))
 
     async def __send_message_admin__(self) -> None:
         for websocket in self.admin_connection.values():
@@ -56,13 +56,14 @@ class Connection:
     async def set_message_client(self, uid:str, message:str) -> None:
         await self.chats_data.set_new_message(uid, message, True, "Client")
         await self.__send_message_admin__()
+        await self.__send_message_client__(uid)
 
     async def set_message_admin(self, data:str) -> None:
         jsdata = json.loads(data)
         uid = jsdata.get("uuid")
         message = jsdata.get("message")
         await self.chats_data.set_new_message(uid, message, False, "Operator")
-        await self.__send_message_client__(uid, message)
+        await self.__send_message_client__(uid)
         await self.__send_message_admin__()
 
     async def set_connection_client(self, websocket: WebSocket) -> None:
