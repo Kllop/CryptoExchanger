@@ -34,7 +34,7 @@ user_id = uuid.uuid4().hex
 async def login_admin(request: Request):
     jsdata = await request.json()
     if login == jsdata.get("login") and password == jsdata.get("password"):
-        uid_chat = hashlib.sha256(user_id)
+        uid_chat = "123"
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "id" : user_id, "uuid" : uid_chat}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "id" : "", "uuid" : ""}))
 

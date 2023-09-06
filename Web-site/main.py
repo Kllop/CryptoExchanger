@@ -237,13 +237,11 @@ def admin_login():
     jsdata = request.json
     responce = requests.post(url = "http://settings-data:9010/admin_login", json={"login" : jsdata.get("login") , "password" : jsdata.get("password")})
     outjson = responce.json()
-    print(outjson, flush=True)
     resualt = outjson.get('resualt')
     if resualt == True:
         user_id = outjson.get('id')
         uid_chat = outjson.get('uuid')
         session.update({"admin_id" : user_id})
-        request.cookies.update({"uuid" : uid_chat})
     return {"resualt" : resualt}
 
 def get_all_orders(user_id):
@@ -282,7 +280,7 @@ def chats_admin():
     user_id = getAdminId()
     if user_id == None:
         return redirect("/")
-    data = get_order_detail(user_id)
+    data = get_all_orders(user_id)
     if data.get("resualt") == False:
         session.pop("admin_id")
         return redirect("/")
