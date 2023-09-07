@@ -206,5 +206,3 @@ var chat_data = {}
 
 createWebChat()
 hideChat();
-setTimeout(closeWebChat, 9000)
-setTimeout
