@@ -166,12 +166,22 @@ $(document).on('click', '#fab_send', function (event) {
 
 url = true ? "wss://jango-exchange.com/chat" : "ws://127.0.0.1:9020/chat"
 
-let socketMarketGraph = new WebSocket(url);
+let socketMarketGraph
 
-socketMarketGraph.onmessage = function(event) {
-  chat_data = JSON.parse(event.data)
-  construct_chats();
-};
+function createWebChat(){
+  
+  socketMarketGraph = new WebSocket(url);
+  
+  socketMarketGraph.onclose = function(event) {
+    console.log("Refresh websocket")
+    setInterval(createWebChat, 6000)
+  };
+  
+  socketMarketGraph.onmessage = function(event) {
+    chat_data = JSON.parse(event.data)
+    construct_chats();
+  };
+}
 
 function setCookieUUID(uuid){
   var expDate = new Date();
@@ -183,6 +193,7 @@ function construct_chats(){
   $("#chat_fullscreen").empty()
   messages = chat_data['messages']
   setCookieUUID(chat_data["uuid_chat"])
+  if(messages == null){return}
   for (let unit of messages) {
     if(unit["owner"] == "Client"){createElementChatsClient(unit["message"])}
     else{createElementChatsAdmin(unit["message"])}
@@ -191,4 +202,5 @@ function construct_chats(){
 
 var chat_data = {}
 
+createWebChat()
 hideChat();
