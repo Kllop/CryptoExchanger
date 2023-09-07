@@ -174,7 +174,7 @@ function createWebChat(){
   
   socketMarketGraph.onclose = function(event) {
     console.log("Refresh websocket")
-    setInterval(createWebChat, 6000)
+    setInterval(createWebChat, 60000)
   };
   
   socketMarketGraph.onmessage = function(event) {
