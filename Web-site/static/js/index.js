@@ -164,16 +164,25 @@ $(document).on('click', '#fab_send', function (event) {
   socketMarketGraph.send(message)
 });
 
-let socketMarketGraph = new WebSocket("wss://jango-exchange.com/chat");
+url = true ? "wss://jango-exchange.com/chat" : "ws://127.0.0.1:9020/chat"
+
+let socketMarketGraph = new WebSocket(url);
 
 socketMarketGraph.onmessage = function(event) {
   chat_data = JSON.parse(event.data)
   construct_chats();
 };
 
+function setCookieUUID(uuid){
+  var expDate = new Date();
+  expDate.setTime(expDate.getTime() + (180 * 1440 * 60 * 1000));
+  $.cookie("uuid_chat", uuid, {path: '/', expires: expDate})
+}
+
 function construct_chats(){
   $("#chat_fullscreen").empty()
   messages = chat_data['messages']
+  setCookieUUID(chat_data["uuid_chat"])
   for (let unit of messages) {
     if(unit["owner"] == "Client"){createElementChatsClient(unit["message"])}
     else{createElementChatsAdmin(unit["message"])}

@@ -1,7 +1,9 @@
 var chats_data = {}
 var uuid = ""
 
-let socketMarketGraph = new WebSocket("wss://jango-exchange.com/admin_chat");
+url = true ? "wss://jango-exchange.com/chat" : "ws://127.0.0.1:9020/chat"
+
+let socketMarketGraph = new WebSocket(url);
 
 socketMarketGraph.onopen = function(e) {
     
