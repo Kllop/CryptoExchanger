@@ -77,11 +77,9 @@ class Connection:
         data = await self.chats_data.get_all_messages(uid_chat)
         if uid_chat == None or len(data) == 0:
             uid_chat = uuid.uuid4().hex
-            await self.chats_data.create_new_chat(uid_chat)
         print("Open new client chat : ip - {0}, uuid - {1}".format('ip', uid_chat), flush=True)   
         self.client_connection.update({uid_chat : websocket})
         websocket.cookies.update({"uuid" : uid_chat})
-        print(await self.chats_data.get_all_messages(uid_chat), flush=True)
         await self.__send_message_client__(uid_chat)
         return True
 
@@ -114,7 +112,7 @@ async def websocket_endpoint_client(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text()
-            uid = websocket.cookies.get("uuid_chat")
+            uid = websocket.cookies.get("uuid")
             await connection.set_message_client(uid, data)
     except WebSocketDisconnect:
         uid = websocket.cookies.get("uuid")
