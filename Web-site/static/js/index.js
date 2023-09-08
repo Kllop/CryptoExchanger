@@ -174,7 +174,7 @@ function createWebChat(){
   socketMarketGraph = new WebSocket(url);
   
   socketMarketGraph.onclose = function(event) {
-    setTimeout(createWebChat, 30000)
+    setTimeout(createWebChat, 5000)
   };
   
   socketMarketGraph.onmessage = function(event) {
