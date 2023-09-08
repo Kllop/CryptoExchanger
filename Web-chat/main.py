@@ -1,11 +1,24 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import PlainTextResponse
 from datetime import datetime
+import aiohttp
 import uvicorn
 import uuid
 import json
 
 app = FastAPI()
+
+class TelegramMessage:
+    
+    def __init__(self) -> None:
+        self.TeleBot = '6163052051:AAHpUAmWaU9Vlf71kyAZ-brg2fet_CUvx0E'
+        self.chatID = '5829831042'
+
+    async def sendAsyncMessage(self, message:str) -> None:
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self.TeleBot, self.chatID, message)) as resp:
+                print(resp.status, flush=True)
+
 
 class ChatsData:
     chats = {}
@@ -47,6 +60,7 @@ class Connection:
     admin_connection = {}
     client_connection = {}
     chats_data = ChatsData()
+    telegramMessage = TelegramMessage()
 
     async def __send_message_client__(self, uid:str) -> None:
         websocket = self.client_connection.get(uid)
@@ -62,6 +76,7 @@ class Connection:
         await self.chats_data.set_new_message(uid, message, True, "Client")
         await self.__send_message_admin__()
         await self.__send_message_client__(uid)
+        await self.telegramMessage.sendAsyncMessage("У вас новое сообщение в чате")
 
     async def set_message_admin(self, data:str) -> None:
         jsdata = json.loads(data)
