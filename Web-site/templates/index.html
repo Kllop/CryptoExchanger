@@ -59,19 +59,27 @@
 <div class="chat">
     <div class="chat_header">
     <div class="chat_option">
-        <div class="header_img">
+        <div>
             <img src="static/img/operator_image.png"/>
         </div>
-        <span id="chat_head">Алексей</span> <br> <span class="agent">Оператор</span> <span class="online">(Online)</span>
+        <div style="margin-top: 7px">
+            <div>Алексей</div>
+            <div>Оператор <span class="online">(Online)</span></div>
+        </div>
+        <span id="btn-chat-close" class="btn-close-chat">&#10006;</span>
     </div>
     </div>
     <div id="chat_fullscreen" class="chat_conversion chat_converse"></div>
         <div class="fab_field">    
-            <a id="fab_send" class="fab"><span class = "send_buttom">Send</span></a>
-            <textarea id="chatSend" name="chat_message" placeholder="Send a message" class="chat_field chat_message"></textarea>
+            <a id="fab_send" class="fab">
+                <img src="static/img/telegram_logo.png" width="40px" height="40px">
+            </a>
+            <textarea id="chatSend" name="chat_message" placeholder="Введите текст" class="chat_field"></textarea>
         </div>
     </div>
-    <a id="prime" class="fab"><i class="prime zmdi zmdi-comment-outline"></i></a>
+    <a id="prime" class="fab">
+        <img src="static/img/chat.png"/>
+    </a>
 </div>
     
 

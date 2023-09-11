@@ -114,6 +114,10 @@ function LoginIn(login, password) {
 
 
 
+$('#btn-chat-close').click(function() {
+  toggleFab();
+});
+
 
 $('#prime').click(function() {
   toggleFab();
@@ -158,8 +162,19 @@ function createElementChatsClient(message){
   $("#chat_fullscreen").append(clone);
 }
 
+
+$("textarea#chatSend").keydown(function(e){
+  if (e.keyCode === 13 && !e.shiftKey)
+  {
+    e.preventDefault();
+    const message = $("#chatSend").val()
+    $("#chatSend").val("")
+    socketMarketGraph.send(message)
+  }
+});
+
 $(document).on('click', '#fab_send', function (event) {
-  message = $("#chatSend").val()
+  const message = $("#chatSend").val()
   $("#chatSend").val("")
   socketMarketGraph.send(message)
 });
