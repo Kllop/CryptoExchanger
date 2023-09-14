@@ -1,4 +1,4 @@
-import {updateSelectStyle} from "./common/select.js";
+// import {updateSelectStyle} from "./common/select.js";
 
 var offers_data = {}
 var course_data = {}
@@ -15,7 +15,7 @@ function UpdateSetterOffers(setterName) {
   }
   var defaultValue = Object.keys(values)[0]
   $('#setter').val(defaultValue)
-  updateSelectStyle();
+  // updateSelectStyle();
 }
 
 $('#getter').on('change', function () {
