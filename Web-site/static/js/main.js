@@ -18,13 +18,23 @@ function UpdateSetterOffers(setterName) {
   // updateSelectStyle();
 }
 
+function ChangeWalletName(){
+  let coin_name = $("#getter").val()
+  let names = {BTC : "Bitcoin", ETH : "Ethereum", USDT : "USDT(TRC20)"}
+  let name = names[coin_name]
+  let text = `${name} кошелёк*`
+  $('#getter_number').attr("placeholder", text)
+}
+
 $('#getter').on('change', function () {
   UpdateSetterOffers(this.value)
+  ChangeWalletName()
   CalculationExchangeRate()
 })
 
 $('#setter').on('change', function () {
   UpdateSetterOffers(this.value)
+  ChangeWalletName()
   CalculationExchangeRate()
 })
 
