@@ -26,9 +26,23 @@ function ChangeWalletName(){
   $('#getter_number').attr("placeholder", text)
 }
 
+function ChangeNetworkCoin(){
+  let coin_name = $("#getter").val()
+  let names = {BTC : { BTC :"Bitcoin(BTC)"}, ETH : {ERC20 : "Ethereum(ERC20)"}, USDT : {TRC20 : "TRON(TRC20)"}}
+  let name = names[coin_name]
+  $('#coin_network').empty();
+  for (let unit of Object.keys(name)) {
+    const option1 = $("<option>").attr('value', unit).text(name[unit]);
+    $('#coin_network').append(option1);
+  }
+  var defaultValue = Object.keys(name)[0]
+  $('#coin_network').val(defaultValue)
+}
+
 $('#getter').on('change', function () {
   UpdateSetterOffers(this.value)
   ChangeWalletName()
+  ChangeNetworkCoin()
   CalculationExchangeRate()
 })
 
