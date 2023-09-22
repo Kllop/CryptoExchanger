@@ -36,19 +36,46 @@ async def login_admin(request: Request):
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "id" : user_id, "uuid" : uid_chat}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "id" : "", "uuid" : ""}))
 
-@app.post("/all_orders")
-async def all_orders(request: Request):
-    jsdata = await request.json()
-    if jsdata.get("id") == user_id:
-        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : order_info.GetAllOrders()}))
-    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
-
 @app.post("/admin_chat")
 async def all_orders(request: Request):
     jsdata = await request.json()
     uid = jsdata.get("uuid") == user_id
     resualt = hashlib.sha256(user_id) == uid
     return JSONResponse(content=jsonable_encoder({"resualt" : resualt}))
+
+######################## DIRECTION ##############################
+
+@app.post("/all_direction")
+async def all_orders(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : direction.getAllDirection()}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/remove_direction")
+async def order_detail(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        direction.removeDirection(jsdata.get("uid"))
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/create_direction")
+async def order_detail(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        direction.createDirection(jsdata.get("coin"), jsdata.get("pay_method"), jsdata.get("bank_ru"), jsdata.get("bank_en"), jsdata.get("bank_ind"), jsdata.get("percent"), jsdata.get("area"), jsdata.get("market"))
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+######################## ORDERS ##############################
+
+@app.post("/all_orders")
+async def all_orders(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : order_info.GetAllOrders()}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 @app.post("/order_detail")
 async def order_detail(request: Request):

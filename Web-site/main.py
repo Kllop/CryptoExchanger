@@ -253,6 +253,16 @@ def get_order_detail(user_id):
     responce = requests.post(url = "http://settings-data:9010/order_detail", json={"id" : user_id, "order_id" : order_id})
     return responce.json()
 
+############### DIRECTION ################
+def get_all_direction(user_id):
+    responce = requests.post(url = "http://settings-data:9010/all_direction", json={"id" : user_id})
+    return responce.json()
+
+def get_direction_detail(user_id):
+    order_id = request.args.get('id')
+    responce = requests.post(url = "http://settings-data:9010/direction_detail", json={"id" : user_id, "order_id" : order_id})
+    return responce.json()
+
 @app.route("/order_panel", methods = ["GET"])
 def orders():
     user_id = getAdminId()

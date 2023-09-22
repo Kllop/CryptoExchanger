@@ -1,27 +1,22 @@
 from Database import Postgres_DB
 from Database import Redis_DB
 import json
+import uuid
 
 class DirectionPreference:
 
        redis_db = Redis_DB()
        postgres_db = Postgres_DB("ownerdb", "X$Oi815H%nd*FLyB!9v%", "postgres-data", "5432", "exchange")
+       postgres_db.DropTable("DirectionPreference")
 
-       def createDirection(self):
-              
-              self.postgres_db.ClearTable("DirectionPreference")
-              
-              self.postgres_db.SendDirectoion("1", "BTC",  "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P", "Bybit")
-              self.postgres_db.SendDirectoion("2", "ETH",  "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P", "Bybit")
-              self.postgres_db.SendDirectoion("3", "USDT", "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5.00, "P2P", "Bybit")
+       def createDirection(self, coin:str, pay_method:str, bank_ru:str, bank_en:str, bank_ind:str, percent:str, area:str, market:str):       
+              self.postgres_db.SendDirectoion(uuid.uuid4().hex, coin, pay_method, bank_ru, bank_en, bank_ind, percent, area, market)
 
-              self.postgres_db.SendDirectoion("4", "BTC",  "582", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P", "Bybit")
-              self.postgres_db.SendDirectoion("5", "ETH",  "582", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P", "Bybit")
-              self.postgres_db.SendDirectoion("6", "USDT", "582", "Сбербанк RUB", "Sberbank RUB", "Sberbank", 5.00, "P2P", "Bybit")
-
-              self.postgres_db.SendDirectoion("7", "BTC",  "581", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P", "Bybit")
-              self.postgres_db.SendDirectoion("8", "ETH",  "581", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P", "Bybit")
-              self.postgres_db.SendDirectoion("9", "USDT", "581", "Тинькофф RUB", "Tinkoff RUB", "Tinkoff", 5.00, "P2P", "Bybit")
+       def getAllDirection(self):
+              return self.postgres_db.GetAllDirection()
+       
+       def removeDirection(self, uid:str):
+              self.postgres_db.RemoveDirection(uid)
 
        def setReidsDirection(self):
               postgre_data = self.postgres_db.GetDirection()

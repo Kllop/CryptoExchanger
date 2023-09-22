@@ -210,12 +210,12 @@ class Postgres_DB():
         self.__closeConnectionAndCursor__(connection, cursor)
         return data
 
-    def GetDirection(self) -> None:
+    def GetAllDirection(self) -> None:
         request = """SELECT * FROM DirectionPreference"""
         return self.__getDirection__(request)
 
-    def GetDirectionWithCoin(self, coin:str) -> None:
-        request = """SELECT * FROM DirectionPreference WHERE coin = '{0}'""".format(coin)
+    def RemoveDirection(self, uid:str) -> None:
+        request = """DELETE FROM DirectionPreference WHERE uid = '{0}';""".format(uid)
         return self.__getDirection__(request)
     
     def SendDirectoion(self, uid:str, coin:str, name_exch:str, name_ru:str, name_en:str, name_des:str, percent:float, area:str, market:str) -> None:
