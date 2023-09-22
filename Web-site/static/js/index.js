@@ -179,7 +179,8 @@ $(document).on('click', '#fab_send', function (event) {
   socketMarketGraph.send(message)
 });
 
-url = true ? "wss://jango-exchange.com/chat" : "ws://127.0.0.1:9020/chat"
+// url = true ? "wss://jango-exchange.com/chat" : "ws://127.0.0.1:9020/chat"
+url = "ws://127.0.0.1:9020/chat"
 
 let socketMarketGraph;
 

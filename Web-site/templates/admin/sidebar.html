@@ -1,0 +1,32 @@
+{% block head %}
+<link href="static/css/admin/sidebar.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block sidebar %}
+<aside class="sidebar-menu">
+    <div>
+        <div class="menu-list">
+            <a href="/chats_panel">
+                <div class="menu-list__item menu-list__item--divide">
+                    Чаты
+                </div>
+            </a>
+        </div>
+        <div class="menu-list">
+            <div class="menu-list__header">
+                Ордера
+            </div>
+            <a href="/order_panel?status=new">
+                <div class="menu-list__item">
+                    Новые
+                </div>
+            </a>
+            <a href="/order_panel?status=finish">
+                <div class="menu-list__item menu-list__item--divide ">Завершеные
+                </div>
+            </a>
+        </div>
+    </div>
+</aside>
+{% endblock %}
