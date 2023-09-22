@@ -261,7 +261,7 @@ def get_all_direction(user_id):
 
 def remove_direction(user_id, data:dict):
     uid = data.get('uid')
-    responce = requests.post(url = "http://settings-data:9010/direction_detail", json={"id" : user_id, "order_id" : uid})
+    responce = requests.post(url = "http://settings-data:9010/remove_direction", json={"id" : user_id, "order_id" : uid})
     return responce.json()
 
 def create_direction(user_id:str, data:dict):
@@ -273,14 +273,14 @@ def create_direction(user_id:str, data:dict):
     percent = data.get("percent")
     area = data.get("area")
     market = data.get("market")
-    responce = requests.post(url = "http://settings-data:9010/direction_detail", json={"id" : user_id, "coin" : coin, "pay_method" : pay_method, 
+    responce = requests.post(url = "http://settings-data:9010/create_direction", json={"id" : user_id, "coin" : coin, "pay_method" : pay_method, 
                                                                                        "bank_ru" : bank_ru, "bank_en" : bank_en, "bank_ind" : bank_ind, 
                                                                                        "percent" : percent, "area" : area, "market" : market})
     return responce.json()
 
 ########## METHODS #########
 
-@app.route("/direction", methods = ["GET"])
+@app.route("/all_direction", methods = ["GET"])
 def direction_method():
     user_id = getAdminId()
     if user_id == None:
@@ -289,7 +289,7 @@ def direction_method():
     if data.get("resualt") == False:
         session.pop("admin_id")
         return redirect("/")
-    return make_response(render_template("admin/orders_panel.html", orders=data.get('data')))
+    return {"data" : data.get('data')}
 
 @app.route("/remove_direction", methods = ["POST"])
 def remove_direction_method():

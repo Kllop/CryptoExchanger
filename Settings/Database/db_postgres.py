@@ -178,7 +178,7 @@ class Postgres_DB():
     ####################### DIRECTION TRADE #############################
 
     def __createTableDirectionPreference__(self) -> None:
-        request = """CREATE TABLE DirectionPreference (uid VARCHAR(30) NOT NULL,
+        request = """CREATE TABLE DirectionPreference (uid VARCHAR(60) NOT NULL,
                                                        coin VARCHAR(30) NOT NULL,
                                                        nameexch VARCHAR(30) NOT NULL,
                                                        nameru VARCHAR(30) NOT NULL,

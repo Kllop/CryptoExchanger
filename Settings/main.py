@@ -87,6 +87,5 @@ async def order_detail(request: Request):
 
 
 if __name__ == "__main__":
-    direction.createDirection()
-    direction.setReidsDirection()
+    direction.createDirection("BTC", "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5, "P2P", "ByBit")
     uvicorn.run(app, host="0.0.0.0", port=9010)
