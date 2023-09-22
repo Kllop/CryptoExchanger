@@ -254,14 +254,64 @@ def get_order_detail(user_id):
     return responce.json()
 
 ############### DIRECTION ################
+
 def get_all_direction(user_id):
     responce = requests.post(url = "http://settings-data:9010/all_direction", json={"id" : user_id})
     return responce.json()
 
-def get_direction_detail(user_id):
-    order_id = request.args.get('id')
-    responce = requests.post(url = "http://settings-data:9010/direction_detail", json={"id" : user_id, "order_id" : order_id})
+def remove_direction(user_id, data:dict):
+    uid = data.get('uid')
+    responce = requests.post(url = "http://settings-data:9010/direction_detail", json={"id" : user_id, "order_id" : uid})
     return responce.json()
+
+def create_direction(user_id:str, data:dict):
+    coin = data.get("coin")
+    pay_method = data.get("pay_method")
+    bank_ru = data.get("bank_ru")
+    bank_en = data.get("bank_en")
+    bank_ind = data.get("bank_ind")
+    percent = data.get("percent")
+    area = data.get("area")
+    market = data.get("market")
+    responce = requests.post(url = "http://settings-data:9010/direction_detail", json={"id" : user_id, "coin" : coin, "pay_method" : pay_method, 
+                                                                                       "bank_ru" : bank_ru, "bank_en" : bank_en, "bank_ind" : bank_ind, 
+                                                                                       "percent" : percent, "area" : area, "market" : market})
+    return responce.json()
+
+########## METHODS #########
+
+@app.route("/direction", methods = ["GET"])
+def direction_method():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    data = get_all_direction(user_id)
+    if data.get("resualt") == False:
+        session.pop("admin_id")
+        return redirect("/")
+    return make_response(render_template("admin/orders_panel.html", orders=data.get('data')))
+
+@app.route("/remove_direction", methods = ["POST"])
+def remove_direction_method():
+    user_id = getAdminId()
+    if user_id == None:
+        session.pop("admin_id")
+        return redirect("/")
+    outjson = remove_direction(user_id, request.json())
+    resualt = outjson.get('resualt')
+    return {"resualt" : resualt}
+
+@app.route("/create_direction", methods = ["POST"])
+def create_direction_method():
+    user_id = getAdminId()
+    if user_id == None:
+        session.pop("admin_id")
+        return redirect("/")
+    outjson = create_direction(user_id, request.json())
+    resualt = outjson.get('resualt')
+    return {"resualt" : resualt}
+
+#########################################################################################
 
 @app.route("/order_panel", methods = ["GET"])
 def orders():
