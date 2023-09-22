@@ -5,11 +5,11 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import uuid
-import json
 import hashlib
 
 #Folder
 from data.preference import DirectionPreference
+from data.orders import OrderInfo
 
 app = FastAPI()
 origins = ["*"]
@@ -26,6 +26,7 @@ login = "MisPIcudesTormAToCLo"
 password = "27865PHhuYxkk2EdaUYR"
 user_id = uuid.uuid4().hex
 direction = DirectionPreference()
+order_info = OrderInfo()
 
 @app.post("/admin_login")
 async def login_admin(request: Request):
@@ -39,7 +40,7 @@ async def login_admin(request: Request):
 async def all_orders(request: Request):
     jsdata = await request.json()
     if jsdata.get("id") == user_id:
-        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))#postgres_db.GetAllOrders()
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : order_info.GetAllOrders()}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 @app.post("/admin_chat")
@@ -54,7 +55,7 @@ async def order_detail(request: Request):
     jsdata = await request.json()
     if jsdata.get("id") == user_id:
         order_id = jsdata.get("order_id")
-        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))#postgres_db.GetOrderDetail(int(order_id))
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : order_info.GetOrderDetail(int(order_id))}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 
