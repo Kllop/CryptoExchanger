@@ -9,48 +9,55 @@ from proxy.proxyList import proxyListMarketP2PRUB
 
 redis_db = Redis_DB()
 
-async def BinanceCourse(preferences):
-    try:
-        binance = Binance2P2("", True, 5, proxyListMarketP2PRUB)
-        session_timeout = aiohttp.ClientTimeout(total=None,sock_connect=40,sock_read=40)
-        async with aiohttp.ClientSession(timeout=session_timeout) as session:
-            for preference in preferences:
-                if preference["market"] == "P2P":
-                    data = await binance.GetBestPrice(preference["name_exch"], "RUB", preference["coin"], "BUY", 1000, 1, session)
-                elif preference["market"] == "SPOT":
-                    data = BinanceSpot()
-                else:
-                    data = {}
-                if len(data) == 0:
-                    continue
-                redis_db.setValueMapping("binancecourse", {preference["coin"] : json.dumps(data)})
-    except ConnectionError as e:
-        print("Error connection", flush=True)
-    except Exception as e:
-        print(e, flush=True)
-
-async def ByBitCourse(preferences):
+async def ByBitP2PCourse(preference) -> int:
     try:
         bybit = ByBit2P2("", True, 5, proxyListMarketP2PRUB)
         session_timeout = aiohttp.ClientTimeout(total=None,sock_connect=40,sock_read=40)
         async with aiohttp.ClientSession(timeout=session_timeout) as session:
-            for preference in preferences:
-                data = await bybit.GetBestPrice(preference["name_exch"], "RUB", preference["coin"], "1", session, preference['name_des'])
-                if len(data) == 0:
-                    continue
-                redis_db.setValueMapping("binancecourse", {preference["coin"] : json.dumps(data)})
+            return await bybit.GetBestPrice(preference["name_exch"], "RUB", preference["coin"], "1", session)        
     except ConnectionError as e:
-        print("Error connection", flush=True)
+        print("Error connection ByBit P2P", flush=True)
+        return 0
     except Exception as e:
         print(e, flush=True)
+        return 0
+
+async def setCourseData(coin:str, data):
+    redis_db.setValueMapping("courses", {coin : data})
+
+async def masterMarket():
+    preferences = await parse_preference(redis_db.getValueList("tradepreference"))
+    directionMarket = await WorkManager(preferences)
+    outdata = {}
+    for direction in directionMarket:
+        market : str = direction['market']
+        area : str = direction['area']
+        coin : str = direction['coin']
+        data = {}
+        if market == "Bybit":
+            if area == "P2P":
+                data = await ByBitP2PCourse(direction)
+        outdata.update({"{0}:{1}:{2}:{3}".format(market, area, coin, direction["name_exch"]) : data})
+    for preference in preferences:
+        price = outdata.get("{0}:{1}:{2}:{3}".format(preference["market"], preference["area"], preference["coin"], preference["name_exch"]))
+        if price == 0:
+            continue
+        price = round(price * ((100 + preference.get("percent"))/100), 2)
+        await setCourseData("{0}:{1}".format(preference["coin"], preference["name_des"]), price)
+
+async def WorkManager(preference):
+    outdata = []
+    for data in preference:
+        outdata.append({"market" : data['market'], "area" : data['area'], "coin" : data['coin'], "name_exch" : data['name_exch']})
+    outdata = [i for n, i in enumerate(outdata) if i not in outdata[:n]]
+    return outdata
 
 async def start():
     while True:
-        preference = parse_preference(redis_db.getValueList("tradepreference"))
-        await ByBitCourse(preference)
+        await masterMarket()
         await asyncio.sleep(15)
 
-def parse_preference(data:dict) -> dict:
+async def parse_preference(data:dict) -> dict:
     outdata = []
     for temp in data:
         outdata.append(json.loads(temp))

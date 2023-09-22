@@ -55,4 +55,4 @@ class AML:
 
 
 
-asyncio.run(AML().check_wellet("bc1qz0udpfzpuqtuuv5yvrt0q2ptcyq74y0nelu70f", "ETH"))
+print(asyncio.run(AML().check_wellet("TFg4UkteDnJWCnjo1vZ1nB73anUjfDaDSm", "USDT_TRC20")))

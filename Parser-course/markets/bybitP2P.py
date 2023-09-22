@@ -31,16 +31,8 @@ class ByBit2P2(MarketP2P):
             return 0
         for temp in data:
             price.append(float(temp['price']))
-        return round((sum(price) / len(price)) * 1.03, 2) 
+        return round((sum(price) / len(price)), 2) 
     
-    async def GetBestPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: int, session, payMethodDes:str):
+    async def GetBestPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: int, session):
         data = await self.__get_server_data__(Fiat, Lot, [PaymentMethods], Operation, "1", session)
-        parseData = {}
-        price = await self.__AvgPriceData__(data)
-        if price == 0:
-            return {}
-        parseData.update({'AVGprice': price})
-        parseData.update({'fiat': Fiat})
-        parseData.update({'payMethod': payMethodDes})
-        parseData.update({'lot': Lot})
-        return parseData
+        return await self.__AvgPriceData__(data)

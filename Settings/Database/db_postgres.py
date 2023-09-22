@@ -107,22 +107,7 @@ class Postgres_DB():
         return request
 
 
-    def createTableDirectionPreference(self) -> None:
-        request = """CREATE TABLE DirectionPreference (coin VARCHAR(30) NOT NULL,
-                                                       nameexch VARCHAR(30) NOT NULL,
-                                                       nameru VARCHAR(30) NOT NULL,
-                                                       nameen VARCHAR(30) NOT NULL,
-                                                       namedes VARCHAR(30) NOT NULL,
-                                                       percent FLOAT NOT NULL,
-                                                       marketP2P VARCHAR(10) NOT NULL);"""
-        connection, cursor = self.__getConnectionAndCursor__()
-        try:
-            cursor.execute(request)
-            connection.commit()
-        except Exception as e:
-            self.__closeConnectionAndCursor__(connection, cursor)
-            print("Error create direction preference table", e, traceback.format_exc(), flush=True)
-        self.__closeConnectionAndCursor__(connection, cursor)
+    
 
     def createTableOrdersList(self) -> None:
         request = """CREATE TABLE OrdersList (orderid INT NOT NULL,
@@ -164,24 +149,51 @@ class Postgres_DB():
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
-        self.__closeConnectionAndCursor__(connection, cursor)
-
-    def SendDirectoion(self, coin:str, name_exch:str, name_ru:str, name_en:str, name_des:str, percent:float, market:str) -> None:
-        try:
-            if not self.CheckTable("DirectionPreference"):
-                self.createTableDirectionPreference()
-        except Exception as e:
-            print("Error check table SendDirectoion", e, traceback.format_exc(), flush=True)
-            return
+        self.__closeConnectionAndCursor__(connection, cursor)   
+    
+    def ClearTable(self, tableName:str) -> None:   
         try:
             connection, cursor = self.__getConnectionAndCursor__()
-            values = [coin, name_exch, name_ru, name_en, name_des, percent, market]
-            request = "INSERT INTO DirectionPreference VALUES(%s, %s, %s, %s, %s, %s, %s);"
-            cursor.execute(request, values)
+            request = "TRUNCATE TABLE {0}".format(tableName)
+            cursor.execute(request)
             connection.commit()
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
-            print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
+            print("Error truncate table {0}".format(tableName), e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+
+    def DropTable(self, tableName:str) -> None:
+        try:
+            connection, cursor = self.__getConnectionAndCursor__()
+            request = "DROP TABLE {0}".format(tableName)
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error drop table SendDirectoion", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+
+
+
+    ####################### DIRECTION TRADE #############################
+
+    def __createTableDirectionPreference__(self) -> None:
+        request = """CREATE TABLE DirectionPreference (uid VARCHAR(30) NOT NULL,
+                                                       coin VARCHAR(30) NOT NULL,
+                                                       nameexch VARCHAR(30) NOT NULL,
+                                                       nameru VARCHAR(30) NOT NULL,
+                                                       nameen VARCHAR(30) NOT NULL,
+                                                       namedes VARCHAR(30) NOT NULL,
+                                                       percent FLOAT NOT NULL,
+                                                       area VARCHAR(19) NOT NULL,
+                                                       marketP2P VARCHAR(30) NOT NULL);"""
+        connection, cursor = self.__getConnectionAndCursor__()
+        try:
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error create direction preference table", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
 
     def __getDirection__(self, request:str) -> dict:
@@ -198,38 +210,28 @@ class Postgres_DB():
         self.__closeConnectionAndCursor__(connection, cursor)
         return data
 
+    def GetDirection(self) -> None:
+        request = """SELECT * FROM DirectionPreference"""
+        return self.__getDirection__(request)
+
     def GetDirectionWithCoin(self, coin:str) -> None:
         request = """SELECT * FROM DirectionPreference WHERE coin = '{0}'""".format(coin)
         return self.__getDirection__(request)
     
-    def GetDirection(self) -> None:
-        request = """SELECT * FROM DirectionPreference"""
-        return self.__getDirection__(request)
-    
-    def ClearTable(self, tableName:str) -> None:
+    def SendDirectoion(self, uid:str, coin:str, name_exch:str, name_ru:str, name_en:str, name_des:str, percent:float, area:str, market:str) -> None:
         try:
-            if not self.CheckTable(tableName):
-                self.createTableDirectionPreference()
+            if not self.CheckTable("DirectionPreference"):
+                self.__createTableDirectionPreference__()
         except Exception as e:
-            print("Error check table {0}".format(tableName), e, traceback.format_exc(), flush=True)
-            return     
+            print("Error check table SendDirectoion", e, traceback.format_exc(), flush=True)
+            return
         try:
             connection, cursor = self.__getConnectionAndCursor__()
-            request = "TRUNCATE TABLE {0}".format(tableName)
-            cursor.execute(request)
+            values = [uid, coin, name_exch, name_ru, name_en, name_des, percent, area, market]
+            request = "INSERT INTO DirectionPreference VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);"
+            cursor.execute(request, values)
             connection.commit()
         except Exception as e:
             self.__closeConnectionAndCursor__(connection, cursor)
-            print("Error truncate table SendDirectoion", e, traceback.format_exc(), flush=True)
-        self.__closeConnectionAndCursor__(connection, cursor)
-
-    def DropTable(self, tableName:str) -> None:
-        try:
-            connection, cursor = self.__getConnectionAndCursor__()
-            request = "DROP TABLE {0}".format(tableName)
-            cursor.execute(request)
-            connection.commit()
-        except Exception as e:
-            self.__closeConnectionAndCursor__(connection, cursor)
-            print("Error drop table SendDirectoion", e, traceback.format_exc(), flush=True)
+            print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
