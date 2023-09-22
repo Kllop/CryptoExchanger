@@ -1,6 +1,7 @@
 <html>
     <head>
         <link href="static/css/admin/admin.css" rel="stylesheet" type="text/css">
+        <link href="static/css/admin/orders-detail.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     </head>
@@ -15,26 +16,46 @@
                 <div><a href="/order_panel?status=finish">Завершеные</a></div>
             </div>
         </header>
-        <div class="order_filler">
-            <div class = "order_div">
-                <div>Номер заявки : №{{data[0]}}</div>
-                <div>Создания заявки : {{data[1]}}</div>
-                <div>Изменения статуса заявки : {{data[1]}}</div>      
+        <main class="details">
+            <div class="container">
+                <div class="details__item details__item-header">
+                    <div>Номер заявки</div> №{{data[0]}}
+                </div>
+                <div class="details__item">
+                    <div>Создания заявки</div> {{data[1]}}
+                </div>
+                <div class="details__item">
+                    <div>Изменения статуса заявки</div> {{data[1]}}
+                </div>
+                <div class="details__item">
+                    <div>Монета</div> {{data[4]}}
+                </div>
+                <div class="details__item">
+                    <div>Курс</div> {{data[3]}}
+                </div>
+                <div class="details__item">
+                    <div>Сумма</div> {{data[5]}} RUB
+                </div>
+                <div class="details__item">
+                    <div>Получает</div> {{data[6]}} {{data[4]}}
+                </div>
+                <div class="details__item">
+                    <div>Метод оплаты</div> {{data[8]}}
+                </div>
+                <div class="details__item">
+                    <div>Карта отправителя</div> {{data[9]}}
+                </div>
+                <div class="details__item">
+                    <div> Статус</div> {{data[11]}}
+                </div>
+                <div class="details__item">
+                    <div>Кошелек</div> {{data[10]}}
+                </div>
+                <div class="details__item">
+                    <div>Теlegram</div> {{data[7]}}
+                </div>
+                <button class="btn-submit">Завершить заявку</button>
             </div>
-            <div class = "order_div">
-                <div>Монета : {{data[4]}}</div>
-                <div>Курс : {{data[3]}}</div>
-                <div>Сумма : {{data[5]}} RUB</div>
-                <div>Получает : {{data[6]}} {{data[4]}}</div>
-                <div>Метод оплаты : {{data[8]}}</div>   
-                <div>Карта отправителя : {{data[9]}}</div>
-            </div>
-            <div class = "order_div">
-                <div> Статус : {{data[11]}}</div>
-                <div>Кошелек : {{data[10]}}</div>
-                <div>Теlegram : {{data[7]}}</div>
-            </div>
-            <div><button>Завершить заявку</button></div>
-        </div>
+        </main>
     </body>
 </html>

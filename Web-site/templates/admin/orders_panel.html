@@ -1,6 +1,7 @@
 <html>
     <head>
         <link href="static/css/admin/admin.css" rel="stylesheet" type="text/css">
+        <link href="static/css/admin/order-panel.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     </head>
@@ -15,17 +16,30 @@
                 <div><a href="/order_panel?status=finish">Завершеные</a></div>
             </div>
         </header>
-        {% for order in orders %}
-            <div class = "orders_div" id = "order_prev" accesskey = {{order[0]}}>
-                <div> Номер заявки : {{order[0]}} </div>
-                <div> Монета : {{order[4]}} </div>
-                <div> Курс : {{order[3]}} </div>
-                <div> Сумма : {{order[5]}} RUB </div>
-                <div> Получает : {{order[6]}} {{order[4]}} </div>
-                <div> Метод оплаты : {{order[8]}}</div>
-                <div> Статус : {{order[11]}} </div>
+        <main class="panel">
+            <div class="list">
+                <div class="list__header list__item">
+                    <div> Номер заявки</div>
+                    <div> Монета </div>
+                    <div> Курс </div>
+                    <div> Сумма </div>
+                    <div> Получает </div>
+                    <div> Метод оплаты </div>
+                    <div> Статус </div>
+                </div>
+                {% for order in orders %}
+                <div class = "list__item" id = "order_prev" accesskey = {{order[0]}}>
+                    <div> {{order[0]}} </div>
+                    <div> {{order[4]}} </div>
+                    <div> {{order[3]}} </div>
+                    <div> {{order[5]}} RUB </div>
+                    <div> {{order[6]}} {{order[4]}} </div>
+                    <div> {{order[8]}}</div>
+                    <div> {{order[11]}} </div>
+                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </main>
         <script src="static/js/admin.js"></script>
     </body>
 </html>

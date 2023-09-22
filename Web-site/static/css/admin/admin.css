@@ -1,5 +1,10 @@
-body{
-    background-color: #323232;
+@import "_colors.css";
+
+body {
+    background-color: var(--main-bg);
+    color: var(--main-color);
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .header_div {
@@ -15,7 +20,6 @@ body{
 }
 
 .middle_div {
-    
     padding: 44px 48px 28px 48px;
     width: 100%;
     box-sizing: border-box;
@@ -27,42 +31,21 @@ body{
     gap: 24px;
 }
 
-.orders_div {
-    padding: 30px 48px 30px 100px;
-    margin: 5px 250px 5px 250px;
-    width: 70%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background-color: red;
-    display: flex;
-    flex-direction: initial;
-    gap: 24px;
-}
+/*.orders_div {*/
+/*    padding: 30px 48px 30px 100px;*/
+/*    margin: 5px 250px 5px 250px;*/
+/*    width: 70%;*/
+/*    box-sizing: border-box;*/
+/*    border-radius: 10px;*/
+/*    background-color: red;*/
+/*    display: flex;*/
+/*    flex-direction: initial;*/
+/*    gap: 24px;*/
+/*}*/
 
-.chats {
-    display: inline-table;
-}
-
-.chats_div {
-    padding: 10px 10px 10px 10px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    flex-direction: column;
-    background-color: silver;
-}
-
-.order_filler{
-    padding: 10px 48px 10px 100px;
-    margin: 0px 250px 0px 250px;
-    border-radius: 10px;
-    background-color: red;
-}
-
-.order_div {
-    padding: 10px 0px 10px 0px;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: initial;
-    gap: 24px;
-}
+/*.order_filler {*/
+/*    padding: 10px 48px 10px 100px;*/
+/*    margin: 0px 250px 0px 250px;*/
+/*    border-radius: 10px;*/
+/*    background-color: red;*/
+/*}*/
