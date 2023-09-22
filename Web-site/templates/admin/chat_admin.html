@@ -7,29 +7,29 @@
             src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 </head>
 <body>
-<header>
-    <div class="header_div">
-        <div><a href="/order_panel?status=new">Ордера</a></div>
-        <div><a href="/chats_panel">Чаты</a></div>
-    </div>
-</header>
+{% block sidebar %}
+{% include "admin/sidebar.html" %}
+{% endblock %}
 <main class="container">
-   <div class="container-inner">
-       <aside class="sidebar" id="place_chats">
-           <div class="sidebar-header">
-               Клиенты
-           </div>
-           <div class="chat-list" id="element_chats"></div>
-       </aside>
-       <div class="chat">
-           <div class="chat-head" id="message_uuid">Чат не выбран</div>
-           <div class="chat-message-list" id="messages">Выберите, кому хотели бы ответить </div>
-           <div class="chat-footer">
-               <input type="text" placeholder="Сообшение" id="text_message">
-               <button id="send_message">Отправить</button>
-           </div>
-       </div>
-   </div>
+    <h2 style="color: #344050">Чаты</h2>
+    <div class="container-inner">
+        <aside class="sidebar" id="place_chats">
+            <div class="sidebar-header">
+                Клиенты
+            </div>
+            <div class="chat-list" id="element_chats"></div>
+        </aside>
+        <div class="chat">
+            <div class="chat-head" id="message_uuid">Чат не выбран</div>
+            <div class="chat-message-list" id="messages">
+                <div style="margin-top: 80px; text-align: center">Выберите, кому хотели бы ответить</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" placeholder="Сообшение" id="text_message">
+                <button id="send_message">Отправить</button>
+            </div>
+        </div>
+    </div>
 </main>
 <template id="chat_panel">
     <div class="chat-item" id="chat_element">

@@ -6,17 +6,11 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     </head>
     <body>
-        <header>
-            <div class = "header_div">
-                <div><a href="/order_panel?status=new">Ордера</a></div>
-                <div><a href="/chats_panel">Чаты</a></div>
-            </div>
-            <div class = "middle_div">
-                <div><a href="/order_panel?status=new">Новые</a></div>
-                <div><a href="/order_panel?status=finish">Завершеные</a></div>
-            </div>
-        </header>
+        {% block sidebar %}
+        {% include "admin/sidebar.html" %}
+        {% endblock %}
         <main class="details">
+            <h2 style="color: #344050">Детали заявки</h2>
             <div class="container">
                 <div class="details__item details__item-header">
                     <div>Номер заявки</div> №{{data[0]}}
@@ -24,7 +18,7 @@
                 <div class="details__item">
                     <div>Создания заявки</div> {{data[1]}}
                 </div>
-                <div class="details__item">
+                <div class="details__item details__item--divide ">
                     <div>Изменения статуса заявки</div> {{data[1]}}
                 </div>
                 <div class="details__item">

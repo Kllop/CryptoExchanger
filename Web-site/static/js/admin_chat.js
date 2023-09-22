@@ -1,8 +1,8 @@
 var chats_data = {}
 var uuid = ""
 
-// url = true ? "wss://jango-exchange.com/admin_chat" : "ws://127.0.0.1:9020/admin_chat"
-url = "ws://127.0.0.1:9020/admin_chat"
+url = true ? "wss://jango-exchange.com/admin_chat" : "ws://127.0.0.1:9020/admin_chat"
+// url = "ws://127.0.0.1:9020/admin_chat"
 
 let socketMarketGraph = new WebSocket(url);
 
@@ -76,6 +76,7 @@ function openChat(tag){
 
 $(document).on('click', '#chat_element', function (event) {
   var tag = this.accessKey
+  $("#text_message").val("")
   openChat(tag)
   $(`[accessKey]`).removeClass('chat-item--active');
   $(`[accessKey=${this.accessKey}]`).addClass('chat-item--active');
@@ -86,7 +87,6 @@ $(document).on('click', '#send_message', function (event) {
 });
 
 $("input#text_message").keydown(function(e){
-  console.log('1');
   if (e.keyCode === 13 && !e.shiftKey)
   {
     e.preventDefault();

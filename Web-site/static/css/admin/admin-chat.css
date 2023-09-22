@@ -1,12 +1,15 @@
 .container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
 .container-inner {
-    margin-top: 20px;
     display: flex;
     gap: 20px;
+    height: 80vh;
+    min-height: 300px;
+    max-height: 600px;
 }
 
 
@@ -14,6 +17,8 @@
     background-color: var(--form-bg);
     box-shadow: var(--box-shadow);
     border-radius: 0.25rem;
+    width: 260px;
+    overflow: auto;
 }
 
 .sidebar-header {
@@ -23,6 +28,9 @@
     height: 57px;
     font-weight: 600;
     box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    background-color: var(--form-bg);
 }
 
 .chat-list {
@@ -70,9 +78,6 @@
     border-radius: 0.375rem;
     box-shadow: var(--box-shadow);
     background-color: var(--form-bg);
-    height: 80vh;
-    min-height: 300px;
-    max-height: 600px;
     position: relative;
     box-sizing: border-box;
     display: flex;
@@ -219,4 +224,10 @@
     -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
     -o-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+}
+
+.chat-footer button:hover {
+    color: #fff;
+    background-color: #2569c3;
+    border-color: #2362b7;
 }
