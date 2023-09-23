@@ -33,13 +33,16 @@ async def masterMarket():
         market : str = direction['market']
         area : str = direction['area']
         coin : str = direction['coin']
-        data = {}
-        if market == "Bybit":
-            if area == "P2P":
+        print("area : {0}, market : {1}".format(area, market))
+        data = 0
+        if market == "bybit":
+            if area == "p2p":
                 data = await ByBitP2PCourse(direction)
+        print(data, flush=True)
         outdata.update({"{0}:{1}:{2}:{3}".format(market, area, coin, direction["name_exch"]) : data})
     for preference in preferences:
         price = outdata.get("{0}:{1}:{2}:{3}".format(preference["market"], preference["area"], preference["coin"], preference["name_exch"]))
+        print(price, flush=True)
         if price == 0:
             continue
         price = round(price * ((100 + preference.get("percent"))/100), 2)
@@ -64,7 +67,6 @@ async def parse_preference(data:dict) -> dict:
     return outdata
 
 if __name__ == "__main__":
-    redis_db.removeKey("binancecourse")
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     try :

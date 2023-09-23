@@ -64,7 +64,15 @@ async def order_detail(request: Request):
 async def order_detail(request: Request):
     jsdata = await request.json()
     if jsdata.get("id") == user_id:
-        direction.createDirection(jsdata.get("coin"), jsdata.get("pay_method"), jsdata.get("bank_ru"), jsdata.get("bank_en"), jsdata.get("bank_ind"), jsdata.get("percent"), jsdata.get("area"), jsdata.get("market"))
+        coin = jsdata.get("coin")  
+        pay_method = jsdata.get("pay_method")
+        bank_ru = jsdata.get("bank_ru")
+        bank_en = jsdata.get("bank_en")
+        bank_ind = jsdata.get("bank_ind")
+        percent = jsdata.get("percent")
+        area = jsdata.get("area").lower()
+        market = jsdata.get("market").lower()
+        direction.createDirection(coin, pay_method, bank_ru, bank_en, bank_ind, percent, area, market)
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
@@ -87,5 +95,4 @@ async def order_detail(request: Request):
 
 
 if __name__ == "__main__":
-    direction.createDirection("BTC", "64", "Райффайзен RUB", "Raiffeisen RUB", "Raiffeisen", 5, "P2P", "ByBit")
     uvicorn.run(app, host="0.0.0.0", port=9010)
