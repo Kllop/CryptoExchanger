@@ -70,7 +70,6 @@ function renderDirectionList(directions) {
     $("#direction-list").append(
       `
         <div class="direction-item">
-            <div>${item[0]}</div>
             <div>${item[1]}</div>
             <div>${item[2]}</div>
             <div>${item[3]}</div>

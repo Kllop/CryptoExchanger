@@ -45,11 +45,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.direction-item > div:nth-child(1){
-    width: 280px;
-    min-width: 280px;
-}
-.direction-item > div:nth-child(2), .direction-item > div:nth-child(3){
+
+.direction-item > div:nth-child(1), .direction-item > div:nth-child(2){
     width: 100px;
 }
 
