@@ -27,9 +27,6 @@ app.add_middleware(
 )
 
 marketCourse = MarketCouse()
-#Registraton().db.DropTable("UsersData")
-#Registraton().db.DropTable("OrdersList")
-#Registraton().send_registraton_admin('admin', '100699', 'admin@gmail.com', '127.0.0.1','')
 
 class TelegramMessage:
     
