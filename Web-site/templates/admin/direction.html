@@ -1,0 +1,51 @@
+<html>
+<head>
+    <link href="static/css/admin/admin.css" rel="stylesheet" type="text/css">
+    <link href="static/css/admin/direction.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+{% block sidebar %}
+{% include "admin/sidebar.html" %}
+{% endblock %}
+<main class="direction">
+    <h2 style="color: #344050">Direction</h2>
+    <div class="direction-container">
+        <div class="direction-list">
+            <div class="direction-item direction-item-header">
+                <div>ID</div>
+                <div>Монета</div>
+                <div>Метод</div>
+                <div>Банк Ru</div>
+                <div>Банк En</div>
+                <div>Банк Идентификатор</div>
+                <div>Процент</div>
+                <div>Площадка</div>
+                <div>Маркет</div>
+                <div>Действие</div>
+            </div>
+        </div>
+        <div class="direction-list">
+            <div class="direction-item">
+                <div></div>
+                <div><input id="f-coin"/></div>
+                <div><input id="f-pay_method"/></div>
+                <div><input id="f-bank_ru"/></div>
+                <div><input id="f-bank_en"/></div>
+                <div><input id="f-bank_ind"/></div>
+                <div><input id="f-percent"/></div>
+                <div><input id="f-area"/></div>
+                <div><input id="f-market"/></div>
+                <div>
+                    <button class="primary" onclick="createDirection()">Создать</button>
+                </div>
+            </div>
+        </div>
+        <div class="direction-list" id="direction-list"></div>
+    </div>
+</main>
+<script src="static/js/admin_direction.js"></script>
+</body>
+</html>

@@ -82,6 +82,7 @@ function SenderOfferData() {
   const setterNumber = $("#setter_number").val()
   const setterTelegram = $("#setter_telegram").val()
   const getterNumber = $("#getter_number").val()
+  const setterEmail = $("#setter_email").val()
 
   $.ajax({
     url: "/bid",
@@ -95,7 +96,8 @@ function SenderOfferData() {
       getterType: getterType,
       setterNumber: setterNumber,
       setterTelegram: setterTelegram,
-      getterNumber: getterNumber
+      getterNumber: getterNumber,
+      setter_email: setterEmail,
     }),
     success: function (response) {
       window.location.href = '/bid'

@@ -280,6 +280,13 @@ def create_direction(user_id:str, data:dict):
 
 ########## METHODS #########
 
+@app.route("/control-direction", methods = ["GET"])
+def direction_page():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    return make_response(render_template("admin/direction.html"))
+
 @app.route("/all_direction", methods = ["GET"])
 def direction_method():
     user_id = getAdminId()
