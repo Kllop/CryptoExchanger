@@ -7,7 +7,7 @@ services:
       context: ./Web-site
       dockerfile: web-site.dockerfile
     environment:
-      FLASK_DEBUG: "on"
+      FLASK_DEBUG: "off"
       FLASK_APP: ./main.py
     ports:
       - "5010:5010"
