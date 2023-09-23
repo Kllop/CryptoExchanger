@@ -261,7 +261,7 @@ def get_all_direction(user_id):
 
 def remove_direction(user_id, data:dict):
     uid = data.get('uid')
-    responce = requests.post(url = "http://settings-data:9010/remove_direction", json={"id" : user_id, "order_id" : uid})
+    responce = requests.post(url = "http://settings-data:9010/remove_direction", json={"id" : user_id, "uid" : uid})
     return responce.json()
 
 def create_direction(user_id:str, data:dict):
@@ -304,7 +304,7 @@ def remove_direction_method():
     if user_id == None:
         session.pop("admin_id")
         return redirect("/")
-    outjson = remove_direction(user_id, request.json())
+    outjson = remove_direction(user_id, request.json)
     resualt = outjson.get('resualt')
     return {"resualt" : resualt}
 
@@ -314,7 +314,7 @@ def create_direction_method():
     if user_id == None:
         session.pop("admin_id")
         return redirect("/")
-    outjson = create_direction(user_id, request.json())
+    outjson = create_direction(user_id, request.json)
     resualt = outjson.get('resualt')
     return {"resualt" : resualt}
 

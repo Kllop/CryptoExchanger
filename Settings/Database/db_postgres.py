@@ -215,9 +215,23 @@ class Postgres_DB():
         return self.__getDirection__(request)
 
     def RemoveDirection(self, uid:str) -> None:
-        request = """DELETE FROM DirectionPreference WHERE uid = '{0}';""".format(uid)
-        return self.__getDirection__(request)
-    
+        try:
+            if not self.CheckTable("DirectionPreference"):
+                self.__createTableDirectionPreference__()
+        except Exception as e:
+            print("Error check table SendDirectoion", e, traceback.format_exc(), flush=True)
+            return 
+        try:
+            connection, cursor = self.__getConnectionAndCursor__()
+            request = "DELETE FROM DirectionPreference WHERE uid = '{0}';".format(uid)
+            print(request, flush=True)
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+
     def SendDirectoion(self, uid:str, coin:str, name_exch:str, name_ru:str, name_en:str, name_des:str, percent:float, area:str, market:str) -> None:
         try:
             if not self.CheckTable("DirectionPreference"):
