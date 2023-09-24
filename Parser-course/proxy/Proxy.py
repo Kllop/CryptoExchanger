@@ -1,4 +1,3 @@
-
 class Proxy:
 
     def __init__(self, proxyList:list[str]) -> None:
@@ -13,8 +12,3 @@ class Proxy:
     def GetProxy(self) -> str:
         self._NextProxy()
         return self._proxyList[self._currentProxyIndex]
-    
-if __name__ == '__main__':
-    proxy = Proxy(['1', '2', '3'])
-    for temp in range(0,10):    
-        print(proxy.GetProxy())

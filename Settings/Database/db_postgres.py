@@ -106,9 +106,6 @@ class Postgres_DB():
                     WHERE table_name = '{0}';""".format(tableName)
         return request
 
-
-    
-
     def createTableOrdersList(self) -> None:
         request = """CREATE TABLE OrdersList (orderid INT NOT NULL,
                                               datecreate VARCHAR(60) NOT NULL,

@@ -4,11 +4,13 @@ import json
 
 
 class ByBit2P2(MarketP2P):
+
     url = "https://api2.bybit.com/fiat/otc/item/online"
     header = {'User-Agent' : "PostmanRuntime/7.29.0", 'Accept':'*/*', 'Accept-Encoding':'gzip, deflate, br', 'Connection':'keep-alive', 'Content-Type': "application/json"}
+    operation_dict = {"BUY" : "1", "SELL" : "0"}
     #body = {"page":1,"rows":10,"payTypes":[],"publisherType":None,"asset":"SHIB","tradeType":"BUY","fiat":"RUB", 'transAmount': 100000}
 
-    async def __get_server_data__(self, fiat:str, lot:str, paymethod:list, operation:int, page:int, session):
+    async def __get_server_data__(self, fiat:str, lot:str, paymethod:list, operation:int, page:str, session):
         try:
             body = {"userId": "", "tokenId": lot, "currencyId": fiat, "payment": paymethod, "side": operation, "size": "10","page": page, "amount": "", "authMaker": False,"canTrade": False}
             body = json.dumps(body)
@@ -33,6 +35,7 @@ class ByBit2P2(MarketP2P):
             price.append(float(temp['price']))
         return round((sum(price) / len(price)), 2) 
     
-    async def GetBestPrice(self, PaymentMethods: str, Fiat: str, Lot: str, Operation: int, session):
-        data = await self.__get_server_data__(Fiat, Lot, [PaymentMethods], Operation, "1", session)
+    async def GetBestPrice(self, payment_methods: str, fiat: str, lot: str, operation: int, session):
+        operation = self.operation_dict.get(operation.upper())
+        data = await self.__get_server_data__(fiat, lot, [payment_methods], operation, "1", session)
         return await self.__AvgPriceData__(data)

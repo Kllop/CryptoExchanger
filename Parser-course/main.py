@@ -14,7 +14,7 @@ async def ByBitP2PCourse(preference) -> int:
         bybit = ByBit2P2("", True, 5, proxyListMarketP2PRUB)
         session_timeout = aiohttp.ClientTimeout(total=None,sock_connect=40,sock_read=40)
         async with aiohttp.ClientSession(timeout=session_timeout) as session:
-            return await bybit.GetBestPrice(preference["name_exch"], "RUB", preference["coin"], "1", session)        
+            return await bybit.GetBestPrice(preference["name_exch"], "RUB", preference["coin"], "BUY", session)        
     except ConnectionError as e:
         print("Error connection ByBit P2P", flush=True)
         return 0
