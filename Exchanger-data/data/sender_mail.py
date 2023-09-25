@@ -11,7 +11,7 @@ class Sender_Email:
     password = "sdiluwezapcsrbcr"
     context = ssl.create_default_context()
 
-    def send_order_email(self, receiver_email:str, direction:str, summ:str, coin_count:str, coins:str, wallet:str):
+    def send_order_email(self, receiver_email:str, direction_to:str, direction_from:str, summ:str, coin_count:str, coin:str, wallet:str):
         message = MIMEMultipart("alternative")
         message["Subject"] = "Новая заявка"
         message["From"] = self.sender_email
@@ -22,15 +22,15 @@ class Sender_Email:
         Вы оформили заявку на обмена, на сайте https://jango-exchange.com/
         -----------------------------------------------------------------
         Детали заявки
-        Направление : {0}
-        Cумма к оплате : {1} РУБ
-        Вы получите : {2} {3}
-        Счет получения : {4}
+        Направление : {0} -> {1}
+        Cумма к оплате : {2} РУБ
+        Вы получите : {3} {4}
+        Счет получения : {5}
         ------------------------------------------------------------------
         Контакты для связи :
         Email : Jango.Exchange@yandex.ru
         Telegram : @Jango_Exchange
-        """.format(direction, summ, coin_count, coins, wallet) #Tinkoff -> USDT(TRC20)
+        """.format(direction_to, direction_from, summ, coin_count, coin, wallet) #Tinkoff -> USDT(TRC20)
 
         part1 = MIMEText(text, "plain")
 
@@ -42,6 +42,3 @@ class Sender_Email:
         with smtplib.SMTP_SSL(self.smtp_server, self.port, context=self.context) as server:
             server.login(self.sender_email, self.password)
             server.sendmail(self.sender_email, receiver_email, message.as_string())
-
-
-Sender_Email().send_order_email("bahus-1982@yandex.ru")

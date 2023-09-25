@@ -8,6 +8,9 @@ class DirectionPreference:
        redis_db = Redis_DB()
        postgres_db = Postgres_DB("ownerdb", "X$Oi815H%nd*FLyB!9v%", "postgres-data", "5432", "exchange")
 
+       def __init__(self) -> None:
+              self.setReidsDirection()
+
        def createDirection(self, coin:str, pay_method:str, bank_ru:str, bank_en:str, bank_ind:str, percent:str, area:str, market:str):       
               self.postgres_db.SendDirectoion(uuid.uuid4().hex, coin, pay_method, bank_ru, bank_en, bank_ind, percent, area, market)
               self.setReidsDirection()

@@ -4,7 +4,7 @@ import aiohttp
 import json
 #folder
 from Database.db_redis import Redis_DB
-from markets import Binance2P2, BinanceSpot, ByBit2P2
+from markets import BinanceSpot, ByBit2P2
 from proxy.proxyList import proxyListMarketP2PRUB
 
 redis_db = Redis_DB()
@@ -38,6 +38,7 @@ async def masterMarket():
             if area == "p2p":
                 data = await ByBitP2PCourse(direction)
         outdata.update({"{0}:{1}:{2}:{3}".format(market, area, coin, direction["name_exch"]) : data})
+    redis_db.removeKey("courses")
     for preference in preferences:
         price = outdata.get("{0}:{1}:{2}:{3}".format(preference["market"], preference["area"], preference["coin"], preference["name_exch"]))
         if price == 0:

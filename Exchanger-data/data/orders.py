@@ -10,7 +10,8 @@ class Orders:
     def __oderPriceInfo__(self, coin:str, payMethod:str, price:float):
         data = Course().get_course()
         course = data.get(coin).get(payMethod)
-        return course, round(price/course, 8)
+        print(round(float(price)/float(course), 8), flush=True)
+        return course, round(float(price)/float(course), 8)
 
     def send_order(self, request_data:dict) -> dict:
         order_id = self.__generateOrderId__()
@@ -21,6 +22,7 @@ class Orders:
         pay_method = request_data['setterType']
         course, count = self.__oderPriceInfo__(coin, pay_method, price)    
         telegram = request_data['setterTelegram']
+        email = request_data['setter_email']
         pay_method_number = request_data['setterNumber']
         wallet = request_data['getterNumber']
         status = "new order"
@@ -29,7 +31,7 @@ class Orders:
         if owner != "":
             referal = self.db.GetReferalUserData(owner)
         self.db.SendOrder(order_id, date_create, date_change, course, coin, price, count, telegram, pay_method, pay_method_number, wallet, status, referal, owner)
-        return {"resualt" : True, "OrderID" : order_id}
+        return {"resualt" : True, "OrderID" : order_id}, course, count
 
     def __generateOrderId__(self) -> int:
         data = self.db.GetLastOrderID()
@@ -40,7 +42,7 @@ class Orders:
     def __getPayMethod__(self, Pay_name:str):
         data = {"Raiffeisen" : {"pay_type"  : "Raiffeisen RUB", "bank_number" : "2200300518082464", "bank_owner_name" : "Илья Ч."},
                 "Sberbank"   : {"pay_type"  : "Sberbank RUB",   "bank_number" : "5332058052345671", "bank_owner_name" : "Бахтияр К."},
-                "Tinkoff"    : {"pay_type"  : "Tinkoff RUB",   "bank_number" : "2200700893503101", "bank_owner_name" : "Светлана М."}}
+                "Tinkoff"    : {"pay_type"  : "Tinkoff RUB",    "bank_number" : "2200700893503101", "bank_owner_name" : "Светлана М."}}
         outdata = data.get(Pay_name)
         if outdata == None:
             return {}
