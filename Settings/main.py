@@ -9,6 +9,7 @@ import hashlib
 
 #Folder
 from data.preference import DirectionPreference
+from data.direction_bank import DirectionBanks
 from data.orders import OrderInfo
 
 app = FastAPI()
@@ -27,6 +28,7 @@ password = "27865PHhuYxkk2EdaUYR"
 user_id = uuid.uuid4().hex
 direction = DirectionPreference()
 order_info = OrderInfo()
+direction_banks = DirectionBanks()
 
 @app.post("/admin_login")
 async def login_admin(request: Request):
@@ -46,14 +48,14 @@ async def all_orders(request: Request):
 ######################## DIRECTION ##############################
 
 @app.post("/all_direction")
-async def all_orders(request: Request):
+async def all_direction(request: Request):
     jsdata = await request.json()
     if jsdata.get("id") == user_id:
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : direction.getAllDirection()}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 @app.post("/remove_direction")
-async def order_detail(request: Request):
+async def remove_direction(request: Request):
     jsdata = await request.json()
     if jsdata.get("id") == user_id:
         direction.removeDirection(jsdata.get("uid"))
@@ -61,7 +63,7 @@ async def order_detail(request: Request):
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 @app.post("/create_direction")
-async def order_detail(request: Request):
+async def create_direction(request: Request):
     jsdata = await request.json()
     if jsdata.get("id") == user_id:
         coin = jsdata.get("coin")  
@@ -73,6 +75,34 @@ async def order_detail(request: Request):
         area = jsdata.get("area").lower()
         market = jsdata.get("market").lower()
         direction.createDirection(coin, pay_method, bank_ru, bank_en, bank_ind, percent, area, market)
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/create_direction_banks")
+async def create_direction_bank(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        bank_ind = jsdata.get("bank_ind")  
+        bank_ru = jsdata.get("bank_ru")
+        bank_en = jsdata.get("bank_en")
+        bank_number = jsdata.get("bank_number")
+        bank_owner = jsdata.get("bank_owner")
+        direction_banks.createNewBank(bank_ind, bank_ru, bank_en, bank_number, bank_owner)
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/all_direction_banks")
+async def all_direction_banks(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : direction_banks.getAllBanks()}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/remove_direction_banks")
+async def remove_direction_bank(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        direction_banks.removeBank(jsdata.get("uid"))
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 

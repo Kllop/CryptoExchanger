@@ -1,11 +1,14 @@
 from Database.db_postgres import Postgres_DB
+from Database.db_redis import Redis_DB
 from datetime import datetime
 from data.course import Course
+import json
 
 class Orders:
 
     def __init__(self) -> None:
         self.db = Postgres_DB("ownerdb", "X$Oi815H%nd*FLyB!9v%", "postgres-data", "5432", "exchange")
+        self.redis_db = Redis_DB()
 
     def __oderPriceInfo__(self, coin:str, payMethod:str, price:float):
         data = Course().get_course()
@@ -40,13 +43,10 @@ class Orders:
         return data + 1
     
     def __getPayMethod__(self, Pay_name:str):
-        data = {"Raiffeisen" : {"pay_type"  : "Raiffeisen RUB", "bank_number" : "2200300518082464", "bank_owner_name" : "Илья Ч."},
-                "Sberbank"   : {"pay_type"  : "Sberbank RUB",   "bank_number" : "5332058052345671", "bank_owner_name" : "Бахтияр К."},
-                "Tinkoff"    : {"pay_type"  : "Tinkoff RUB",    "bank_number" : "2200700893503101", "bank_owner_name" : "Светлана М."}}
-        outdata = data.get(Pay_name)
+        outdata = self.redis_db.getValueMappingCurrent(Pay_name, "directionbanks")
         if outdata == None:
             return {}
-        return outdata
+        return json.loads(outdata)
     
     def getAllMyBids(self, code_id:str) -> list:
         data = self.db.GetAll_My_Bids(code_id)
@@ -58,11 +58,10 @@ class Orders:
     def getOrder(self, order_id:str) -> dict:
         data = self.db.getOrderWithOrderID(order_id)
         pay_data = self.__getPayMethod__(data[8])
-        print(data, flush=True)
         if len(data) == 0:
             return {"resualt" : False, "data" : {}}
         return {"resualt" : True, "data" : {"orderID" : order_id, "price" : data[5], "bank_number" : pay_data.get("bank_number"), "bank_owner_name" : 
-                                            pay_data.get("bank_owner_name"), "setter_number" : data[9], "pay_type" : pay_data.get("pay_type"), "count" : data[6], 
+                                            pay_data.get("bank_owner"), "setter_number" : data[9], "pay_type" : pay_data.get("bank_ru"), "count" : data[6], 
                                             "wallet" : data[10], "coin" : data[4], "status" : data[11], "change_time" : data[2], "course" : data[3], "telegram" : data[7] }}
 
     def change_status_order(self, order_id:int, new_status:str) -> dict:

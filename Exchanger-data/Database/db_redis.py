@@ -13,9 +13,15 @@ class Redis_DB():
 
     def getValueMapping(self, key:str) -> dict:
         return self.rc.hgetall(key)
+    
+    def getValueMappingCurrent(self, key:str, name:str) -> str:
+        return self.rc.hget(name, key)
 
     def getValueList(self, key:str) -> list:
         return self.rc.lrange(key, 0, 100)
     
     def removeKey(self, key:str) -> None:
         self.rc.delete(key)
+
+    def removeValueMapping(self, key:str, name:str) -> None:
+        self.rc.hdel(name, key)

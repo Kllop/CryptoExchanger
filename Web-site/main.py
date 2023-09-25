@@ -287,6 +287,13 @@ def direction_page():
         return redirect("/")
     return make_response(render_template("admin/direction.html"))
 
+@app.route("/bank-direction", methods = ["GET"])
+def direction_bank_page():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    return make_response(render_template("admin/direction_cards.html"))
+
 @app.route("/all_direction", methods = ["GET"])
 def direction_method():
     user_id = getAdminId()
@@ -315,6 +322,60 @@ def create_direction_method():
         session.pop("admin_id")
         return redirect("/")
     outjson = create_direction(user_id, request.json)
+    resualt = outjson.get('resualt')
+    return {"resualt" : resualt}
+
+################## DIRECTION BANKS ###########################
+
+def get_all_direction_banks(user_id):
+    responce = requests.post(url = "http://settings-data:9010/all_direction_banks", json={"id" : user_id})
+    return responce.json()
+
+def remove_direction_bank(user_id, data:dict):
+    uid = data.get('uid')
+    responce = requests.post(url = "http://settings-data:9010/remove_direction_banks", json={"id" : user_id, "uid" : uid})
+    return responce.json()
+
+def create_direction_bank(user_id:str, data:dict):
+    bank_ind = data.get("bank_ind")
+    bank_ru = data.get("bank_ru")
+    bank_en = data.get("bank_en")
+    bank_number = data.get("bank_number")
+    bank_owner = data.get("bank_owner")
+    responce = requests.post(url = "http://settings-data:9010/create_direction_banks", json={"id" : user_id, "bank_ind" : bank_ind, "bank_ru" : bank_ru, 
+                                                                                             "bank_en" : bank_en, "bank_number" : bank_number, "bank_owner" : bank_owner})
+    return responce.json()
+
+#################### METHODS #######################
+
+@app.route("/all_direction_banks", methods = ["GET"])
+def all_direction_bank_method():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    data = get_all_direction_banks(user_id)
+    if data.get("resualt") == False:
+        session.pop("admin_id")
+        return redirect("/")
+    return {"data" : data.get('data')}
+
+@app.route("/remove_direction_banks", methods = ["POST"])
+def remove_direction_bank_method():
+    user_id = getAdminId()
+    if user_id == None:
+        session.pop("admin_id")
+        return redirect("/")
+    outjson = remove_direction_bank(user_id, request.json)
+    resualt = outjson.get('resualt')
+    return {"resualt" : resualt}
+
+@app.route("/create_direction_banks", methods = ["POST"])
+def create_direction_bank_method():
+    user_id = getAdminId()
+    if user_id == None:
+        session.pop("admin_id")
+        return redirect("/")
+    outjson = create_direction_bank(user_id, request.json)
     resualt = outjson.get('resualt')
     return {"resualt" : resualt}
 

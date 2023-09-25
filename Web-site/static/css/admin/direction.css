@@ -41,13 +41,13 @@
 }
 
 .direction-item > div {
-    width: 180px;
+    width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.direction-item > div:nth-child(1), .direction-item > div:nth-child(2){
-    width: 100px;
+.direction-item > div:nth-child(4), div:nth-child(5){
+    width: 300px;
 }
 
 .direction-item > div input {

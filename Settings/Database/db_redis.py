@@ -1,16 +1,10 @@
 import redis
-from redis.commands.json.path import Path
-from redis.commands.search.field import TextField, NumericField, TagField
-from redis.commands.search.indexDefinition import IndexDefinition, IndexType
-from redis.commands.search.query import NumericFilter, Query
+from redis.commands.search.query import Query
 
 class Redis_DB():
 
     def __init__(self) -> None:
         self.rc = redis.Redis(host='redis-data', port=6379, decode_responses=True, password='eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81')
-
-    def setValueStr(self, key:str, value:str) -> None:
-        self.rc.set(key, value=value)
 
     def setValueMapping(self, key:str, value:dict) -> None:
         self.rc.hset(key, mapping = value)
@@ -20,12 +14,15 @@ class Redis_DB():
 
     def getValueMapping(self, key:str) -> dict:
         return self.rc.hgetall(key)
+    
+    def getValueMappingCurrent(self, key:str, name:str) -> str:
+        return self.rc.hget(name, key)
 
     def getValueList(self, key:str) -> list:
         return self.rc.lrange(key, 0, 100)
     
-    def getValueStr(self, key:str) -> list:
-        return self.rc.get(key)
-    
     def removeKey(self, key:str) -> None:
         self.rc.delete(key)
+
+    def removeValueMapping(self, key:str, name:str) -> None:
+        self.rc.hdel(name, key)
