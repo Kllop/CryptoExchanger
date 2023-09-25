@@ -51,7 +51,7 @@ async def status(request: Request):
         order_data = Orders().getOrder(jsdata.get("key")).get("data")
         telegram_message.sendOrderInfo(order_data)
     elif jsdata.get("status") == "cancel":
-        TelegramMessage().sendMessage("Ордер был отменен")
+        telegram_message.sendCencelOder()
     return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))
 
 @app.post("/registration")

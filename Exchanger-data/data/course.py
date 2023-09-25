@@ -62,5 +62,5 @@ class Course:
                 coin_data.update({bank_name : course_data})
                 outdata.update({coin_name : coin_data})
         except Exception as e:
-            print()
+            print("Error send json course", e, flush=True)
         return outdata

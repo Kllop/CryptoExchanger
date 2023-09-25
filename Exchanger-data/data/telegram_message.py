@@ -17,3 +17,6 @@ class TelegramMessage:
 
     def sendNewOrder(self) -> None:
         self.__sendMessage__("У вас новая заявка")
+
+    def sendCencelOder(self) -> None:
+        self.__sendMessage__("Ордер отменен")
