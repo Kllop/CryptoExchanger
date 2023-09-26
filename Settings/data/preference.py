@@ -20,6 +20,7 @@ class DirectionPreference:
        
        def removeDirection(self, uid:str):
               self.postgres_db.RemoveDirection(uid)
+              self.setReidsDirection()
 
        def setReidsDirection(self):
               postgre_data = self.postgres_db.GetAllDirection()
