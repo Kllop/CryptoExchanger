@@ -30,6 +30,14 @@ direction = DirectionPreference()
 order_info = OrderInfo()
 direction_banks = DirectionBanks()
 
+
+@app.post("/admin_check")
+async def login_admin(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        return JSONResponse(content=jsonable_encoder({"resualt" : True}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False}))
+
 @app.post("/admin_login")
 async def login_admin(request: Request):
     jsdata = await request.json()

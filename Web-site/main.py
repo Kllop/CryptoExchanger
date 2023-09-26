@@ -228,8 +228,16 @@ def request_exportxml():
 def getAdminId():
     return session.get("admin_id")
 
+def CheckAdmin(user_id:str):
+    responce = requests.post(url = "http://settings-data:9010/admin_check", json={"id" : user_id})
+    outdata = responce.json()
+    return outdata.get('resualt')
+
 @app.route("/jango_admin", methods = ["GET"])
 def admin_page():
+    user_id = getAdminId()
+    if user_id != None and CheckAdmin(user_id):
+        return redirect("/order_panel")
     return make_response(render_template("admin/login_admin.html"))
 
 @app.route("/jango_admin", methods = ["POST"])

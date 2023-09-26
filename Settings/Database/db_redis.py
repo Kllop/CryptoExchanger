@@ -1,5 +1,4 @@
 import redis
-from redis.commands.search.query import Query
 
 class Redis_DB():
 
