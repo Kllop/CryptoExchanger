@@ -46,10 +46,6 @@
     text-overflow: ellipsis;
 }
 
-.direction-item > div:nth-child(4), div:nth-child(5){
-    width: 300px;
-}
-
 .direction-item > div input {
     width: 100%;
     padding: 4px;
