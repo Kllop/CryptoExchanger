@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block head %}
+<link href="static/css/reviews.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1 class="page-title">Отзывы :</h1>
+    <div>
+        <div class="reviews-item">
+            <div class="reviews-item__header">Виктория (Alfabank -> BTC)</div>
+            <div class="reviews-item__comment">Всё как всегда быстро и оперативно. Я уже несколько раз переводил
+                через обменник. Огромное спастбо за оперативность. Всем рекомендую.5+++++.
+            </div>
+            <div class="reviews-item__date">2023-07-10 17:34:25</div>
+        </div>
+
+        <div class="reviews-item">
+            <div class="reviews-item__header">Александр (Sberbank -> BTC)</div>
+            <div class="reviews-item__comment">Отличный сервис! Всё быстро!
+            </div>
+            <div class="reviews-item__date">2023-07-10 17:32:59</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

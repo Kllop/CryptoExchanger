@@ -17,7 +17,9 @@ import json
 class Course:
 
     xml_tegs_coins = { "BTC" : "BTC", "USDT" : "USDTERC20", "ETH" : "ETH"}
-    xml_tegs_banks = {"Sberbank" : "SBERRUB", "Alfabank" : "ACRUB", "Raiffeisen" : "RFBRUB", "Tinkoff" : "TCSBRUB"}
+    xml_tegs_banks = {"Sberbank" : "SBERRUB", "Alfabank" : "ACRUB", "Raiffeisen" : "RFBRUB", "Tinkoff" : "TCSBRUB", 
+                      "Postbank" : "POSTRUB", "Payeer" : "PRRUB", "UMoney" : "YAMRUB", "QIWI" : "QWRUB", "RussiaStandart" : "RUSSTRUB",
+                      "HomeCredit" : "HCBRUB", "AdvCashe" : "ADVCRUB", "Otkritie" : "OPNRUB", "Gazprombank" : "GPBRUB"}
     xml_tegs_amount = { "BTC" : "2", "USDT" : "50000", "ETH" : "10"}
     
     def __init__(self) -> None:

@@ -83,6 +83,10 @@ def faq():
 def contacts():
     return make_response(render_template("contacts/base.html"))
 
+@app.route("/reviews", methods = ["GET"])
+def reviews():
+    return make_response(render_template("reviews/base.html"))
+
 @app.route("/account", methods = ["GET"])
 def account():
     if session.get('session') != None:

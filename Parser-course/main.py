@@ -27,7 +27,9 @@ async def setCourseData(coin:str, data):
 
 async def masterMarket():
     preferences = await parse_preference(redis_db.getValueList("tradepreference"))
+    print(preferences, flush=True)
     directionMarket = await WorkManager(preferences)
+    print(directionMarket, flush=True)
     outdata = {}
     for direction in directionMarket:
         market : str = direction['market']
@@ -37,6 +39,7 @@ async def masterMarket():
         if market == "bybit":
             if area == "p2p":
                 data = await ByBitP2PCourse(direction)
+                print(data, flush=True)
         outdata.update({"{0}:{1}:{2}:{3}".format(market, area, coin, direction["name_exch"]) : data})
     redis_db.removeKey("courses")
     for preference in preferences:
@@ -56,6 +59,7 @@ async def WorkManager(preference):
 async def start():
     while True:
         await masterMarket()
+        print("start", flush=True)
         await asyncio.sleep(15)
 
 async def parse_preference(data:dict) -> dict:

@@ -69,7 +69,7 @@ services:
     image: parser-course
     build:
       context: ./Parser-course
-      dockerfile: parser-course.dockerfile
+      dockerfile: parser_course.dockerfile
     ports:
       - "9020"
     networks:
