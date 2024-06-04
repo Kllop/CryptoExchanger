@@ -6,6 +6,10 @@ import datetime
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+MinCommision = 20
+MiddleCommision = 30
+MaxCommision = 40
+
 
 @app.after_request
 def add_header(r):
@@ -305,6 +309,27 @@ def direction_bank_page():
     if user_id == None:
         return redirect("/")
     return make_response(render_template("admin/direction_cards.html"))
+
+@app.route("/commission", methods = ["GET"])
+def commission():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    return make_response(render_template("admin/commission.html", min = MinCommision, max = MaxCommision, middle = MiddleCommision))
+
+@app.route("/send_commission", methods = ["POST"])
+def send_commission():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    global MinCommision
+    global MiddleCommision
+    global MaxCommision
+    data = request.json
+    MinCommision = data['min_com']
+    MiddleCommision = data['middle_com']
+    MaxCommision = data['max_com']
+    return {"resualt" : True}
 
 @app.route("/all_direction", methods = ["GET"])
 def direction_method():

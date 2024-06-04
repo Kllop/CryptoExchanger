@@ -119,15 +119,33 @@ function UpdateGetterOffers() {
   UpdateSetterOffers(defaultValue)
 }
 
+function ChangeCommission(){
+  var coin = $("#getter").val()
+  if(coin == "BTC"){
+    return 0.00000001 * 256 * 25
+  }
+  else if(coin == "ETH") {
+    return 0.000000001 * 21000 * 17
+  }
+  else if(coin == "USDT") {
+    return 1
+  }
+  return 0
+}
+
 function CalculationExchangeRate() {
   var price = ChangeCourse()
-  var value = $("#setter_value").val()
-  $("#getter_value").val(Number((value / price).toFixed(5)))
+  var value = parseFloat($("#setter_value").val())
+  var commission = ChangeCommission()
+  var count = Math.max((value / price) - commission, 0)
+  $("#getter_value").val(Number((count).toFixed(5)))
 }
 
 function CalculationCoinRate() {
   var price = ChangeCourse()
-  var value = $("#getter_value").val()
+  var commission = ChangeCommission()
+  var value = commission + parseFloat($("#getter_value").val())
+  console.log(value)
   $("#setter_value").val(Number((price * value).toFixed(0)))
 }
 
