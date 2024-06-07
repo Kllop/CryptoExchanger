@@ -2,6 +2,7 @@
 
 var offers_data = {}
 var course_data = {}
+var commission = {}
 
 function UpdateSetterOffers(setterName) {
   var values = offers_data[setterName]
@@ -60,6 +61,10 @@ $('#getter_value').on('change', function () {
   CalculationCoinRate()
 })
 
+$('#commission').on('change', function () {
+  CalculationExchangeRate()
+})
+
 $("#form-send-bid-data").on('submit', function (event) {
   event.preventDefault();
   if (CheckAMLPolitic()) {
@@ -108,6 +113,20 @@ function SenderOfferData() {
   })
 }
 
+function getCommission() {
+  $.ajax({
+      url: '/get_commission',
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+          commission = response
+      },
+      error: function (xhr) {
+        console.log('Не удалось загрузить данные')
+      }
+    });
+}
+
 function UpdateGetterOffers() {
   $('#getter').empty();
   for (let unit of Object.keys(offers_data)) {
@@ -121,14 +140,16 @@ function UpdateGetterOffers() {
 
 function ChangeCommission(){
   var coin = $("#getter").val()
+  var select_commision = $("#commission").children(":selected").attr("id")
+  var current_commision = parseInt(commission[coin][select_commision])
   if(coin == "BTC"){
-    return 0.00000001 * 256 * 25
+    return 0.00000001 * 256 * current_commision
   }
   else if(coin == "ETH") {
-    return 0.000000001 * 21000 * 17
+    return 0.000000001 * 21000 * current_commision
   }
   else if(coin == "USDT") {
-    return 1
+    return current_commision
   }
   return 0
 }
@@ -189,4 +210,5 @@ function UpdateCourse() {
 }
 
 GetOffers()
+getCommission()
 setInterval(UpdateCourse, 15000)

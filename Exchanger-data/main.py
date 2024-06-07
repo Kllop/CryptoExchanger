@@ -13,6 +13,7 @@ from data.registraton_user import Registraton
 from data.login_user import Login
 from data.sender_mail import Sender_Email
 from data.telegram_message import TelegramMessage
+from data.commission import Commission
 
 app = FastAPI()
 origins = ["*"]
@@ -41,6 +42,10 @@ async def payMethods(request: Request):
 @app.get("/course")
 async def course(request: Request):
     return JSONResponse(content=jsonable_encoder(Course().get_course()))
+
+@app.get("/get_commission")
+async def get_commission(request: Request):
+    return JSONResponse(content=jsonable_encoder(Commission().get_commission()))
 
     #payment or cancel#
 @app.post("/status")

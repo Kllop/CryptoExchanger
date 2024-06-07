@@ -230,6 +230,10 @@ def request_exportxml():
     responce = requests.get(url = "http://exchanger-data:9000/request-exportxml.xml")
     return Response(responce.content, mimetype='text/xml')
 
+@app.route("/get_commission", methods = ["GET"])
+def get_commission():
+    responce = requests.get(url = "http://exchanger-data:9000/get_commission")
+    return responce.json()
 
 ################## ADMIN #######################
 

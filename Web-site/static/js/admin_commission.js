@@ -1,3 +1,5 @@
+var commission = {}
+
 function sendCommission() {
     const min_com = $("#min_com").val();
     const middle_com = $("#middle_com").val();
@@ -15,4 +17,20 @@ function sendCommission() {
         console.log('Не удалось загрузить данные')
       }
     });
-  }
+}
+
+function getCommission() {
+    $.ajax({
+        url: '/get_commission',
+        type: "get",
+        success: function (response) {
+            commission = response.data
+        },
+        error: function (xhr) {
+          console.log('Не удалось загрузить данные')
+        }
+      });
+}
+
+getCommission()
+console.log(commission)
