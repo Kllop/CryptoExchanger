@@ -9,6 +9,8 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 MinCommision = 20
 MiddleCommision = 30
 MaxCommision = 40
+MinLimmit = 5000
+MaxLimit = 1000000
 
 
 @app.after_request
@@ -235,6 +237,10 @@ def get_commission():
     responce = requests.get(url = "http://exchanger-data:9000/get_commission")
     return responce.json()
 
+@app.route("/get_limmit", methods = ["GET"])
+def get_limmit():
+    return {"max" : MaxLimit, "min" : MinLimmit}
+
 ################## ADMIN #######################
 
 def getAdminId():
@@ -321,6 +327,13 @@ def commission():
         return redirect("/")
     return make_response(render_template("admin/commission.html", min = MinCommision, max = MaxCommision, middle = MiddleCommision))
 
+@app.route("/limmit", methods = ["GET"])
+def limmit():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    return make_response(render_template("admin/limmit.html", min = MinLimmit, max = MaxLimit))
+
 @app.route("/send_commission", methods = ["POST"])
 def send_commission():
     user_id = getAdminId()
@@ -333,6 +346,18 @@ def send_commission():
     MinCommision = data['min_com']
     MiddleCommision = data['middle_com']
     MaxCommision = data['max_com']
+    return {"resualt" : True}
+
+@app.route("/send_limmit", methods = ["POST"])
+def send_limmit():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    global MinLimmit
+    global MaxLimit
+    data = request.json
+    MinLimmit = data['min_lim']
+    MaxLimit = data['max_lim']
     return {"resualt" : True}
 
 @app.route("/all_direction", methods = ["GET"])

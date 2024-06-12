@@ -3,6 +3,7 @@
 var offers_data = {}
 var course_data = {}
 var commission = {}
+var limmit = {}
 
 function UpdateSetterOffers(setterName) {
   var values = offers_data[setterName]
@@ -67,6 +68,7 @@ $('#commission').on('change', function () {
 
 $("#form-send-bid-data").on('submit', function (event) {
   event.preventDefault();
+  if(!CheckLimmit()){alert("Не подходяшие лимиты");return}
   if (CheckAMLPolitic()) {
     SenderOfferData()
   } else {
@@ -76,6 +78,11 @@ $("#form-send-bid-data").on('submit', function (event) {
 
 function CheckAMLPolitic() {
   return $("#AML_checkbox").is(":checked")
+}
+
+function CheckLimmit(){
+  var setterValue = $("#setter_value").val()
+  return setterValue >= limmit['min'] && setterValue <= limmit['max']
 }
 
 function SenderOfferData() {
@@ -120,6 +127,20 @@ function getCommission() {
       dataType: "json",
       success: function (response) {
           commission = response
+      },
+      error: function (xhr) {
+        console.log('Не удалось загрузить данные')
+      }
+    });
+}
+
+function getLimmit() {
+  $.ajax({
+      url: '/get_limmit',
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+          limmit = response
       },
       error: function (xhr) {
         console.log('Не удалось загрузить данные')
@@ -211,4 +232,5 @@ function UpdateCourse() {
 
 GetOffers()
 getCommission()
+getLimmit()
 setInterval(UpdateCourse, 15000)

@@ -1,0 +1,33 @@
+<html>
+<head>
+    <link href="static/css/admin/admin.css" rel="stylesheet" type="text/css">
+    <link href="static/css/admin/direction.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+{% block sidebar %}
+{% include "admin/sidebar.html" %}
+{% endblock %}
+<main class="direction">
+    <h2 style="color: #344050">Лиммиты на переводы</h2>
+    <div class="direction-container">
+        <div class="direction-list">
+            <div class="direction-item direction-item-header">
+                <div>Минимальная сумма перевод</div>
+                <div><input type="number" value={{min}} id="min_lim"></div>
+            </div>
+        </div>
+        <div class="direction-list">
+            <div class="direction-item direction-item-header">
+                <div>Максимальная сумма перевод</div>
+                <div><input type="number" value={{max}} id="max_lim"></div>
+            </div>
+        </div>
+        <div><button onclick="sendLimmit()">Сохранить</button></div>
+    </div>
+</main>
+<script src="static/js/admin_limmit.js"></script>
+</body>
+</html>
