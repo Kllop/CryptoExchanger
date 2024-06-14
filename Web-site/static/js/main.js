@@ -46,12 +46,14 @@ $('#getter').on('change', function () {
   ChangeWalletName()
   ChangeNetworkCoin()
   CalculationExchangeRate()
+  updatePrewCourse()
 })
 
 $('#setter').on('change', function () {
   UpdateSetterOffers(this.value)
   ChangeWalletName()
   CalculationExchangeRate()
+  updatePrewCourse()
 })
 
 $('#setter_value').on('change', function () {
@@ -175,6 +177,12 @@ function ChangeCommission(){
   return 0
 }
 
+function updatePrewCourse(){
+  var price = ChangeCourse()
+  var text = `Курс ≈ ${new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'RUB' }).format(price,)}` 
+  $("#prew_course").text(text)
+}
+
 function CalculationExchangeRate() {
   var price = ChangeCourse()
   var value = parseFloat($("#setter_value").val())
@@ -223,6 +231,7 @@ function UpdateCourse() {
     success: function (response) {
       course_data = response
       CalculationExchangeRate()
+      updatePrewCourse()
     },
     error: function (xhr) {
       console.log("Error load course")
