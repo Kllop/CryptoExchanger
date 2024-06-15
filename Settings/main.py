@@ -99,6 +99,19 @@ async def create_direction_bank(request: Request):
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
+@app.post("/change_direction_banks")
+async def change_direction_bank(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        bank_ind = jsdata.get("bank_ind")  
+        bank_ru = jsdata.get("bank_ru")
+        bank_en = jsdata.get("bank_en")
+        bank_number = jsdata.get("bank_number")
+        bank_owner = jsdata.get("bank_owner")
+        direction_banks.changeBank(bank_ind, bank_ru, bank_en, bank_number, bank_owner)
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : []}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
 @app.post("/all_direction_banks")
 async def all_direction_banks(request: Request):
     jsdata = await request.json()

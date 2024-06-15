@@ -84,6 +84,28 @@
     border-color: #e63757;
 }
 
+.direction-item > div button.change {
+    color: #37e654;
+    border-color: #37e654;
+}
+
+.direction-item > div button.change:hover {
+    color: #fff;
+    background-color: #37e654;
+    border-color: #37e654;
+}
+
+.direction-item > div button.save {
+    color: #e6c937;
+    border-color: #e6c937;
+}
+
+.direction-item > div button.save:hover {
+    color: #fff;
+    background-color: #e6c937;
+    border-color: #e6c937;
+}
+
 .direction-item > div button.primary {
     color: #2c7be5;
     border-color: #2c7be5;

@@ -30,6 +30,13 @@ class DirectionBanks:
         data = self.__dumps__(data)
         self.redis_db.setValueMapping(self.db_name, data)
 
+    def changeBank(self, bank_ind:str, bank_ru:str, bank_en:str, bank_number:str, bank_owner:str) -> None:
+        data = self.getAllBanks()
+        set_data = {"bank_ind" : bank_ind, "bank_ru" : bank_ru, "bank_en" : bank_en, "bank_number" : bank_number, "bank_owner" : bank_owner}
+        data.update({bank_ind : set_data})
+        data = self.__dumps__(data)
+        self.redis_db.setValueMapping(self.db_name, data)
+
     def getAllBanks(self) -> dict:
         data = self.redis_db.getValueMapping(self.db_name)
         if data == None:
@@ -38,9 +45,3 @@ class DirectionBanks:
 
     def removeBank(self, uid:str) -> None:
         self.redis_db.removeValueMapping(uid, self.db_name)
-
-    def changeBank(self, uid:str, bank_data:dict) -> None:
-        data = self.getAllBanks()
-        data.update({uid : bank_data})
-        data = self.__dumps__(data)
-        self.redis_db.setValueMapping(self.db_name, data)

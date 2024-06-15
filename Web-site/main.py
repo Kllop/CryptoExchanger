@@ -402,6 +402,15 @@ def remove_direction_bank(user_id, data:dict):
     responce = requests.post(url = "http://settings-data:9010/remove_direction_banks", json={"id" : user_id, "uid" : uid})
     return responce.json()
 
+def change_direction_bank(user_id:str, data:dict):
+    bank_ind = data.get("bank_ind")
+    bank_ru = data.get("bank_ru")
+    bank_en = data.get("bank_en")
+    bank_number = data.get("bank_number")
+    bank_owner = data.get("bank_owner")
+    responce = requests.post(url = "http://settings-data:9010/change_direction_banks", json={"id" : user_id, "bank_ind" : bank_ind, "bank_ru" : bank_ru, 
+                                                                                         "bank_en" : bank_en, "bank_number" : bank_number, "bank_owner" : bank_owner})
+    return responce.json()
 def create_direction_bank(user_id:str, data:dict):
     bank_ind = data.get("bank_ind")
     bank_ru = data.get("bank_ru")
@@ -409,7 +418,7 @@ def create_direction_bank(user_id:str, data:dict):
     bank_number = data.get("bank_number")
     bank_owner = data.get("bank_owner")
     responce = requests.post(url = "http://settings-data:9010/create_direction_banks", json={"id" : user_id, "bank_ind" : bank_ind, "bank_ru" : bank_ru, 
-                                                                                             "bank_en" : bank_en, "bank_number" : bank_number, "bank_owner" : bank_owner})
+                                                                                         "bank_en" : bank_en, "bank_number" : bank_number, "bank_owner" : bank_owner})
     return responce.json()
 
 #################### METHODS #######################
@@ -432,6 +441,16 @@ def remove_direction_bank_method():
         session.pop("admin_id")
         return redirect("/")
     outjson = remove_direction_bank(user_id, request.json)
+    resualt = outjson.get('resualt')
+    return {"resualt" : resualt}
+
+@app.route("/change_direction_banks", methods = ["POST"])
+def change_direction_bank_method():
+    user_id = getAdminId()
+    if user_id == None:
+        session.pop("admin_id")
+        return redirect("/")
+    outjson = change_direction_bank(user_id, request.json)
     resualt = outjson.get('resualt')
     return {"resualt" : resualt}
 
