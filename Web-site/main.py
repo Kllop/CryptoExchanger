@@ -149,7 +149,7 @@ def bid_page():
     if jsdata.get("resualt") == False:
         return "Errror"
     data = jsdata.get("data")
-    isNewStatus = data.get("status") == "new order"
+    isNewStatus = data.get("status") == "new"
     responce = make_response(render_template("bid-status/bid.html", oreder_number=data.get("orderID"),
                                              price=data.get("price"), payMethod=data.get("pay_type"),
                                              order_pay=data.get("bank_number"), order_name=data.get("bank_owner_name"),
@@ -270,8 +270,8 @@ def admin_login():
         session.update({"admin_id" : user_id})
     return {"resualt" : resualt}
 
-def get_all_orders(user_id):
-    responce = requests.post(url = "http://settings-data:9010/all_orders", json={"id" : user_id})
+def get_all_orders(user_id, status):
+    responce = requests.post(url = "http://settings-data:9010/all_orders", json={"id" : user_id, "status" : status})
     return responce.json()
 
 def get_order_detail(user_id):
@@ -445,6 +445,11 @@ def create_direction_bank_method():
     resualt = outjson.get('resualt')
     return {"resualt" : resualt}
 
+@app.route("/release_order", methods = ["POST"])
+def release_order():
+    responce = requests.post(url = "http://exchanger-data:9000/release_order", json=request.json)
+    return responce.json()
+
 #########################################################################################
 
 @app.route("/order_panel", methods = ["GET"])
@@ -452,7 +457,8 @@ def orders():
     user_id = getAdminId()
     if user_id == None:
         return redirect("/")
-    data = get_all_orders(user_id)
+    status = request.args.get("status")
+    data = get_all_orders(user_id, status)
     if data.get("resualt") == False:
         session.pop("admin_id")
         return redirect("/")

@@ -46,12 +46,15 @@ class Postgres_DB():
             return True
         return False
     
-    def GetAllOrders(self) -> list:
+    def GetAllOrders(self, status:str) -> list:
         connection, cursor = self.__getConnectionAndCursor__()
         if connection == None or cursor == None:
             print("Error connection database")
             return
-        request = "SELECT * FROM OrdersList ORDER BY orderid DESC;"
+        if status == "new":
+            request = "SELECT * FROM OrdersList WHERE status='{0}' ORDER BY orderid DESC;".format("new order")
+        else:
+            request = "SELECT * FROM OrdersList WHERE status != '{0}' ORDER BY orderid DESC;".format("new order")
         try:
             cursor.execute(request)
             data = cursor.fetchall()

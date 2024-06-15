@@ -51,12 +51,21 @@ async def get_commission(request: Request):
 @app.post("/status")
 async def status(request: Request):
     jsdata = await request.json()
-    resualt = Orders().change_status_order(jsdata.get("key"), jsdata.get("status"))
     if jsdata.get("status") == "payment":
+        resualt = Orders().change_status_order(jsdata.get("key"), jsdata.get("status"))
         order_data = Orders().getOrder(jsdata.get("key")).get("data")
         telegram_message.sendOrderInfo(order_data)
     elif jsdata.get("status") == "cancel":
+        resualt = Orders().change_status_order(jsdata.get("key"), jsdata.get("status"))
         telegram_message.sendCencelOder()
+    else:
+        resualt = False
+    return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))
+
+@app.post("/release_order")
+async def release_order(request: Request):
+    jsdata = await request.json()
+    resualt = Orders().change_status_order(jsdata.get("key"), "release")
     return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))
 
 @app.post("/registration")

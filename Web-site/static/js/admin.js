@@ -24,4 +24,4 @@ $(document).on('click', '#order_prev', function (event) {
     var tag = this.accessKey
     console.log(tag)
     window.location.replace("/order_detail?id=" + tag)
-  });
+});

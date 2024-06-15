@@ -43,7 +43,8 @@
                     <div>Карта отправителя</div> {{data[9]}}
                 </div>
                 <div class="details__item">
-                    <div> Статус</div> {{data[11]}}
+                    <div> Статус</div> 
+                    <a id="status">{{data[11]}}</a>
                 </div>
                 <div class="details__item">
                     <div>Кошелек</div> {{data[10]}}
@@ -51,8 +52,9 @@
                 <div class="details__item">
                     <div>Теlegram</div> {{data[7]}}
                 </div>
-                <button class="btn-submit">Завершить заявку</button>
+                <button class="btn-submit" id="release_order" accesskey={{data[0]}}>Завершить заявку</button>
             </div>
         </main>
+        <script src="static/js/admin_order.js"></script>
     </body>
 </html>

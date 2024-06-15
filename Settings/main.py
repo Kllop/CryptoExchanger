@@ -120,7 +120,7 @@ async def remove_direction_bank(request: Request):
 async def all_orders(request: Request):
     jsdata = await request.json()
     if jsdata.get("id") == user_id:
-        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : order_info.GetAllOrders()}))
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : order_info.GetAllOrders(jsdata.get("status"))}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 @app.post("/order_detail")
