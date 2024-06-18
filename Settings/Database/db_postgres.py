@@ -54,7 +54,7 @@ class Postgres_DB():
         if status == "new":
             request = "SELECT * FROM OrdersList WHERE status='{0}' OR status='{1}' ORDER BY orderid DESC;".format("new order", "payment")
         else:
-            request = "SELECT * FROM OrdersList WHERE status != '{0}' OR status='{1}' ORDER BY orderid DESC;".format("new order", "payment")
+            request = "SELECT * FROM OrdersList WHERE status != '{0}' OR status !='{1}' ORDER BY orderid DESC;".format("new order", "payment")
         try:
             cursor.execute(request)
             data = cursor.fetchall()
