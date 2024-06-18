@@ -504,8 +504,8 @@ def chats_admin():
     user_id = getAdminId()
     if user_id == None:
         return redirect("/")
-    data = get_all_orders(user_id)
-    if data.get("resualt") == False:
+    #data = get_all_orders(user_id)
+    if True:
         session.pop("admin_id")
         return redirect("/")
     return make_response(render_template("admin/chat_admin.html"))
