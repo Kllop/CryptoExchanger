@@ -52,9 +52,9 @@ class Postgres_DB():
             print("Error connection database")
             return
         if status == "new":
-            request = "SELECT * FROM OrdersList WHERE status='{0}' ORDER BY orderid DESC;".format("new order")
+            request = "SELECT * FROM OrdersList WHERE status='{0}' OR status='{1}' ORDER BY orderid DESC;".format("new order", "payment")
         else:
-            request = "SELECT * FROM OrdersList WHERE status != '{0}' ORDER BY orderid DESC;".format("new order")
+            request = "SELECT * FROM OrdersList WHERE status != '{0}' OR status='{1}' ORDER BY orderid DESC;".format("new order", "payment")
         try:
             cursor.execute(request)
             data = cursor.fetchall()

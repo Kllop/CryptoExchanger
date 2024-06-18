@@ -68,6 +68,12 @@ async def release_order(request: Request):
     resualt = Orders().change_status_order(jsdata.get("key"), "release")
     return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))
 
+@app.post("/cancel_order")
+async def release_order(request: Request):
+    jsdata = await request.json()
+    resualt = Orders().change_status_order(jsdata.get("key"), "cancel")
+    return JSONResponse(content=jsonable_encoder({"resualt" : resualt, "message" : ""}))
+
 @app.post("/registration")
 async def registration(request: Request):
     data = await request.json()

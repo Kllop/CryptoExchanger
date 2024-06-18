@@ -469,6 +469,11 @@ def release_order():
     responce = requests.post(url = "http://exchanger-data:9000/release_order", json=request.json)
     return responce.json()
 
+@app.route("/cancel_order", methods = ["POST"])
+def cancel_order():
+    responce = requests.post(url = "http://exchanger-data:9000/cancel_order", json=request.json)
+    return responce.json()
+
 #########################################################################################
 
 @app.route("/order_panel", methods = ["GET"])
