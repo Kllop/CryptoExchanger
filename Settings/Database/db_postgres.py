@@ -249,3 +249,58 @@ class Postgres_DB():
             self.__closeConnectionAndCursor__(connection, cursor)
             print("Error execute request SendDirectoion", e, traceback.format_exc(), flush=True)
         self.__closeConnectionAndCursor__(connection, cursor)
+
+
+    ####################### REVIEWS #############################     
+    
+    def __createTableReviews__(self) -> None:
+        request = """CREATE TABLE Reviews (reviewsid INT NOT NULL,
+                                           datecreate INT NOT NULL,
+                                           datechange INT NOT NULL,
+                                           reviewname VARCHAR(30) NOT NULL,
+                                           reviewtext VARCHAR(180) NOT NULL,
+                                           directiontrade VARCHAR(90) NOT NULL);"""
+        connection, cursor = self.__getConnectionAndCursor__()
+        try:
+            cursor.execute(request)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error create reviews table", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+
+    def sendReviews(self, uid:str, date_crate:int, date_change:int, reviewname:str, reviewtext:str, directiontrade:str) -> None:
+        try:
+            if not self.CheckTable("Reviews"):
+                self.__createTableReviews__()
+        except Exception as e:
+            print("Error check table Reviews", e, traceback.format_exc(), flush=True)
+            return
+        try:
+            connection, cursor = self.__getConnectionAndCursor__()
+            values = [uid, date_crate, date_change, reviewname, reviewtext, directiontrade]
+            request = "INSERT INTO Reviews VALUES(%s, %s, %s, %s, %s, %s);"
+            cursor.execute(request, values)
+            connection.commit()
+        except Exception as e:
+            self.__closeConnectionAndCursor__(connection, cursor)
+            print("Error execute request Reviews", e, traceback.format_exc(), flush=True)
+        self.__closeConnectionAndCursor__(connection, cursor)
+
+    def __getReviews__(self, request:str) -> dict:
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database", flush=True)
+        try:
+            cursor.execute(request)
+            data = cursor.fetchall()
+        except Exception as e:
+            print("Error select get reviews", e, traceback.format_exc(), flush=True)
+            self.__closeConnectionAndCursor__(connection, cursor)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        return data
+
+    def GetAllReviews(self) -> None:
+        request = """SELECT * FROM Reviews"""
+        return self.__getReviews__(request)
