@@ -9,8 +9,8 @@ import requests
 class TelegramMessage:
     
     def __init__(self) -> None:
-        self.TeleBot = '6163052051:AAHpUAmWaU9Vlf71kyAZ-brg2fet_CUvx0E'
-        self.chatID = '5829831042'
+        self.TeleBot = '******'
+        self.chatID = '******'
     
     def sendMessage(self, message:str):   
         requests.get("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self.TeleBot, self.chatID, message))
