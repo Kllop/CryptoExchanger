@@ -46,3 +46,7 @@ class Login:
             print("user login in {0}, ip {1}".format(login, ip))
             return {"resualt" : resualt, "id" : code_id}
         return {"resualt" : False, "id" : ""}
+    
+    def get_all_users(self) -> list:
+        data = self.db.getAllUsers()
+        return data

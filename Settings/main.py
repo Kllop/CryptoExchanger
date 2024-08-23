@@ -11,6 +11,7 @@ import hashlib
 from data.preference import DirectionPreference
 from data.direction_bank import DirectionBanks
 from data.orders import OrderInfo
+from data.users import UsersInfo
 
 app = FastAPI()
 origins = ["*"]
@@ -29,6 +30,7 @@ user_id = uuid.uuid4().hex
 direction = DirectionPreference()
 order_info = OrderInfo()
 direction_banks = DirectionBanks()
+users_info = UsersInfo()
 
 
 @app.post("/admin_check")
@@ -142,6 +144,24 @@ async def order_detail(request: Request):
     if jsdata.get("id") == user_id:
         order_id = jsdata.get("order_id")
         return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : order_info.GetOrderDetail(int(order_id))}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+
+######################## USERS DATA ##############################
+
+@app.post("/all_users")
+async def all_users(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : users_info.GetAllUsers()}))
+    return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
+
+@app.post("/user_detail")
+async def user_detail(request: Request):
+    jsdata = await request.json()
+    if jsdata.get("id") == user_id:
+        user_id = jsdata.get("user_id")
+        return JSONResponse(content=jsonable_encoder({"resualt" : True, "data" : users_info.GetUserDetail(int(user_id))}))
     return JSONResponse(content=jsonable_encoder({"resualt" : False, "data" : []}))
 
 

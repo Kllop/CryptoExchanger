@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <link href="static/css/admin/admin.css" rel="stylesheet" type="text/css">
+        <link href="static/css/admin/order-panel.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    </head>
+    <body>
+        {% block sidebar %}
+        {% include "admin/sidebar.html" %}
+        {% endblock %}
+        <main class="panel">
+            <h2 style="color: #344050">Пользователи</h2>
+            <div class="list">
+                <div class="list__header list__item">
+                    <div> Id</div>
+                    <div> Права </div>
+                    <div> Логин </div>
+                    <div> Почта </div>
+                    <div> Ip </div>
+                </div>
+                {% for user in users %}
+                <div class = "list__item" id = "order_prev" accesskey = {{user[0]}}>
+                    <div> {{user[0]}} </div>
+                    <div> {{user[1]}} </div>
+                    <div> {{user[2]}} </div>
+                    <div> {{user[3]}} </div>
+                    <div> {{user[4]}} </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+        <script src="static/js/admin.js"></script>
+    </body>
+</html>

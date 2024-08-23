@@ -279,6 +279,15 @@ def get_order_detail(user_id):
     responce = requests.post(url = "http://settings-data:9010/order_detail", json={"id" : user_id, "order_id" : order_id})
     return responce.json()
 
+def get_all_users(user_id):
+    responce = requests.post(url = "http://settings-data:9010/all_users", json={"id" : user_id})
+    return responce.json()
+
+def get_user_detail(user_id):
+    user_id = request.args.get('id')
+    responce = requests.post(url = "http://settings-data:9010/user_detail", json={"id" : user_id, "user_id" : user_id})
+    return responce.json()
+
 ############### DIRECTION ################
 
 def get_all_direction(user_id):
@@ -494,6 +503,28 @@ def order_detail():
     if user_id == None:
         return redirect("/")
     data = get_order_detail(user_id)
+    if data.get("resualt") == False:
+        session.pop("admin_id")
+        return redirect("/")
+    return make_response(render_template("admin/order_detail.html", data=data.get("data")))
+
+@app.route("/user_panel", methods = ["GET"])
+def users():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    data = get_all_users(user_id)
+    if data.get("resualt") == False:
+        session.pop("admin_id")
+        return redirect("/")
+    return make_response(render_template("admin/orders_panel.html", users=data.get('data')))
+
+@app.route("/user_detail", methods = ["GET"])
+def user_detail():
+    user_id = getAdminId()
+    if user_id == None:
+        return redirect("/")
+    data = get_user_detail(user_id)
     if data.get("resualt") == False:
         session.pop("admin_id")
         return redirect("/")

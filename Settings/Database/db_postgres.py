@@ -300,7 +300,40 @@ class Postgres_DB():
             return []
         self.__closeConnectionAndCursor__(connection, cursor)
         return data
-
+    
     def GetAllReviews(self) -> None:
         request = """SELECT * FROM Reviews"""
         return self.__getReviews__(request)
+    
+    ####################### USERS #############################
+
+    def getAllUsers(self) -> list:
+        request = """SELECT id, permision, login, email, ip FROM UsersData;"""
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database", flush=True)
+        try:
+            cursor.execute(request)
+            data = cursor.fetchall()
+        except Exception as e:
+            print("Error select get users data", e, traceback.format_exc(), flush=True)
+            self.__closeConnectionAndCursor__(connection, cursor)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        return data
+    
+    def GetUserDetail(self, id:str) -> list:
+        request = """SELECT * FROM UsersData WHERE id = '{0}';""".format(id)
+        connection, cursor = self.__getConnectionAndCursor__()
+        if connection == None or cursor == None:
+            print("Error connection database", flush=True)
+        try:
+            cursor.execute(request)
+            data = cursor.fetchall()
+        except Exception as e:
+            print("Error select get users data", e, traceback.format_exc(), flush=True)
+            self.__closeConnectionAndCursor__(connection, cursor)
+            return []
+        self.__closeConnectionAndCursor__(connection, cursor)
+        return data
+    
